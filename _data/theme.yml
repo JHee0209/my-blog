@@ -1,0 +1,9 @@
+skin: default
+
+t:
+  posts: "지금까지 쓴 글"
+  read_more: "더 읽기"
+
+navigation_pages:
+  - archive.md
+  - markdown-test.md

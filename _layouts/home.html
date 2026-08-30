@@ -3,9 +3,15 @@ layout: default
 ---
 
 <style>
+.home-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
 .hero {
   text-align: center;
-  padding: 4rem 1rem 3rem;
+  padding: 5rem 1rem 7rem;
 }
 .hero h1 {
   font-size: 3.5rem;
@@ -20,21 +26,37 @@ layout: default
   line-height: 1.7;
 }
 
-.tag-section {
-  text-align: center;
-  padding: 0 1rem 4rem;
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 2.5rem;
 }
-.tag-section h2 {
-  font-size: 1.6rem;
-  margin: 0 0 1.5rem;
+.section-head h2 {
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin: 0;
+}
+.more-btn {
+  font-size: 0.85rem;
+  color: #333;
+  background: #f2f2f2;
+  border-radius: 8px;
+  padding: 0.45rem 0.9rem;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.more-btn:hover {
+  background: #e5e5e5;
+}
+
+.tag-section {
+  padding-bottom: 7rem;
 }
 .tag-list {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
-  justify-content: center;
-  max-width: 720px;
-  margin: 0 auto;
 }
 .tag-pill {
   padding: 0.4rem 1.1rem;
@@ -51,19 +73,12 @@ layout: default
 }
 
 .post-section {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 1rem 5rem;
-}
-.post-section h2 {
-  font-size: 1.6rem;
-  text-align: center;
-  margin: 0 0 2.5rem;
+  padding-bottom: 5rem;
 }
 .post-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  gap: 2.5rem;
 }
 .post-card {
   border: 1px solid #e5e5e5;
@@ -120,32 +135,41 @@ layout: default
   <p>{{ content }}</p>
 </div>
 
-{% if site.tags.size > 0 %}
-<div class="tag-section">
-  <h2>Tags</h2>
-  <div class="tag-list">
-    {% assign sorted_tags = site.tags | sort %}
-    {% for tag in sorted_tags %}
-      <a href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}" class="tag-pill">{{ tag[0] }}</a>
-    {% endfor %}
-  </div>
-</div>
-{% endif %}
+<div class="home-wrap">
 
-<div class="post-section">
-  <h2>지금까지 쓴 글</h2>
-  <div class="post-grid">
-    {% for post in site.posts %}
-    <article class="post-card">
-      <div class="date">{{ post.date | date: "%Y년 %m월 %d일" }}</div>
-      <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-      <p class="excerpt">{{ post.content | strip_html | truncate: 90 }}</p>
-      {% if post.tags.size > 0 %}
-      <div class="tags">
-        {% for tag in post.tags %}<span>{{ tag }}</span>{% endfor %}
-      </div>
-      {% endif %}
-    </article>
-    {% endfor %}
+  {% if site.tags.size > 0 %}
+  <div class="tag-section">
+    <div class="section-head">
+      <h2>Tags</h2>
+      <a href="{{ '/tags/' | relative_url }}" class="more-btn">More →</a>
+    </div>
+    <div class="tag-list">
+      {% assign sorted_tags = site.tags | sort %}
+      {% for tag in sorted_tags limit: 12 %}
+        <a href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}" class="tag-pill">{{ tag[0] }}</a>
+      {% endfor %}
+    </div>
   </div>
+  {% endif %}
+
+  <div class="post-section">
+    <div class="section-head">
+      <h2>Posts</h2>
+    </div>
+    <div class="post-grid">
+      {% for post in site.posts %}
+      <article class="post-card">
+        <div class="date">{{ post.date | date: "%Y년 %m월 %d일" }}</div>
+        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        <p class="excerpt">{{ post.content | strip_html | truncate: 90 }}</p>
+        {% if post.tags.size > 0 %}
+        <div class="tags">
+          {% for tag in post.tags %}<span>{{ tag }}</span>{% endfor %}
+        </div>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+
 </div>

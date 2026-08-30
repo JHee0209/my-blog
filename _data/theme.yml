@@ -1,8 +1,11 @@
 skin: default
 
+google_fonts:
+  - name: "Noto Sans KR"
+    weights: "400,700"
+
 t:
   posts: "지금까지 쓴 글"
-  read_more: "더 읽기"
 
 navigation_pages:
   - archive.md

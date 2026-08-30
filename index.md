@@ -1,7 +1,20 @@
 ---
 layout: home
-title: 학습 BLOG
+title: BLOG
+entries_layout: grid
 ---
 
-> 개발을 배우면서 그날그날 이해한 것을 정리해 쌓아둡니다.
-> 잘 안 됐던 것과 그걸 어떻게 풀었는지까지 같이 적습니다.
+> 배운 날 바로 적습니다. 미루면 왜 그랬는지를 잊어버려서요.
+
+
+## Tags
+
+<div class="tag-list">
+{% assign tags = site.tags | sort %}
+{% for tag in tags %}
+  <a href="{{ site.baseurl }}/tags/#{{ tag[0] | slugify }}" class="tag-pill">{{ tag[0] }}</a>
+{% endfor %}
+</div>
+
+
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/custom.css">

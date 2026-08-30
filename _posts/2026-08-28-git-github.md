@@ -2,7 +2,8 @@
 layout: post
 title: "2026-08-28 배웠던 Git 정리"
 date: 2026-08-28
-tags: [git, 개념]
+categories: [개념]
+tags: [git, 커밋]
 ---
 
 ## 오늘 배운 것

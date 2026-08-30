@@ -8,5 +8,5 @@ t:
   posts: "지금까지 쓴 글"
 
 navigation_pages:
-  - archive.md
-  - markdown-test.md
+  - concept.md
+  - trouble.md

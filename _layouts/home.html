@@ -87,6 +87,12 @@ layout: default
   padding: 1.5rem;
   transition: box-shadow 0.2s, transform 0.2s;
 }
+.post-card .cat {
+  margin-left: 0.5rem;
+  color: #4a3aff;
+  font-weight: 600;
+}
+
 .post-card:hover {
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
   transform: translateY(-3px);
@@ -156,11 +162,18 @@ layout: default
   <div class="post-section">
     <div class="section-head">
       <h2>Posts</h2>
+      {% if site.posts.size > 6 %}
+      <a href="{{ '/archive/' | relative_url }}" class="more-btn">More →</a>
+      {% endif %}
     </div>
     <div class="post-grid">
-      {% for post in site.posts %}
+      {% for post in site.posts limit: 6 %}
       <article class="post-card">
-        <div class="date">{{ post.date | date: "%Y년 %m월 %d일" }}</div>
+        <div class="date">{{ post.date | date: "%Y년 %m월 %d일" }}
+            {% if post.categories.size > 0 %}
+      <span class="cat">{{ post.categories.first }}</span>
+    {% endif %}
+        </div>
         <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
         <p class="excerpt">{{ post.content | strip_html | truncate: 90 }}</p>
         {% if post.tags.size > 0 %}

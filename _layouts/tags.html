@@ -16,8 +16,44 @@ layout: default
   text-align: center;
 }
 
+/* ===== 검색 섹션 ===== */
+.search-section {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 25px;
+  padding: 0.5rem 1.5rem;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.search-wrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+.search-wrapper span {
+  font-size: 1.2rem;
+  color: #999;
+}
+
+/* ===== 태그 그룹 ===== */
 .tag-group {
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
+}
+
+.tag-group.hidden {
+  display: none;
 }
 
 .tag-group h2 {
@@ -33,7 +69,6 @@ layout: default
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
-  margin-bottom: 2rem;
 }
 
 .post-card {
@@ -91,49 +126,16 @@ layout: default
   -webkit-box-orient: vertical;
 }
 
-/* ===== 페이지네이션 ===== */
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 3rem;
-  flex-wrap: wrap;
-}
-
-.pagination a, .pagination span {
-  padding: 0.5rem 0.8rem;
-  border: 1px solid #e5e5e5;
-  border-radius: 4px;
-  text-decoration: none;
-  color: #333;
-  font-size: 0.9rem;
-  transition: all 0.2s;
-}
-
-.pagination a:hover {
-  background: #4a3aff;
-  color: #fff;
-  border-color: #4a3aff;
-}
-
-.pagination .active {
-  background: #4a3aff;
-  color: #fff;
-  border-color: #4a3aff;
-  font-weight: 600;
-}
-
-.pagination .disabled {
-  color: #ccc;
-  cursor: not-allowed;
-}
-
-.no-posts {
+.no-results {
   text-align: center;
   padding: 3rem 1rem;
   color: #999;
   font-size: 1.1rem;
+  display: none;
+}
+
+.no-results.show {
+  display: block;
 }
 
 @media (max-width: 768px) {
@@ -158,18 +160,27 @@ layout: default
 <div class="tags-container">
   <h1>Tags</h1>
 
+  <!-- 검색 섹션 -->
+  <div class="search-section">
+    <div class="search-wrapper">
+      <span>🔍</span>
+      <input type="text" id="tagSearch" placeholder="태그를 검색하세요...">
+    </div>
+  </div>
+
+  <!-- 결과 없음 메시지 -->
+  <div class="no-results" id="noResults">검색 결과가 없습니다.</div>
+
+  <!-- 태그 그룹 -->
   {% assign sorted_tags = site.tags | sort %}
   {% for tag in sorted_tags %}
-    <div class="tag-group" id="{{ tag[0] | slugify }}">
+    <div class="tag-group" data-tag="{{ tag[0] | downcase }}">
       <h2>#{{ tag[0] }}</h2>
       
-      {% assign posts_per_page = 12 %}
       {% assign tag_posts = tag[1] | sort: 'date' | reverse %}
-      {% assign total_posts = tag_posts.size %}
-      {% assign total_pages = total_posts | divided_by: posts_per_page | ceil %}
       
       <div class="posts-grid">
-        {% for post in tag_posts limit: posts_per_page %}
+        {% for post in tag_posts %}
           <a href="{{ post.url | relative_url }}" class="post-card">
             <div class="date">{{ post.date | date: "%Y년 %m월 %d일" }}</div>
             {% if post.categories.size > 0 %}
@@ -180,24 +191,34 @@ layout: default
           </a>
         {% endfor %}
       </div>
-
-      {% if total_pages > 1 %}
-      <div class="pagination">
-        {% for page_num in (1..total_pages) %}
-          {% if page_num == 1 %}
-            {% if page_num == 1 %}
-              <span class="active">1</span>
-            {% endif %}
-          {% else %}
-            <span class="disabled">{{ page_num }}</span>
-          {% endif %}
-        {% endfor %}
-      </div>
-      {% endif %}
     </div>
   {% endfor %}
-
-  {% if sorted_tags.size == 0 %}
-  <div class="no-posts">아직 태그가 없습니다.</div>
-  {% endif %}
 </div>
+
+<script>
+const searchInput = document.getElementById('tagSearch');
+const tagGroups = document.querySelectorAll('.tag-group');
+const noResults = document.getElementById('noResults');
+
+searchInput.addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase().trim();
+  let visibleCount = 0;
+
+  tagGroups.forEach(group => {
+    const tagName = group.getAttribute('data-tag');
+    
+    if (query === '' || tagName.includes(query)) {
+      group.classList.remove('hidden');
+      visibleCount++;
+    } else {
+      group.classList.add('hidden');
+    }
+  });
+
+  if (visibleCount === 0) {
+    noResults.classList.add('show');
+  } else {
+    noResults.classList.remove('show');
+  }
+});
+</script>

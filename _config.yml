@@ -1,6 +1,6 @@
 title: zoohi's study
 description: 개발을 배우면서 정리하는 학습 기록
-remote_theme: mmistakes/jekyll-theme-basically-basic@1.4.5
+remote_theme: daattali/beautiful-jekyll@6.0.1
 baseurl: "/my-blog"
 url: "https://jhee0209.github.io"
 

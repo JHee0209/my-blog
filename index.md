@@ -1,6 +1,6 @@
 ---
 layout: home
-title: BLOG
+title: zoohi
 ---
 
 안녕하세요! 부트캠프를 통해서 학습하고 배웠던 내용 정리, 해결했던 문제를 게시해 보겠습니다.

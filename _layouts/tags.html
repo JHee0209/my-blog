@@ -4,78 +4,127 @@ layout: default
 
 <style>
 .tags-container {
-  max-width: 1000px;
+  max-width: 900px;
   margin: 3rem auto;
   padding: 0 1rem;
 }
 
 .tags-container h1 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
   text-align: center;
 }
 
-.tag-section {
-  margin-bottom: 3rem;
+.tag-group {
+  margin-bottom: 4rem;
 }
 
-.tag-section h2 {
-  font-size: 1.3rem;
+.tag-group h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
   color: #4a3aff;
-  margin-bottom: 1rem;
-  border-left: 4px solid #4a3aff;
-  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #4a3aff;
 }
 
-.tag-posts {
+.posts-list {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.tag-post-item {
+.post-item {
   padding: 1.5rem;
   border: 1px solid #e5e5e5;
   border-radius: 8px;
   text-decoration: none;
   color: #333;
   transition: all 0.2s;
+  display: block;
 }
 
-.tag-post-item:hover {
+.post-item:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transform: translateY(-2px);
+  border-color: #4a3aff;
 }
 
-.tag-post-item .date {
+.post-item .date {
   font-size: 0.85rem;
   color: #999;
   margin-bottom: 0.5rem;
 }
 
-.tag-post-item h3 {
+.post-item .category {
+  display: inline-block;
+  background: #e8e5ff;
+  color: #4a3aff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.post-item h3 {
   font-size: 1.2rem;
   font-weight: 600;
   margin: 0.5rem 0;
+  line-height: 1.4;
+}
+
+.post-item .excerpt {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.5;
+  margin-top: 0.5rem;
+}
+
+.no-posts {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 600px) {
+  .tags-container h1 {
+    font-size: 1.5rem;
+  }
+  .tag-group h2 {
+    font-size: 1.2rem;
+  }
 }
 </style>
 
 <div class="tags-container">
   <h1>Tags</h1>
-  
+
   {% assign sorted_tags = site.tags | sort %}
   {% for tag in sorted_tags %}
-    <div class="tag-section" id="{{ tag[0] | slugify }}">
-      <h2>{{ tag[0] }}</h2>
-      <div class="tag-posts">
+    <div class="tag-group" id="{{ tag[0] | slugify }}">
+      <h2>#{{ tag[0] }}</h2>
+      
+      <div class="posts-list">
         {% for post in tag[1] %}
-          <a href="{{ post.url | relative_url }}" class="tag-post-item">
-            <div class="date">{{ post.date | date: "%Y년 %m월 %d일" }}</div>
+          <a href="{{ post.url | relative_url }}" class="post-item">
+            <div class="date">
+              {{ post.date | date: "%Y년 %m월 %d일" }}
+              {% if post.categories.size > 0 %}
+              <span class="category">{{ post.categories.first }}</span>
+              {% endif %}
+            </div>
             <h3>{{ post.title }}</h3>
+            <div class="excerpt">{{ post.content | strip_html | truncate: 100 }}</div>
           </a>
         {% endfor %}
       </div>
     </div>
   {% endfor %}
+
+  {% if sorted_tags.size == 0 %}
+  <div class="no-posts">아직 태그가 없습니다.</div>
+  {% endif %}
 </div>

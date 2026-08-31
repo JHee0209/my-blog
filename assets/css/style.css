@@ -1,0 +1,605 @@
+/* ============================================
+   기본 스타일 & 초기화
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+  background: #fff;
+  color: #222;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ============================================
+   드롭다운 메뉴 (위에서 아래로)
+   ============================================ */
+
+.dropdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 200;
+}
+
+.dropdown-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdown-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  transform: translateY(-100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 210;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu.active {
+  transform: translateY(0);
+}
+
+.dropdown-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dropdown-link {
+  padding: 0.6rem 1.2rem;
+  color: #333;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.dropdown-link:hover {
+  background: #f2f2f2;
+  color: #4a3aff;
+}
+
+.dropdown-toggle {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 300;
+  transition: color 0.15s ease;
+}
+
+.dropdown-toggle:hover {
+  color: #4a3aff;
+}
+
+/* ============================================
+   콘텐츠 래퍼
+   ============================================ */
+
+.content-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  text-align: left;
+}
+
+/* ============================================
+   히어로 섹션
+   ============================================ */
+
+.hero {
+  text-align: center;
+  padding: 5rem 1rem 7rem;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin: 0 0 1rem;
+  letter-spacing: -0.02em;
+}
+
+.hero p {
+  font-size: 1.05rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* ============================================
+   섹션 헤더
+   ============================================ */
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 2.5rem;
+}
+
+.section-head h2 {
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.more-btn {
+  font-size: 0.85rem;
+  color: #333;
+  background: #f2f2f2;
+  border: none;
+  border-radius: 8px;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.more-btn:hover {
+  background: #e5e5e5;
+}
+
+/* ============================================
+   태그 섹션
+   ============================================ */
+
+.tag-section {
+  padding-bottom: 7rem;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.tag-pill {
+  padding: 0.4rem 1.1rem;
+  border: 1px solid #4a3aff;
+  border-radius: 999px;
+  color: #4a3aff;
+  font-size: 0.9rem;
+  transition: all 0.15s ease;
+}
+
+.tag-pill:hover {
+  background: #4a3aff;
+  color: #fff;
+}
+
+/* ============================================
+   포스트 섹션 & 그리드
+   ============================================ */
+
+.post-section {
+  padding-bottom: 5rem;
+}
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2.5rem;
+}
+
+.post-card {
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.post-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
+}
+
+.post-card .date {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.post-card .cat {
+  margin-left: 0.5rem;
+  color: #4a3aff;
+  font-weight: 600;
+}
+
+.post-card h3 {
+  font-size: 1.15rem;
+  margin: 0.5rem 0 0.8rem;
+  line-height: 1.4;
+}
+
+.post-card h3 a {
+  color: #222;
+  transition: color 0.15s ease;
+}
+
+.post-card h3 a:hover {
+  color: #4a3aff;
+}
+
+.post-card .excerpt {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 1rem;
+}
+
+.post-card .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.post-card .tags span {
+  font-size: 0.75rem;
+  color: #4a3aff;
+  background: #f0eeff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+/* ============================================
+   싱글 포스트
+   ============================================ */
+
+.post-single {
+  margin: 4rem 0;
+  padding-bottom: 4rem;
+}
+
+.post-header {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.post-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.post-meta {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.post-category {
+  color: #4a3aff;
+  font-weight: 600;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.post-tags .tag {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  background: #f0eeff;
+  color: #4a3aff;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.post-tags .tag:hover {
+  background: #4a3aff;
+  color: #fff;
+}
+
+.post-content {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 3rem;
+}
+
+.post-content h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 2rem 0 1rem;
+  padding-top: 1rem;
+}
+
+.post-content h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.8rem;
+}
+
+.post-content p {
+  margin-bottom: 1rem;
+}
+
+.post-content ul,
+.post-content ol {
+  margin: 1rem 0 1rem 2rem;
+}
+
+.post-content li {
+  margin-bottom: 0.5rem;
+}
+
+.post-content code {
+  background: #f9f9f9;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-family: "Monaco", "Courier New", monospace;
+  font-size: 0.9em;
+  color: #d63384;
+}
+
+.post-content pre {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.post-content pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.post-content blockquote {
+  border-left: 4px solid #4a3aff;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: #666;
+  font-style: italic;
+}
+
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.post-content th,
+.post-content td {
+  padding: 0.8rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.post-content th {
+  background: #f9f9f9;
+  font-weight: 600;
+}
+
+.post-footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e5e5;
+}
+
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.prev-post,
+.next-post {
+  padding: 1rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  color: #222;
+  transition: all 0.15s ease;
+  font-size: 0.95rem;
+}
+
+.prev-post:hover,
+.next-post:hover {
+  border-color: #4a3aff;
+  color: #4a3aff;
+}
+
+.next-post {
+  text-align: right;
+}
+
+/* ============================================
+   푸터
+   ============================================ */
+
+.footer {
+  background: #f9f9f9;
+  border-top: 1px solid #e5e5e5;
+  padding: 2rem 1rem;
+  margin-top: 4rem;
+}
+
+.footer-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.footer-content p {
+  margin: 0.5rem 0;
+}
+
+/* ============================================
+   리스트 페이지
+   ============================================ */
+
+.page-header {
+  margin: 3rem 0 2rem;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  color: #666;
+  font-size: 1.05rem;
+}
+
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 5rem;
+}
+
+.post-item {
+  padding: 1.5rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.post-item:hover {
+  border-color: #4a3aff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.post-item h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.post-item a {
+  color: #222;
+  transition: color 0.15s ease;
+}
+
+.post-item a:hover {
+  color: #4a3aff;
+}
+
+.post-item .meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.post-item .post-date {
+  color: #999;
+}
+
+.post-item .post-category {
+  color: #4a3aff;
+  font-weight: 600;
+}
+
+/* ============================================
+   반응형 디자인
+   ============================================ */
+
+@media (max-width: 768px) {
+  .dropdown-inner {
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+
+  .dropdown-link {
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .post-title {
+    font-size: 1.8rem;
+  }
+
+  .section-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .post-nav {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .dropdown-toggle {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .hero {
+    padding: 3rem 1rem;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero p {
+    font-size: 0.95rem;
+  }
+
+  .post-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .post-content {
+    font-size: 1rem;
+  }
+
+  .post-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .post-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .post-single {
+    margin: 2rem 0;
+  }
+}

@@ -23,7 +23,7 @@ layout: default
 }
 .hero h1 {
   font-size: 3.5rem;
-  font-weight: 600;
+  font-weight: 700;
   margin: 0 0 1rem;
   letter-spacing: -0.02em;
 }
@@ -109,12 +109,24 @@ layout: default
   flex-wrap: wrap;
   gap: 0.4rem;
 }
-.post-card .tags span {
+
+.post-card .tags a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.post-card .tags a span {
   font-size: 0.75rem;
   color: #4a3aff;
   background: #f0eeff;
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
+  transition: all 0.2s;
+}
+
+.post-card .tags a:hover span {
+  background: #4a3aff;
+  color: #fff;
 }
 
 @media (max-width: 600px) {
@@ -147,7 +159,11 @@ layout: default
         <p class="excerpt">{{ post.content | strip_html | truncate: 90 }}</p>
         {% if post.tags.size > 0 %}
         <div class="tags">
-          {% for tag in post.tags %}<span>{{ tag }}</span>{% endfor %}
+          {% for tag in post.tags %}
+            <a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">
+              <span>{{ tag }}</span>
+            </a>
+          {% endfor %}
         </div>
         {% endif %}
       </article>

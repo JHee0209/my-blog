@@ -4,7 +4,7 @@ layout: default
 
 <style>
 .tags-container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 3rem auto;
   padding: 0 1rem;
 }
@@ -17,69 +17,116 @@ layout: default
 }
 
 .tag-group {
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
 }
 
 .tag-group h2 {
   font-size: 1.4rem;
   font-weight: 700;
   color: #4a3aff;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   padding-bottom: 0.5rem;
   border-bottom: 2px solid #4a3aff;
 }
 
-.posts-list {
-  display: flex;
-  flex-direction: column;
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.post-item {
+.post-card {
   padding: 1.5rem;
   border: 1px solid #e5e5e5;
   border-radius: 8px;
   text-decoration: none;
   color: #333;
   transition: all 0.2s;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  overflow: hidden;
 }
 
-.post-item:hover {
+.post-card:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transform: translateY(-2px);
   border-color: #4a3aff;
 }
 
-.post-item .date {
-  font-size: 0.85rem;
+.post-card .date {
+  font-size: 0.8rem;
   color: #999;
   margin-bottom: 0.5rem;
 }
 
-.post-item .category {
+.post-card .category {
   display: inline-block;
   background: #e8e5ff;
   color: #4a3aff;
   padding: 0.2rem 0.6rem;
   border-radius: 4px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  margin-left: 0.5rem;
+  width: fit-content;
 }
 
-.post-item h3 {
-  font-size: 1.2rem;
+.post-card h3 {
+  font-size: 1.1rem;
   font-weight: 600;
-  margin: 0.5rem 0;
+  margin: 0.8rem 0;
   line-height: 1.4;
+  flex-grow: 0;
 }
 
-.post-item .excerpt {
-  font-size: 0.9rem;
+.post-card .excerpt {
+  font-size: 0.85rem;
   color: #666;
   line-height: 1.5;
-  margin-top: 0.5rem;
+  flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* ===== 페이지네이션 ===== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.pagination a, .pagination span {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.pagination a:hover {
+  background: #4a3aff;
+  color: #fff;
+  border-color: #4a3aff;
+}
+
+.pagination .active {
+  background: #4a3aff;
+  color: #fff;
+  border-color: #4a3aff;
+  font-weight: 600;
+}
+
+.pagination .disabled {
+  color: #ccc;
+  cursor: not-allowed;
 }
 
 .no-posts {
@@ -89,12 +136,21 @@ layout: default
   font-size: 1.1rem;
 }
 
+@media (max-width: 768px) {
+  .posts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
 @media (max-width: 600px) {
   .tags-container h1 {
     font-size: 1.5rem;
   }
   .tag-group h2 {
     font-size: 1.2rem;
+  }
+  .posts-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
@@ -107,20 +163,37 @@ layout: default
     <div class="tag-group" id="{{ tag[0] | slugify }}">
       <h2>#{{ tag[0] }}</h2>
       
-      <div class="posts-list">
-        {% for post in tag[1] %}
-          <a href="{{ post.url | relative_url }}" class="post-item">
-            <div class="date">
-              {{ post.date | date: "%Y년 %m월 %d일" }}
-              {% if post.categories.size > 0 %}
-              <span class="category">{{ post.categories.first }}</span>
-              {% endif %}
-            </div>
+      {% assign posts_per_page = 12 %}
+      {% assign tag_posts = tag[1] | sort: 'date' | reverse %}
+      {% assign total_posts = tag_posts.size %}
+      {% assign total_pages = total_posts | divided_by: posts_per_page | ceil %}
+      
+      <div class="posts-grid">
+        {% for post in tag_posts limit: posts_per_page %}
+          <a href="{{ post.url | relative_url }}" class="post-card">
+            <div class="date">{{ post.date | date: "%Y년 %m월 %d일" }}</div>
+            {% if post.categories.size > 0 %}
+            <div class="category">{{ post.categories.first }}</div>
+            {% endif %}
             <h3>{{ post.title }}</h3>
             <div class="excerpt">{{ post.content | strip_html | truncate: 100 }}</div>
           </a>
         {% endfor %}
       </div>
+
+      {% if total_pages > 1 %}
+      <div class="pagination">
+        {% for page_num in (1..total_pages) %}
+          {% if page_num == 1 %}
+            {% if page_num == 1 %}
+              <span class="active">1</span>
+            {% endif %}
+          {% else %}
+            <span class="disabled">{{ page_num }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
     </div>
   {% endfor %}
 

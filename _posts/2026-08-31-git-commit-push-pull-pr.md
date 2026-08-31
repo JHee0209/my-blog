@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "혼자 하던 커밋을 팀 작업으로 — commit, push, pull, PR 정리"
-date: 2026-08-31 18:00:00 +0900
+date: 2026-08-31
 categories: [개념]
-tags: [git, github, commit, pull-request]
+tags: [commit, pull-request]
 mermaid: true
 ---
 

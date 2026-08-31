@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "브랜치로 작업하고 Merge까지, 흐름과 방식 정리하기"
-date: 2026-08-31 21:00:00 +0900
-categories: [Git]
-tags: [git, github, branch, merge]
+date: 2026-08-31
+categories: [개념]
+tags: [branch, merge]
 mermaid: true
 ---
 

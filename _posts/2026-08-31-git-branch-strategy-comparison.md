@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "잦은 merge 충돌 문제, 브랜치 전략 비교로 실마리 찾기"
-date: 2026-08-31 20:00:00 +0900
-categories: [Git]
-tags: [git, github, branch, workflow, merge]
+date: 2026-08-31
+categories: [개념]
+tags: [branch, workflow, merge]
 mermaid: true
 ---
 

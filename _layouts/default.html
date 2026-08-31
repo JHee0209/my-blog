@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title }} - {{ site.title }}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+    /* ===== 커스텀 상단바 ===== */
+    .top-navbar {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .navbar-logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #222;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .navbar-menu {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar-menu a {
+      color: #333;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .navbar-menu a:hover {
+      color: #4a3aff;
+    }
+
+    .search-btn {
+      background: #4a3aff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .search-btn:hover {
+      background: #3a2acc;
+    }
+
+    /* ===== 드롭다운 검색 섹션 ===== */
+    .search-dropdown {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, rgba(74, 58, 255, 0.95) 0%, rgba(107, 90, 255, 0.95) 100%);
+      padding: 3rem 2rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+      z-index: 999;
+      opacity: 0;
+    }
+
+    .search-dropdown.open {
+      max-height: 500px;
+      opacity: 1;
+    }
+
+    .search-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .search-input-wrapper {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 25px;
+      padding: 0.5rem 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .search-input-wrapper input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+
+    .search-input-wrapper .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .search-header {
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .search-header .more-btn {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 0.4rem 0.8rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .search-header .more-btn:hover {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+
+    .search-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .search-tag-pill {
+      padding: 0.5rem 1.2rem;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+      color: #fff;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .search-tag-pill:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .search-tag-pill.hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .navbar-right {
+        gap: 1rem;
+      }
+      .navbar-menu {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 상단 네비바 -->
+<nav class="top-navbar">
+  <a href="{{ '/' | relative_url }}" class="navbar-logo">{{ site.title | default: 'zoohi\'s study' }}</a>
+  
+  <div class="navbar-right">
+    <ul class="navbar-menu">
+      <li><a href="{{ '/' | relative_url }}">Home</a></li>
+      <li><a href="{{ '/concept/' | relative_url }}">Concepts</a></li>
+      <li><a href="{{ '/trouble/' | relative_url }}">Troubleshooting</a></li>
+      <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+    </ul>
+    <button class="search-btn" id="searchBtn">Search</button>
+  </div>
+</nav>
+
+<!-- 드롭다운 검색 섹션 -->
+<div class="search-dropdown" id="searchDropdown">
+  <div class="search-container">
+    <div class="search-input-wrapper">
+      <span>🔍</span>
+      <input type="text" id="searchInput" placeholder="관심 있는 태그를 검색하세요.">
+      <button class="close-btn" id="closeBtn">✕</button>
+    </div>
+
+    <div class="search-header">
+      <span>Tags</span>
+      <a href="{{ '/tags/' | relative_url }}" class="more-btn">More →</a>
+    </div>
+
+    <div class="search-tags" id="searchTags">
+      {% assign sorted_tags = site.tags | sort %}
+      {% for tag in sorted_tags %}
+        <a href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}" class="search-tag-pill" data-tag="{{ tag[0] | downcase }}">{{ tag[0] }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{{ content }}
+
+<script>
+const searchBtn = document.getElementById('searchBtn');
+const closeBtn = document.getElementById('closeBtn');
+const searchDropdown = document.getElementById('searchDropdown');
+const searchInput = document.getElementById('searchInput');
+const searchTags = document.querySelectorAll('.search-tag-pill');
+
+searchBtn.addEventListener('click', () => {
+  searchDropdown.classList.toggle('open');
+  if (searchDropdown.classList.contains('open')) {
+    searchInput.focus();
+  }
+});
+
+closeBtn.addEventListener('click', () => {
+  searchDropdown.classList.remove('open');
+});
+
+// 검색 기능
+searchInput.addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+  
+  searchTags.forEach(tag => {
+    const tagText = tag.getAttribute('data-tag');
+    if (tagText.includes(query)) {
+      tag.classList.remove('hidden');
+    } else {
+      tag.classList.add('hidden');
+    }
+  });
+});
+
+// 드롭다운 외부 클릭 시 닫기
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.top-navbar') && !e.target.closest('.search-dropdown')) {
+    searchDropdown.classList.remove('open');
+  }
+});
+
+// 태그 클릭 시 드롭다운 닫기
+searchTags.forEach(tag => {
+  tag.addEventListener('click', () => {
+    searchDropdown.classList.remove('open');
+    searchInput.value = '';
+    searchTags.forEach(t => t.classList.remove('hidden'));
+  });
+});
+</script>
+
+</body>
+</html>

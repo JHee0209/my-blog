@@ -3,6 +3,89 @@ layout: default
 ---
 
 <style>
+/* ===== 네비게이션 ===== */
+.navbar {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navbar-logo {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #222;
+  text-decoration: none;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 1px solid #e5e5e5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #333;
+  font-size: 1.3rem;
+  transition: background 0.15s;
+}
+
+.menu-toggle:hover {
+  background: #f5f5f5;
+}
+
+.nav-menu {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  z-index: 999;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-menu.open {
+  max-height: 300px;
+}
+
+.nav-menu li {
+  margin: 0;
+}
+
+.nav-menu a {
+  display: block;
+  padding: 0.8rem 1rem;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.nav-menu a:hover {
+  background: #f5f5f5;
+  border-left-color: #4a3aff;
+  color: #4a3aff;
+}
+
+@media (max-width: 600px) {
+  .menu-toggle { display: block; }
+  .nav-menu { display: none; }
+  .nav-menu.open { display: block; }
+}
+/* ===== 네비게이션 끝 ===== */
+
 .home-wrap {
   max-width: 1100px;
   margin: 0 auto;
@@ -137,11 +220,27 @@ layout: default
 }
 </style>
 
+<!-- 네비게이션 바 -->
+<nav class="navbar">
+  <a href="{{ '/' | relative_url }}" class="navbar-logo">{{ site.title | default: 'Blog' }}</a>
+  <button class="menu-toggle" id="menuToggle">☰</button>
+</nav>
+
+<!-- 드롭다운 메뉴 -->
+<ul class="nav-menu" id="navMenu">
+  <li><a href="{{ '/' | relative_url }}">Home</a></li>
+  <li><a href="{{ '/archive/' | relative_url }}">Archive</a></li>
+  <li><a href="{{ '/tags/' | relative_url }}">Tags</a></li>
+  <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+</ul>
+
+<!-- 히어로 섹션 -->
 <div class="hero">
   <h1>{{ page.title }}</h1>
   <p>{{ content }}</p>
 </div>
 
+<!-- 메인 콘텐츠 -->
 <div class="home-wrap">
 
   {% if site.tags.size > 0 %}
@@ -187,3 +286,27 @@ layout: default
   </div>
 
 </div>
+
+<script>
+const menuToggle = document.getElementById('menuToggle');
+const navMenu = document.getElementById('navMenu');
+
+// 메뉴 토글
+menuToggle.addEventListener('click', () => {
+  navMenu.classList.toggle('open');
+});
+
+// 메뉴 클릭하면 자동으로 닫기
+navMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navMenu.classList.remove('open');
+  });
+});
+
+// 외부 영역 클릭하면 메뉴 닫기
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.navbar') && !e.target.closest('.nav-menu')) {
+    navMenu.classList.remove('open');
+  }
+});
+</script>

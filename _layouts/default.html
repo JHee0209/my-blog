@@ -266,12 +266,14 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// 태그 클릭 시 드롭다운 닫기
+// 태그 클릭 시 검색 페이지로 이동
 searchTags.forEach(tag => {
-  tag.addEventListener('click', () => {
+  tag.addEventListener('click', (e) => {
+    e.preventDefault();
+    const tagName = tag.getAttribute('data-tag');
+    window.location.href = `{{ '/search/' | relative_url }}?tag=${encodeURIComponent(tagName)}`;
     searchDropdown.classList.remove('open');
     searchInput.value = '';
-    searchTags.forEach(t => t.classList.remove('hidden'));
   });
 });
 </script>

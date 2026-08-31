@@ -1,0 +1,264 @@
+---
+layout: default
+---
+
+<style>
+.search-container {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.search-header {
+  margin-bottom: 3rem;
+}
+
+.search-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 25px;
+  padding: 0.8rem 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+.search-box span {
+  font-size: 1.3rem;
+  color: #999;
+}
+
+.search-results {
+  margin-top: 2rem;
+}
+
+.result-count {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.result-card {
+  padding: 1.5rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.result-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+  border-color: #4a3aff;
+}
+
+.result-card .date {
+  font-size: 0.8rem;
+  color: #999;
+  margin-bottom: 0.5rem;
+}
+
+.result-card .category {
+  display: inline-block;
+  background: #e8e5ff;
+  color: #4a3aff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.result-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0.8rem 0;
+  line-height: 1.4;
+}
+
+.result-card .excerpt {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.result-card .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.result-tag {
+  font-size: 0.7rem;
+  background: #f0eeff;
+  color: #4a3aff;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 600px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<div class="search-container">
+  <div class="search-header">
+    <h1>검색</h1>
+    <div class="search-box">
+      <span>🔍</span>
+      <input type="text" id="searchInput" placeholder="태그나 키워드를 검색하세요...">
+    </div>
+  </div>
+
+  <div class="result-count">
+    <span id="resultCount">검색 결과: <strong>0</strong>개</span>
+  </div>
+
+  <div class="search-results">
+    <div id="resultsList" class="results-grid"></div>
+    <div id="noResults" class="no-results" style="display: none;">
+      검색 결과가 없습니다.
+    </div>
+  </div>
+</div>
+
+<script>
+// JSON 데이터로 포스트 저장
+const allPostsJSON = `{{ site.posts | jsonify }}`;
+const allPosts = JSON.parse(allPostsJSON).map(post => ({
+  title: post.title,
+  url: post.url,
+  date: new Date(post.date).toLocaleDateString('ko-KR', { 
+    year: 'numeric', 
+    month: '2-digit', 
+    day: '2-digit' 
+  }).replace(/\./g, '년 ').replace(/\s/g, '월 ') + '일',
+  category: post.categories && post.categories.length > 0 ? post.categories[0] : '',
+  excerpt: post.content ? post.content.replace(/<[^>]*>/g, '').substring(0, 100) : '',
+  tags: post.tags || [],
+  content: post.content ? post.content.replace(/<[^>]*>/g, '') : ''
+}));
+
+const searchInput = document.getElementById('searchInput');
+const resultsList = document.getElementById('resultsList');
+const noResults = document.getElementById('noResults');
+const resultCount = document.getElementById('resultCount');
+
+function getUrlParam(param) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(param) || '';
+}
+
+function performSearch(query) {
+  if (!query.trim()) {
+    resultsList.innerHTML = '';
+    noResults.style.display = 'none';
+    resultCount.innerHTML = '검색 결과: <strong>0</strong>개';
+    return;
+  }
+
+  const lowerQuery = query.toLowerCase();
+  const results = allPosts.filter(post => {
+    const title = post.title.toLowerCase();
+    const tags = post.tags.join(' ').toLowerCase();
+    const content = post.content.toLowerCase();
+    
+    return title.includes(lowerQuery) || 
+           tags.includes(lowerQuery) || 
+           content.includes(lowerQuery);
+  });
+
+  displayResults(results);
+}
+
+function displayResults(results) {
+  resultsList.innerHTML = '';
+  resultCount.innerHTML = `검색 결과: <strong>${results.length}</strong>개`;
+
+  if (results.length === 0) {
+    noResults.style.display = 'block';
+    return;
+  }
+
+  noResults.style.display = 'none';
+
+  results.forEach(post => {
+    const card = document.createElement('a');
+    card.href = post.url;
+    card.className = 'result-card';
+    
+    let categoryHTML = '';
+    if (post.category) {
+      categoryHTML = `<span class="category">${post.category}</span>`;
+    }
+    
+    let tagsHTML = '';
+    if (post.tags && post.tags.length > 0) {
+      tagsHTML = `<div class="tags">${post.tags.map(tag => `<span class="result-tag">${tag}</span>`).join('')}</div>`;
+    }
+    
+    card.innerHTML = `
+      <div class="date">${post.date} ${categoryHTML}</div>
+      <h3>${post.title}</h3>
+      <div class="excerpt">${post.excerpt}</div>
+      ${tagsHTML}
+    `;
+    resultsList.appendChild(card);
+  });
+}
+
+const initialQuery = getUrlParam('q') || getUrlParam('tag');
+if (initialQuery) {
+  searchInput.value = initialQuery;
+  performSearch(initialQuery);
+}
+
+searchInput.addEventListener('input', (e) => {
+  performSearch(e.target.value);
+});
+
+searchInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    performSearch(e.target.value);
+  }
+});
+
+window.addEventListener('load', () => {
+  searchInput.focus();
+});
+</script>

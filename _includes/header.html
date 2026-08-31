@@ -1,0 +1,45 @@
+<!-- 드롭다운 오버레이 -->
+<div class="dropdown-overlay" id="dropdownOverlay"></div>
+
+<!-- 드롭다운 메뉴 -->
+<div class="dropdown-menu" id="dropdownMenu">
+  <div class="dropdown-inner">
+    <a href="{{ '/' | relative_url }}" class="dropdown-link">Home</a>
+    <a href="{{ '/archive/' | relative_url }}" class="dropdown-link">Archive</a>
+    <a href="{{ '/concept/' | relative_url }}" class="dropdown-link">Concepts</a>
+    <a href="{{ '/trouble/' | relative_url }}" class="dropdown-link">Problem Solving</a>
+    <a href="https://github.com/{{ site.github_username }}" class="dropdown-link" target="_blank">GitHub</a>
+  </div>
+</div>
+
+<!-- 토글 버튼 -->
+<button class="dropdown-toggle" id="dropdownToggle" aria-label="Toggle menu">←</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownToggle = document.getElementById('dropdownToggle');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  const dropdownOverlay = document.getElementById('dropdownOverlay');
+  
+  dropdownToggle.addEventListener('click', function() {
+    dropdownMenu.classList.toggle('active');
+    dropdownOverlay.classList.toggle('active');
+    document.body.style.overflow = dropdownMenu.classList.contains('active') ? 'hidden' : '';
+  });
+  
+  dropdownOverlay.addEventListener('click', function() {
+    dropdownMenu.classList.remove('active');
+    dropdownOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+  
+  const dropdownLinks = document.querySelectorAll('.dropdown-link');
+  dropdownLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      dropdownMenu.classList.remove('active');
+      dropdownOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+  });
+});
+</script>

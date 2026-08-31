@@ -3,6 +3,136 @@ layout: default
 ---
 
 <style>
+/* ===== 테마 기본 네비 숨기기 ===== */
+.site-nav, .site-header { display: none !important; }
+
+/* ===== 커스텀 상단바 ===== */
+.top-navbar {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navbar-logo {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #222;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-menu a {
+  color: #333;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.navbar-menu a:hover {
+  color: #4a3aff;
+}
+
+.search-btn {
+  background: #4a3aff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.search-btn:hover {
+  background: #3a2acc;
+}
+
+/* ===== 드롭다운 검색 섹션 ===== */
+.search-dropdown {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #4a3aff 0%, #6b5aff 100%);
+  padding: 3rem 2rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  z-index: 999;
+}
+
+.search-dropdown.open {
+  max-height: 400px;
+}
+
+.search-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 25px;
+  padding: 0.5rem 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.search-input-wrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+.search-input-wrapper .close-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #999;
+}
+
+.search-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.search-tag-pill {
+  padding: 0.5rem 1.2rem;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.search-tag-pill:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* ===== 나머지 섹션 ===== */
 .home-wrap {
   max-width: 1100px;
   margin: 0 auto;
@@ -132,10 +262,57 @@ layout: default
   border-radius: 999px;
 }
 
+@media (max-width: 768px) {
+  .navbar-menu {
+    gap: 1.5rem;
+  }
+  .navbar-menu a {
+    font-size: 0.85rem;
+  }
+}
+
 @media (max-width: 600px) {
   .hero h1 { font-size: 2.4rem; }
+  .navbar-menu {
+    display: none;
+  }
+  .top-navbar {
+    justify-content: space-between;
+  }
 }
 </style>
+
+<!-- 상단 네비바 -->
+<nav class="top-navbar">
+  <a href="{{ '/' | relative_url }}" class="navbar-logo">{{ site.title | default: 'zoohi\'s study' }}</a>
+  
+  <ul class="navbar-menu">
+    <li><a href="{{ '/' | relative_url }}">Home</a></li>
+    <li><a href="{{ '/concept/' | relative_url }}">Concepts</a></li>
+    <li><a href="{{ '/trouble/' | relative_url }}">Troubleshooting</a></li>
+    <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+  </ul>
+
+  <button class="search-btn" id="searchBtn">Search</button>
+</nav>
+
+<!-- 드롭다운 검색 섹션 -->
+<div class="search-dropdown" id="searchDropdown">
+  <div class="search-container">
+    <div class="search-input-wrapper">
+      <span>🔍</span>
+      <input type="text" placeholder="관심 있는 태그를 검색하세요.">
+      <button class="close-btn" id="closeBtn">✕</button>
+    </div>
+
+    <div class="search-tags">
+      {% assign sorted_tags = site.tags | sort %}
+      {% for tag in sorted_tags %}
+        <a href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}" class="search-tag-pill">{{ tag[0] }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
 <div class="hero">
   <h1>{{ page.title }}</h1>
@@ -187,3 +364,31 @@ layout: default
   </div>
 
 </div>
+
+<script>
+const searchBtn = document.getElementById('searchBtn');
+const closeBtn = document.getElementById('closeBtn');
+const searchDropdown = document.getElementById('searchDropdown');
+
+searchBtn.addEventListener('click', () => {
+  searchDropdown.classList.toggle('open');
+});
+
+closeBtn.addEventListener('click', () => {
+  searchDropdown.classList.remove('open');
+});
+
+// 드롭다운 외부 클릭 시 닫기
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.top-navbar') && !e.target.closest('.search-dropdown')) {
+    searchDropdown.classList.remove('open');
+  }
+});
+
+// 태그 클릭 시 드롭다운 닫기
+document.querySelectorAll('.search-tag-pill').forEach(tag => {
+  tag.addEventListener('click', () => {
+    searchDropdown.classList.remove('open');
+  });
+});
+</script>

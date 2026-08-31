@@ -7,3 +7,7 @@ url: "https://jhee0209.github.io"
 github_username: JHee0209
 author:
   name: zoohi
+
+
+plugins:
+- jekyll-remote-theme

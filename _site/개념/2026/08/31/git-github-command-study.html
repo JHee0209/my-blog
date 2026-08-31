@@ -1,4 +1,170 @@
-<p>이번 주에는 나만의 폴더를 <strong>버전 관리가 되는 저장소</strong>로 만들고,
+<!DOCTYPE html>
+<!--
+    Basically Basic Jekyll Theme 1.4.5
+    Copyright 2017-2018 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/jekyll-theme-basically-basic/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+    <title>이번 주에 배운 Git·GitHub 명령어 정리</title>
+    <meta name="description" content="이번 주에는 나만의 폴더를 버전 관리가 되는 저장소로 만들고, 바꾼 내용을 기록하고, GitHub에 올리고 받아오는 법까지 배웠다. 배운 순서대로 하나씩 정리해본다.">
+    <link rel="canonical" href="http://localhost:4000/my-blog/%EA%B0%9C%EB%85%90/2026/08/31/git-github-command-study.html">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/my-blog/assets/stylesheets/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,700">
+  
+
+  
+</head>
+
+
+  <body class="layout--post 이번-주에-배운-git-github-명령어-정리">
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+
+    <div class="sidebar-toggle-wrapper">
+      
+
+      <button class="toggle navicon-button larr" type="button">
+        <span class="toggle-inner">
+          <span class="sidebar-toggle-label visually-hidden">Menu</span>
+          <span class="navicon"></span>
+        </span>
+      </button>
+    </div>
+
+    <div id="sidebar" class="sidebar">
+      <div class="inner">
+        <nav id="primary-nav" class="site-nav" itemscope itemtype="http://schema.org/SiteNavigationElement" aria-label="Main navigation">
+  <ul id="menu-main-navigation" class="menu">
+    <!-- Home link -->
+    <li class="menu-item">
+      <a href="/my-blog/" itemprop="url">
+        <span itemprop="name">Home</span>
+      </a>
+    </li>
+
+    <!-- site.pages links -->
+    
+    
+
+    
+      
+      
+        <li class="menu-item">
+          <a href="/my-blog/concept/" itemprop="url">
+            <span itemprop="name">Concepts</span>
+          </a>
+        </li>
+      
+    
+      
+      
+        <li class="menu-item">
+          <a href="/my-blog/trouble/" itemprop="url">
+            <span itemprop="name">Problem Solving</span>
+          </a>
+        </li>
+      
+    
+  </ul>
+</nav>
+
+        <ul class="contact-list">
+  
+
+  
+    <li><a href="https://github.com/JHee0209">
+  <span class="icon icon--github"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C3.58 0 0 3.582 0 8c0 3.535 2.292 6.533 5.47 7.59.4.075.547-.172.547-.385 0-.19-.007-.693-.01-1.36-2.226.483-2.695-1.073-2.695-1.073-.364-.924-.89-1.17-.89-1.17-.725-.496.056-.486.056-.486.803.056 1.225.824 1.225.824.714 1.223 1.873.87 2.33.665.072-.517.278-.87.507-1.07-1.777-.2-3.644-.888-3.644-3.953 0-.873.31-1.587.823-2.147-.09-.202-.36-1.015.07-2.117 0 0 .67-.215 2.2.82.64-.178 1.32-.266 2-.27.68.004 1.36.092 2 .27 1.52-1.035 2.19-.82 2.19-.82.43 1.102.16 1.915.08 2.117.51.56.82 1.274.82 2.147 0 3.073-1.87 3.75-3.65 3.947.28.24.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.14.46.55.38C13.71 14.53 16 11.53 16 8c0-4.418-3.582-8-8-8"/></svg></span>
+  <span class="label">GitHub</span>
+</a>
+</li>
+  
+
+  
+
+  <li>
+    
+  </li>
+</ul>
+
+      </div>
+    </div>
+
+    <div class="canvas">
+      <div class="wrapper">
+        
+
+<header id="masthead">
+  <div class="inner">
+    <div class="title-area">
+      
+        <p class="site-title">
+          <a href="/my-blog/">
+            
+            <span>zoohi&#39;s study</span>
+          </a>
+        </p>
+      
+    </div>
+  </div>
+</header>
+
+        <div class="initial-content">
+          <header class="intro">
+  
+
+  <div class="inner">
+    <div class="intro-text">
+      <h1 id="page-title" class="intro-title">이번 주에 배운 Git·GitHub 명령어 정리
+</h1>
+      
+
+      
+        
+
+
+        <p class="entry-meta">
+          <span class="byline-item">by zoohi</span><span class="byline-item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="379 72 16 16"><g><g><path fill="none" d="M380.8,86.7h12.3v-8.8h-12.3V86.7z M389.5,78.8h1.7v1.4h-1.7V78.8z M389.5,81.3h1.7v1.4h-1.7V81.3z M389.5,83.8h1.7v1.4h-1.7V83.8z M386.1,78.8h1.7v1.4h-1.7V78.8z M386.1,81.3h1.7v1.4h-1.7V81.3z M386.1,83.8h1.7v1.4h-1.7V83.8z M382.8,78.8h1.7v1.4h-1.7V78.8z M382.8,81.3h1.7v1.4h-1.7V81.3z M382.8,83.8h1.7v1.4h-1.7V83.8z"/><polygon fill="none" points="384.7 75.1 383.4 75.1 383.4 74.3 380.8 74.3 380.8 76.6 393.2 76.6 393.2 74.3 390.6 74.3 390.6 75.1 389.3 75.1 389.3 74.3 384.7 74.3"/><rect x="382.8" y="78.8" width="1.7" height="1.4"/><rect x="386.1" y="78.8" width="1.7" height="1.4"/><rect x="389.5" y="78.8" width="1.7" height="1.4"/><rect x="382.8" y="81.3" width="1.7" height="1.4"/><rect x="386.1" y="81.3" width="1.7" height="1.4"/><rect x="389.5" y="81.3" width="1.7" height="1.4"/><rect x="382.8" y="83.8" width="1.7" height="1.4"/><rect x="386.1" y="83.8" width="1.7" height="1.4"/><rect x="389.5" y="83.8" width="1.7" height="1.4"/><path d="M383.4,72v1.1h-3.8V88h14.9V73.1h-3.8V72h-1.3v1.1h-4.7V72H383.4z M393.2,86.7h-12.3v-8.8h12.3L393.2,86.7L393.2,86.7z M389.3,74.3v0.8h1.3v-0.8h2.5v2.3h-12.3v-2.3h2.5v0.8h1.3v-0.8H389.3z"/></g></g></svg></span><time datetime="2026-08-31T00:00:00+09:00">August 31, 2026</time></span>
+        </p>
+      
+
+      
+
+      
+    </div>
+  </div>
+</header>
+
+
+<main id="main" class="page-content" aria-label="Content">
+  <div class="inner">
+    <article class="entry-wrap">
+      <div class="entry-content">
+        <p>이번 주에는 나만의 폴더를 <strong>버전 관리가 되는 저장소</strong>로 만들고,
 바꾼 내용을 기록하고, GitHub에 올리고 받아오는 법까지 배웠다.
 배운 순서대로 하나씩 정리해본다.</p>
 
@@ -236,3 +402,41 @@
 
 <p>전체 흐름은 결국 <strong>“고치기 → 고른다 → 기록한다 → 나눠서 작업한다 → 합친다 → 올리고 받는다”</strong>로 이어진다.
 막히면 이 순서를 다시 떠올려보면 될 것 같다.</p>
+
+      </div>
+      
+    </article>
+  </div>
+</main>
+
+        </div>
+
+        <div class="search-content">
+          <div class="inner">
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer id="footer" class="site-footer">
+  <div class="inner">
+    <div class="copyright">
+      
+        <p>&copy; 2026 zoohi's study.</p>
+      
+    </div>
+  </div>
+</footer>
+
+    
+
+<script async src="/my-blog/assets/javascripts/main.js"></script>
+
+
+
+
+  </body>
+
+</html>

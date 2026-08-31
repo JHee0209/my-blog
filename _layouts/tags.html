@@ -4,71 +4,118 @@ layout: default
 
 <style>
 .tags-container {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 3rem auto;
   padding: 0 1rem;
 }
 
-.tags-container h1 {
+.tags-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.tags-header h1 {
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 3rem;
-  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-/* ===== 검색 섹션 ===== */
-.search-section {
-  margin-bottom: 3rem;
-  text-align: center;
-}
-
-.search-wrapper {
+.search-box {
   display: flex;
   align-items: center;
   background: #f5f5f5;
   border-radius: 25px;
-  padding: 0.5rem 1.5rem;
+  padding: 0.8rem 1.5rem;
   max-width: 500px;
-  margin: 0 auto;
+  margin: 0 auto 2rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-.search-wrapper input {
+.search-box input {
   flex: 1;
   border: none;
   outline: none;
   background: transparent;
   font-size: 1rem;
-  padding: 0.5rem;
+  padding: 0 0.5rem;
 }
 
-.search-wrapper span {
-  font-size: 1.2rem;
+.search-box span {
+  font-size: 1.3rem;
   color: #999;
 }
 
-/* ===== 태그 그룹 ===== */
-.tag-group {
-  margin-bottom: 4rem;
+/* 태그 목록 뷰 */
+.tags-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
 }
 
-.tag-group.hidden {
+.tag-button {
+  padding: 1rem;
+  background: #f5f5f5;
+  border: 2px solid #e5e5e5;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  transition: all 0.2s;
+  text-align: center;
+  cursor: pointer;
+}
+
+.tag-button:hover {
+  background: #4a3aff;
+  color: #fff;
+  border-color: #4a3aff;
+}
+
+/* 태그별 글 뷰 */
+.tag-content {
   display: none;
 }
 
-.tag-group h2 {
-  font-size: 1.4rem;
+.tag-content.active {
+  display: block;
+}
+
+.tag-title {
+  font-size: 1.8rem;
   font-weight: 700;
   color: #4a3aff;
   margin-bottom: 2rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 1rem;
   border-bottom: 2px solid #4a3aff;
+}
+
+.back-button {
+  display: inline-block;
+  margin-bottom: 2rem;
+  padding: 0.5rem 1rem;
+  background: #f2f2f2;
+  color: #333;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.back-button:hover {
+  background: #4a3aff;
+  color: #fff;
+}
+
+.result-count {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 2rem;
 }
 
 .posts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
 .post-card {
@@ -80,8 +127,6 @@ layout: default
   transition: all 0.2s;
   display: flex;
   flex-direction: column;
-  height: 300px;
-  overflow: hidden;
 }
 
 .post-card:hover {
@@ -112,7 +157,6 @@ layout: default
   font-weight: 600;
   margin: 0.8rem 0;
   line-height: 1.4;
-  flex-grow: 0;
 }
 
 .post-card .excerpt {
@@ -120,105 +164,159 @@ layout: default
   color: #666;
   line-height: 1.5;
   flex-grow: 1;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
 }
 
-.no-results {
+.no-posts {
   text-align: center;
   padding: 3rem 1rem;
   color: #999;
   font-size: 1.1rem;
-  display: none;
-}
-
-.no-results.show {
-  display: block;
-}
-
-@media (max-width: 768px) {
-  .posts-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
 }
 
 @media (max-width: 600px) {
-  .tags-container h1 {
-    font-size: 1.5rem;
-  }
-  .tag-group h2 {
-    font-size: 1.2rem;
-  }
   .posts-grid {
     grid-template-columns: 1fr;
+  }
+  .tags-list {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
 }
 </style>
 
 <div class="tags-container">
-  <h1>Tags</h1>
-
-  <!-- 검색 섹션 -->
-  <div class="search-section">
-    <div class="search-wrapper">
+  <div class="tags-header">
+    <h1>Tags</h1>
+    <div class="search-box">
       <span>🔍</span>
       <input type="text" id="tagSearch" placeholder="태그를 검색하세요...">
     </div>
   </div>
 
-  <!-- 결과 없음 메시지 -->
-  <div class="no-results" id="noResults">검색 결과가 없습니다.</div>
+  <!-- 태그 목록 -->
+  <div id="tagsList" class="tags-list"></div>
 
-  <!-- 태그 그룹 -->
-  {% assign sorted_tags = site.tags | sort %}
-  {% for tag in sorted_tags %}
-    <div class="tag-group" data-tag="{{ tag[0] | downcase }}">
-      <h2>#{{ tag[0] }}</h2>
-      
-      {% assign tag_posts = tag[1] | sort: 'date' | reverse %}
-      
-      <div class="posts-grid">
-        {% for post in tag_posts %}
-          <a href="{{ post.url | relative_url }}" class="post-card">
-            <div class="date">{{ post.date | date: "%Y년 %m월 %d일" }}</div>
-            {% if post.categories.size > 0 %}
-            <div class="category">{{ post.categories.first }}</div>
-            {% endif %}
-            <h3>{{ post.title }}</h3>
-            <div class="excerpt">{{ post.content | strip_html | truncate: 100 }}</div>
-          </a>
-        {% endfor %}
-      </div>
-    </div>
-  {% endfor %}
+  <!-- 태그별 글 목록 -->
+  <div id="tagContent" class="tag-content">
+    <a href="{{ '/tags/' | relative_url }}" class="back-button">← 태그 목록으로</a>
+    <h2 class="tag-title"></h2>
+    <div class="result-count"></div>
+    <div class="posts-grid"></div>
+  </div>
+
+  <div id="noResults" class="no-posts" style="display: none;">
+    검색 결과가 없습니다.
+  </div>
 </div>
 
 <script>
-const searchInput = document.getElementById('tagSearch');
-const tagGroups = document.querySelectorAll('.tag-group');
+const allPosts = [
+  {% for post in site.posts %}
+  {
+    title: "{{ post.title | escape }}",
+    url: "{{ post.url }}",
+    date: "{{ post.date | date: '%Y년 %m월 %d일' }}",
+    category: "{{ post.categories[0] }}",
+    excerpt: "{{ post.content | strip_html | truncate: 100 | escape }}",
+    tags: [{% for tag in post.tags %}"{{ tag }}"{% unless forloop.last %},{% endunless %}{% endfor %}]
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+];
+
+const allTags = [
+  {% assign sorted_tags = site.tags | sort %}
+  {% for tag in sorted_tags %}"{{ tag[0] }}"{% unless forloop.last %},{% endunless %}{% endfor %}
+];
+
+const tagsList = document.getElementById('tagsList');
+const tagContent = document.getElementById('tagContent');
+const tagSearch = document.getElementById('tagSearch');
 const noResults = document.getElementById('noResults');
 
-searchInput.addEventListener('input', (e) => {
-  const query = e.target.value.toLowerCase().trim();
-  let visibleCount = 0;
+function getUrlParam(param) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(param) || '';
+}
 
-  tagGroups.forEach(group => {
-    const tagName = group.getAttribute('data-tag');
-    
-    if (query === '' || tagName.includes(query)) {
-      group.classList.remove('hidden');
-      visibleCount++;
-    } else {
-      group.classList.add('hidden');
-    }
+function displayTagsList(filteredTags) {
+  tagsList.innerHTML = '';
+  
+  filteredTags.forEach(tag => {
+    const postCount = allPosts.filter(p => p.tags.includes(tag)).length;
+    const button = document.createElement('a');
+    button.href = `{{ '/tags/' | relative_url }}?tag=${encodeURIComponent(tag)}`;
+    button.className = 'tag-button';
+    button.innerHTML = `#${tag}<br><span style="font-size: 0.8rem; opacity: 0.7;">${postCount}</span>`;
+    tagsList.appendChild(button);
   });
+}
 
-  if (visibleCount === 0) {
-    noResults.classList.add('show');
+function displayTagContent(tag) {
+  const posts = allPosts.filter(p => p.tags.includes(tag));
+  const postsGrid = tagContent.querySelector('.posts-grid');
+  const resultCount = tagContent.querySelector('.result-count');
+  const tagTitle = tagContent.querySelector('.tag-title');
+
+  tagsList.style.display = 'none';
+  tagContent.classList.add('active');
+  
+  tagTitle.textContent = `#${tag}`;
+  resultCount.innerHTML = `총 <strong>${posts.length}</strong>개의 글`;
+  postsGrid.innerHTML = '';
+
+  posts.forEach(post => {
+    const card = document.createElement('a');
+    card.href = post.url;
+    card.className = 'post-card';
+    
+    let categoryHTML = '';
+    if (post.category) {
+      categoryHTML = `<span class="category">${post.category}</span>`;
+    }
+    
+    card.innerHTML = `
+      <div class="date">${post.date} ${categoryHTML}</div>
+      <h3>${post.title}</h3>
+      <div class="excerpt">${post.excerpt}</div>
+    `;
+    postsGrid.appendChild(card);
+  });
+}
+
+function goBackToList() {
+  tagsList.style.display = 'grid';
+  tagContent.classList.remove('active');
+  window.history.pushState(null, '', `{{ '/tags/' | relative_url }}`);
+}
+
+// 초기 태그 목록 표시
+displayTagsList(allTags);
+
+// URL 파라미터 확인
+const selectedTag = getUrlParam('tag');
+if (selectedTag && allTags.includes(selectedTag)) {
+  displayTagContent(selectedTag);
+}
+
+// 태그 검색
+tagSearch.addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+  const filtered = allTags.filter(tag => tag.toLowerCase().includes(query));
+  
+  if (filtered.length === 0) {
+    noResults.style.display = 'block';
+    tagsList.style.display = 'none';
   } else {
-    noResults.classList.remove('show');
+    noResults.style.display = 'none';
+    tagsList.style.display = 'grid';
+    displayTagsList(filtered);
   }
+});
+
+// 뒤로가기 버튼
+tagContent.querySelector('.back-button').addEventListener('click', (e) => {
+  e.preventDefault();
+  goBackToList();
+  tagSearch.value = '';
+  displayTagsList(allTags);
 });
 </script>

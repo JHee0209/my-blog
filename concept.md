@@ -1,6 +1,6 @@
 ---
 layout: category
 title: Concepts
-category: concept
+category: 개념
 permalink: /concept/
 ---

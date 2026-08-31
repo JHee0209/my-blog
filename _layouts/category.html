@@ -1,0 +1,159 @@
+---
+layout: default
+---
+
+<style>
+.category-container {
+  max-width: 1100px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.category-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.category-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.category-header p {
+  font-size: 1.05rem;
+  color: #666;
+}
+
+.post-count {
+  font-size: 0.9rem;
+  color: #999;
+  margin-bottom: 2rem;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2.5rem;
+}
+
+.post-card {
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.2s;
+}
+
+.post-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  transform: translateY(-3px);
+}
+
+.post-card .date {
+  font-size: 0.8rem;
+  color: #999;
+  margin-bottom: 0.5rem;
+}
+
+.post-card h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.8rem;
+  line-height: 1.4;
+}
+
+.post-card h3 a {
+  color: #222;
+  text-decoration: none;
+}
+
+.post-card h3 a:hover {
+  color: #4a3aff;
+}
+
+.post-card .excerpt {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 1rem;
+}
+
+.post-card .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.post-card .tags a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.post-card .tags a span {
+  font-size: 0.75rem;
+  color: #4a3aff;
+  background: #f0eeff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  transition: all 0.2s;
+}
+
+.post-card .tags a:hover span {
+  background: #4a3aff;
+  color: #fff;
+}
+
+.no-posts {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 600px) {
+  .category-header h1 {
+    font-size: 1.8rem;
+  }
+  .posts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<div class="category-container">
+  <div class="category-header">
+    <h1>{{ page.title }}</h1>
+  </div>
+
+  {% assign category_posts = site.posts | where: "categories", page.category | sort: "date" | reverse %}
+  
+  <div class="post-count">
+    총 <strong>{{ category_posts.size }}</strong>개의 글
+  </div>
+
+  {% if category_posts.size > 0 %}
+  <div class="posts-grid">
+    {% for post in category_posts %}
+    <article class="post-card">
+      <div class="date">{{ post.date | date: "%Y년 %m월 %d일" }}</div>
+      <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+      <p class="excerpt">{{ post.content | strip_html | truncate: 90 }}</p>
+      {% if post.tags.size > 0 %}
+      <div class="tags">
+        {% for tag in post.tags %}
+          <a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">
+            <span>{{ tag }}</span>
+          </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="no-posts">아직 글이 없습니다.</div>
+  {% endif %}
+</div>

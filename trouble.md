@@ -1,6 +1,6 @@
 ---
 layout: category
 title: Trouble Shooting
-category: trouble
+category: 문제해결
 permalink: /trouble/
 ---

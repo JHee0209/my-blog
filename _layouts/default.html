@@ -232,12 +232,13 @@ const searchBtn = document.getElementById('searchBtn');
 const closeBtn = document.getElementById('closeBtn');
 const searchDropdown = document.getElementById('searchDropdown');
 const searchInput = document.getElementById('searchInput');
-const searchTags = document.querySelectorAll('.search-tag-pill');
 
 searchBtn.addEventListener('click', () => {
-  searchDropdown.classList.toggle('open');
-  if (searchDropdown.classList.contains('open')) {
-    searchInput.focus();
+  const query = searchInput.value.trim();
+  if (query) {
+    window.location.href = `{{ '/search/' | relative_url }}?q=${encodeURIComponent(query)}`;
+  } else {
+    searchDropdown.classList.toggle('open');
   }
 });
 
@@ -245,18 +246,14 @@ closeBtn.addEventListener('click', () => {
   searchDropdown.classList.remove('open');
 });
 
-// 검색 기능
-searchInput.addEventListener('input', (e) => {
-  const query = e.target.value.toLowerCase();
-  
-  searchTags.forEach(tag => {
-    const tagText = tag.getAttribute('data-tag');
-    if (tagText.includes(query)) {
-      tag.classList.remove('hidden');
-    } else {
-      tag.classList.add('hidden');
+// 엔터키 입력
+searchInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    const query = searchInput.value.trim();
+    if (query) {
+      window.location.href = `{{ '/search/' | relative_url }}?q=${encodeURIComponent(query)}`;
     }
-  });
+  }
 });
 
 // 드롭다운 외부 클릭 시 닫기
@@ -264,17 +261,6 @@ document.addEventListener('click', (e) => {
   if (!e.target.closest('.top-navbar') && !e.target.closest('.search-dropdown')) {
     searchDropdown.classList.remove('open');
   }
-});
-
-// 태그 클릭 시 검색 페이지로 이동
-searchTags.forEach(tag => {
-  tag.addEventListener('click', (e) => {
-    e.preventDefault();
-    const tagName = tag.getAttribute('data-tag');
-    window.location.href = `{{ '/search/' | relative_url }}?tag=${encodeURIComponent(tagName)}`;
-    searchDropdown.classList.remove('open');
-    searchInput.value = '';
-  });
 });
 </script>
 

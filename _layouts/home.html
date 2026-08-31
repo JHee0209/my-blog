@@ -32,6 +32,12 @@ header {display: none !important;}
   white-space: nowrap;
 }
 
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
 .navbar-menu {
   display: flex;
   gap: 2.5rem;
@@ -73,16 +79,18 @@ header {display: none !important;}
   top: 60px;
   left: 0;
   right: 0;
-  background: linear-gradient(135deg, #4a3aff 0%, #6b5aff 100%);
+  background: linear-gradient(135deg, rgba(74, 58, 255, 0.95) 0%, rgba(107, 90, 255, 0.95) 100%);
   padding: 3rem 2rem;
-  max-height: 0 !important;
-  overflow: hidden !important;
-  transition: max-height 0.3s ease-out;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
   z-index: 999;
+  opacity: 0;
 }
 
 .search-dropdown.open {
-  max-height: 400px !important;
+  max-height: 500px;
+  opacity: 1;
 }
 
 .search-container {
@@ -116,6 +124,32 @@ header {display: none !important;}
   color: #999;
 }
 
+.search-header {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-header .more-btn {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.search-header .more-btn:hover {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
 .search-tags {
   display: flex;
   flex-wrap: wrap;
@@ -133,7 +167,7 @@ header {display: none !important;}
 }
 
 .search-tag-pill:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.15);
 }
 
 /* ===== 나머지 섹션 ===== */
@@ -183,28 +217,6 @@ header {display: none !important;}
 }
 .more-btn:hover {
   background: #e5e5e5;
-}
-
-.tag-section {
-  padding-bottom: 7rem;
-}
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
-.tag-pill {
-  padding: 0.4rem 1.1rem;
-  border: 1px solid #4a3aff;
-  border-radius: 999px;
-  color: #4a3aff;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: background 0.15s, color 0.15s;
-}
-.tag-pill:hover {
-  background: #4a3aff;
-  color: #fff;
 }
 
 .post-section {
@@ -277,11 +289,11 @@ header {display: none !important;}
 
 @media (max-width: 600px) {
   .hero h1 { font-size: 2.4rem; }
+  .navbar-right {
+    gap: 1rem;
+  }
   .navbar-menu {
     display: none;
-  }
-  .top-navbar {
-    justify-content: space-between;
   }
 }
 </style>
@@ -290,14 +302,15 @@ header {display: none !important;}
 <nav class="top-navbar">
   <a href="{{ '/' | relative_url }}" class="navbar-logo">{{ site.title | default: 'zoohi\'s study' }}</a>
   
-  <ul class="navbar-menu">
-    <li><a href="{{ '/' | relative_url }}">Home</a></li>
-    <li><a href="{{ '/concept/' | relative_url }}">Concepts</a></li>
-    <li><a href="{{ '/trouble/' | relative_url }}">Troubleshooting</a></li>
-    <li><a href="{{ '/about/' | relative_url }}">About</a></li>
-  </ul>
-
-  <button class="search-btn" id="searchBtn">Search</button>
+  <div class="navbar-right">
+    <ul class="navbar-menu">
+      <li><a href="{{ '/' | relative_url }}">Home</a></li>
+      <li><a href="{{ '/concept/' | relative_url }}">Concepts</a></li>
+      <li><a href="{{ '/trouble/' | relative_url }}">Troubleshooting</a></li>
+      <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+    </ul>
+    <button class="search-btn" id="searchBtn">Search</button>
+  </div>
 </nav>
 
 <!-- 드롭다운 검색 섹션 -->
@@ -307,6 +320,11 @@ header {display: none !important;}
       <span>🔍</span>
       <input type="text" placeholder="관심 있는 태그를 검색하세요.">
       <button class="close-btn" id="closeBtn">✕</button>
+    </div>
+
+    <div class="search-header">
+      <span>Tags</span>
+      <a href="{{ '/tags/' | relative_url }}" class="more-btn">More →</a>
     </div>
 
     <div class="search-tags">
@@ -324,21 +342,6 @@ header {display: none !important;}
 </div>
 
 <div class="home-wrap">
-
-  {% if site.tags.size > 0 %}
-  <div class="tag-section">
-    <div class="section-head">
-      <h2>Tags</h2>
-      <a href="{{ '/tags/' | relative_url }}" class="more-btn">More →</a>
-    </div>
-    <div class="tag-list">
-      {% assign sorted_tags = site.tags | sort %}
-      {% for tag in sorted_tags limit: 12 %}
-        <a href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}" class="tag-pill">{{ tag[0] }}</a>
-      {% endfor %}
-    </div>
-  </div>
-  {% endif %}
 
   <div class="post-section">
     <div class="section-head">

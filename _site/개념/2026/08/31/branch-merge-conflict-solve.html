@@ -1,0 +1,128 @@
+<p>지난번에 브랜치를 만들고 merge로 합치는 것까지 배웠다.
+그런데 두 브랜치에서 <strong>같은 부분을 서로 다르게 고쳤다면</strong> 어떻게 될까?
+이번 글에서는 그 상황, 즉 <strong>충돌(conflict)</strong>이 생겼을 때 어떻게 해결하는지 정리해본다.</p>
+
+<h2 id="먼저-충돌이-없는-merge-복습">먼저, 충돌이 없는 merge 복습</h2>
+
+<p>브랜치는 원래 줄기에서 갈라져 나온 또 다른 줄기이고,
+merge는 그 갈라진 줄기를 다시 하나로 합치는 것이었다.</p>
+
+<pre><code class="language-mermaid">gitGraph
+    commit id: "main 기록1"
+    commit id: "main 기록2"
+    branch new-feature
+    commit id: "새 기능 작업1"
+    checkout main
+    merge new-feature
+</code></pre>
+
+<p>서로 <strong>다른 파일</strong>을 고쳤거나, 같은 파일이라도 <strong>다른 줄</strong>을 고쳤다면
+Git이 알아서 두 내용을 합쳐준다. 문제는 <strong>같은 파일의 같은 줄</strong>을 양쪽에서 다르게 고쳤을 때다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>명령어</th>
+      <th>언제 쓰나</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git branch [이름]</code></td>
+      <td>새로운 갈래(브랜치)를 만들고 싶을 때</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git checkout [이름]</code></td>
+      <td>만들어둔 브랜치로 옮겨가고 싶을 때</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git merge [브랜치이름]</code></td>
+      <td>다른 브랜치에서 작업한 내용을 지금 브랜치로 합치고 싶을 때</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="충돌은-왜-생길까">충돌은 왜 생길까</h2>
+
+<p>예를 들어 <code class="language-plaintext highlighter-rouge">main</code> 브랜치와 <code class="language-plaintext highlighter-rouge">new-feature</code> 브랜치에서 똑같이 <code class="language-plaintext highlighter-rouge">README.md</code>의 1번째 줄을 서로 다르게 고쳤다고 해보자.</p>
+
+<pre><code class="language-mermaid">flowchart TD
+    A[main: README.md 1번째 줄\n"안녕하세요"] --&gt; M{merge 시도}
+    B[new-feature: README.md 1번째 줄\n"반갑습니다"] --&gt; M
+    M --&gt;|같은 줄, 다른 내용| C[Git이 판단 못함\nCONFLICT 발생]
+</code></pre>
+
+<p>이럴 때 Git은 “둘 중 어느 걸 남길지 내가 정할 수 없으니, 사람이 직접 골라달라”고 멈춰선다.
+이게 바로 <strong>conflict(충돌)</strong>다.</p>
+
+<h2 id="충돌이-나면-화면에-보이는-것">충돌이 나면 화면에 보이는 것</h2>
+
+<p>merge를 실행했을 때 충돌이 나면, 파일 안에 이런 표시가 생긴다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+안녕하세요
+=======
+반갑습니다
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; new-feature
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> ~ <code class="language-plaintext highlighter-rouge">=======</code> 사이: 지금 내가 있는 브랜치(main)의 내용</li>
+  <li><code class="language-plaintext highlighter-rouge">=======</code> ~ <code class="language-plaintext highlighter-rouge">&gt;&gt;&gt;&gt;&gt;&gt;&gt; new-feature</code> 사이: 합치려고 했던 브랜치(new-feature)의 내용</li>
+</ul>
+
+<h2 id="충돌-해결하는-순서">충돌 해결하는 순서</h2>
+
+<pre><code class="language-mermaid">flowchart TD
+    A[git merge 실행] --&gt; B{충돌 표시가 있나?}
+    B --&gt;|없음| C[merge 완료]
+    B --&gt;|있음, CONFLICT| D[충돌난 파일을 직접 열어\n표시 기호를 지우고 원하는 내용만 남긴다]
+    D --&gt; E[git add 파일명\n고친 내용을 다시 스테이징]
+    E --&gt; F[git commit\nmerge를 마무리하는 커밋]
+    F --&gt; C
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>단계</th>
+      <th>명령어 / 작업</th>
+      <th>하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><code class="language-plaintext highlighter-rouge">git merge [브랜치이름]</code></td>
+      <td>두 브랜치를 합쳐본다</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>(직접 파일 수정)</td>
+      <td><code class="language-plaintext highlighter-rouge">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code class="language-plaintext highlighter-rouge">=======</code>, <code class="language-plaintext highlighter-rouge">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> 표시를 지우고 원하는 내용만 남긴다</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><code class="language-plaintext highlighter-rouge">git add [파일명]</code></td>
+      <td>충돌을 해결한 파일을 다시 스테이징한다</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><code class="language-plaintext highlighter-rouge">git commit</code></td>
+      <td>merge를 마무리하는 커밋을 남긴다</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>핵심은, <strong>충돌 표시 기호(<code class="language-plaintext highlighter-rouge">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code class="language-plaintext highlighter-rouge">=======</code>, <code class="language-plaintext highlighter-rouge">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>)는 Git이 남긴 안내선일 뿐,
+반드시 사람이 직접 지우고 최종 내용을 결정해야 한다</strong>는 점이다.</p>
+
+<h2 id="오늘-정리">오늘 정리</h2>
+
+<ul>
+  <li>merge는 두 브랜치를 합치는 것이고, 같은 부분을 다르게 고쳤을 때만 conflict가 난다.</li>
+  <li>conflict가 나면 Git이 파일 안에 두 내용을 함께 보여준다.</li>
+  <li>표시 기호를 지우고 원하는 내용을 남긴 뒤, <code class="language-plaintext highlighter-rouge">git add</code> → <code class="language-plaintext highlighter-rouge">git commit</code>으로 마무리하면 된다.</li>
+</ul>
+
+<p>다음에는 되돌리기(<code class="language-plaintext highlighter-rouge">git reset</code>, <code class="language-plaintext highlighter-rouge">git revert</code>)를 조금 더 깊게 다뤄보고 싶다.</p>

@@ -1,13 +1,9 @@
-# ─────────────────────────────────────────────
-#  기본 정보
-# ─────────────────────────────────────────────
 title: zoohi's study
-subtitle: 부트캠프에서 배운 것과 해결한 문제를 기록합니다
 description: 개발을 배우면서 정리하는 학습 기록
-
-url: "https://jhee0209.github.io"
+remote_theme: mmistakes/jekyll-theme-basically-basic@1.4.5
 baseurl: "/my-blog"
+url: "https://jhee0209.github.io"
 
+github_username: JHee0209
 author:
   name: zoohi
-  github: JHee0209

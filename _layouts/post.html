@@ -205,14 +205,24 @@ document.querySelectorAll('.post-content pre > code').forEach(function (code) {
 
 mermaid.initialize({
   startOnLoad: true,
-  theme: 'base',
+  theme: 'default',
+  curve: 'basis',
   themeVariables: {
-    primaryColor: '#f0eeff',
+    primaryColor: '#f5f0ff',
     primaryTextColor: '#333',
-    primaryBorderColor: '#4a3aff',
-    lineColor: '#8b7fff',
+    primaryBorderColor: '#b499ff',
+    lineColor: '#d4c5ff',
+    secondTextColor: '#555',
+    tertiaryColor: '#fff9f5',
+    tertiaryTextColor: '#333',
+    tertiaryBorderColor: '#f0c8d8',
     fontSize: '14px',
-    fontFamily: 'inherit'
+    fontFamily: 'inherit',
+    boxMargin: '8px',
+    nodeSpacing: '50px',
+    rankSpacing: '60px',
+    noteBkgColor: '#fffbf0',
+    noteBorderColor: '#f0b8b8'
   }
 });
 </script>

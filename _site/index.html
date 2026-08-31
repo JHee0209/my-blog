@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<!--
+    Basically Basic Jekyll Theme 1.4.5
+    Copyright 2017-2018 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/jekyll-theme-basically-basic/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+    <title>BLOG</title>
+    <meta name="description" content="개발을 배우면서 정리하는 학습 기록">
+    <link rel="canonical" href="http://localhost:4000/my-blog/">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/my-blog/assets/stylesheets/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,700">
+  
+
+  
+</head>
+
+
+  <body class="layout--home blog">
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+
+    <div class="sidebar-toggle-wrapper">
+      
+
+      <button class="toggle navicon-button larr" type="button">
+        <span class="toggle-inner">
+          <span class="sidebar-toggle-label visually-hidden">Menu</span>
+          <span class="navicon"></span>
+        </span>
+      </button>
+    </div>
+
+    <div id="sidebar" class="sidebar">
+      <div class="inner">
+        <nav id="primary-nav" class="site-nav" itemscope itemtype="http://schema.org/SiteNavigationElement" aria-label="Main navigation">
+  <ul id="menu-main-navigation" class="menu">
+    <!-- Home link -->
+    <li class="menu-item">
+      <a href="/my-blog/" itemprop="url">
+        <span itemprop="name">Home</span>
+      </a>
+    </li>
+
+    <!-- site.pages links -->
+    
+    
+
+    
+      
+      
+        <li class="menu-item">
+          <a href="/my-blog/concept/" itemprop="url">
+            <span itemprop="name">Concepts</span>
+          </a>
+        </li>
+      
+    
+      
+      
+        <li class="menu-item">
+          <a href="/my-blog/trouble/" itemprop="url">
+            <span itemprop="name">Problem Solving</span>
+          </a>
+        </li>
+      
+    
+  </ul>
+</nav>
+
+        <ul class="contact-list">
+  
+
+  
+    <li><a href="https://github.com/JHee0209">
+  <span class="icon icon--github"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C3.58 0 0 3.582 0 8c0 3.535 2.292 6.533 5.47 7.59.4.075.547-.172.547-.385 0-.19-.007-.693-.01-1.36-2.226.483-2.695-1.073-2.695-1.073-.364-.924-.89-1.17-.89-1.17-.725-.496.056-.486.056-.486.803.056 1.225.824 1.225.824.714 1.223 1.873.87 2.33.665.072-.517.278-.87.507-1.07-1.777-.2-3.644-.888-3.644-3.953 0-.873.31-1.587.823-2.147-.09-.202-.36-1.015.07-2.117 0 0 .67-.215 2.2.82.64-.178 1.32-.266 2-.27.68.004 1.36.092 2 .27 1.52-1.035 2.19-.82 2.19-.82.43 1.102.16 1.915.08 2.117.51.56.82 1.274.82 2.147 0 3.073-1.87 3.75-3.65 3.947.28.24.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.14.46.55.38C13.71 14.53 16 11.53 16 8c0-4.418-3.582-8-8-8"/></svg></span>
+  <span class="label">GitHub</span>
+</a>
+</li>
+  
+
+  
+
+  <li>
+    
+  </li>
+</ul>
+
+      </div>
+    </div>
+
+    <div class="canvas">
+      <div class="wrapper">
+        
+
+<header id="masthead">
+  <div class="inner">
+    <div class="title-area">
+      
+        <h1 class="site-title">
+          <a href="/my-blog/">
+            
+            <span>zoohi&#39;s study</span>
+          </a>
+        </h1>
+      
+    </div>
+  </div>
+</header>
+
+        <div class="initial-content">
+          <style>
+.home-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  text-align: left !important;
+}
+
+.hero {
+  text-align: center;
+  padding: 5rem 1rem 7rem;
+}
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin: 0 0 1rem;
+  letter-spacing: -0.02em;
+}
+.hero p {
+  font-size: 1.05rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.7;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 2.5rem;
+}
+.section-head h2 {
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin: 0;
+}
+.more-btn {
+  font-size: 0.85rem;
+  color: #333;
+  background: #f2f2f2;
+  border-radius: 8px;
+  padding: 0.45rem 0.9rem;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.more-btn:hover {
+  background: #e5e5e5;
+}
+
+.tag-section {
+  padding-bottom: 7rem;
+}
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.tag-pill {
+  padding: 0.4rem 1.1rem;
+  border: 1px solid #4a3aff;
+  border-radius: 999px;
+  color: #4a3aff;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.tag-pill:hover {
+  background: #4a3aff;
+  color: #fff;
+}
+
+.post-section {
+  padding-bottom: 5rem;
+}
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2.5rem;
+}
+.post-card {
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.post-card .cat {
+  margin-left: 0.5rem;
+  color: #4a3aff;
+  font-weight: 600;
+}
+
+.post-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  transform: translateY(-3px);
+}
+.post-card .date {
+  font-size: 0.8rem;
+  color: #999;
+}
+.post-card h3 {
+  font-size: 1.15rem;
+  margin: 0.5rem 0 0.8rem;
+  line-height: 1.4;
+}
+.post-card h3 a {
+  color: #222;
+  text-decoration: none;
+}
+.post-card h3 a:hover {
+  color: #4a3aff;
+}
+.post-card .excerpt {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 1rem;
+}
+.post-card .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.post-card .tags span {
+  font-size: 0.75rem;
+  color: #4a3aff;
+  background: #f0eeff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: 2.4rem; }
+}
+</style>
+
+<div class="hero">
+  <h1>BLOG</h1>
+  <p><p>안녕하세요! 부트캠프를 통해서 학습하고 배웠던 내용 정리, 해결했던 문제를 게시해 보겠습니다.</p>
+</p>
+</div>
+
+<div class="home-wrap">
+
+  
+  <div class="tag-section">
+    <div class="section-head">
+      <h2>Tags</h2>
+      <a href="/my-blog/tags/" class="more-btn">More →</a>
+    </div>
+    <div class="tag-list">
+      
+      
+        <a href="/my-blog/tags/#branch" class="tag-pill">branch</a>
+      
+        <a href="/my-blog/tags/#commit" class="tag-pill">commit</a>
+      
+        <a href="/my-blog/tags/#conflict" class="tag-pill">conflict</a>
+      
+        <a href="/my-blog/tags/#git" class="tag-pill">git</a>
+      
+        <a href="/my-blog/tags/#github" class="tag-pill">github</a>
+      
+        <a href="/my-blog/tags/#merge" class="tag-pill">merge</a>
+      
+        <a href="/my-blog/tags/#pull-request" class="tag-pill">pull-request</a>
+      
+        <a href="/my-blog/tags/#workflow" class="tag-pill">workflow</a>
+      
+        <a href="/my-blog/tags/#마크다운" class="tag-pill">마크다운</a>
+      
+        <a href="/my-blog/tags/#브랜치" class="tag-pill">브랜치</a>
+      
+        <a href="/my-blog/tags/#정리" class="tag-pill">정리</a>
+      
+    </div>
+  </div>
+  
+
+  <div class="post-section">
+    <div class="section-head">
+      <h2>Posts</h2>
+      
+      <a href="/my-blog/archive/" class="more-btn">More →</a>
+      
+    </div>
+    <div class="post-grid">
+      
+      <article class="post-card">
+        <div class="date">2026년 08월 31일
+            
+      <span class="cat">개념</span>
+    
+        </div>
+        <h3><a href="/my-blog/%EA%B0%9C%EB%85%90/2026/08/31/git-github-command-study.html">이번 주에 배운 Git·GitHub 명령어 정리</a></h3>
+        <p class="excerpt">이번 주에는 나만의 폴더를 버전 관리가 되는 저장소로 만들고,
+바꾼 내용을 기록하고, GitHub에 올리고 받아오는 법까지 배웠다.
+배운 순서대로 하나씩 정...</p>
+        
+        <div class="tags">
+          <span>git</span><span>github</span><span>정리</span>
+        </div>
+        
+      </article>
+      
+      <article class="post-card">
+        <div class="date">2026년 08월 31일
+            
+      <span class="cat">개념</span>
+    
+        </div>
+        <h3><a href="/my-blog/%EA%B0%9C%EB%85%90/2026/08/31/git-commit-push-pull-pr.html">혼자 하던 커밋을 팀 작업으로 — commit, push, pull, PR 정리</a></h3>
+        <p class="excerpt">
+  아래 예시는 실제 프로젝트가 아니라, 개념을 설명하기 위해 임의로 만든 예시 상황입니다.
+
+
+들어가며 (Situation)
+
+혼자 블로그 저장소에 gi...</p>
+        
+        <div class="tags">
+          <span>commit</span><span>pull-request</span>
+        </div>
+        
+      </article>
+      
+      <article class="post-card">
+        <div class="date">2026년 08월 31일
+            
+      <span class="cat">개념</span>
+    
+        </div>
+        <h3><a href="/my-blog/%EA%B0%9C%EB%85%90/2026/08/31/git-branch-strategy-comparison.html">잦은 merge 충돌 문제, 브랜치 전략 비교로 실마리 찾기</a></h3>
+        <p class="excerpt">들어가며 (Situation)
+
+팀원들과 함께하는 다른 프로젝트에서 Git을 사용하고 있었다.
+브랜치를 어떻게 쓸지에 대한 규칙은 따로 정하지 않은 채,
+그...</p>
+        
+        <div class="tags">
+          <span>branch</span><span>workflow</span><span>merge</span>
+        </div>
+        
+      </article>
+      
+      <article class="post-card">
+        <div class="date">2026년 08월 31일
+            
+      <span class="cat">개념</span>
+    
+        </div>
+        <h3><a href="/my-blog/%EA%B0%9C%EB%85%90/2026/08/31/git-branch-merge-guide.html">브랜치로 작업하고 Merge까지, 흐름과 방식 정리하기</a></h3>
+        <p class="excerpt">들어가며 (Situation)
+
+브랜치를 만들어서 작업하는 것까지는 익숙해졌지만,
+막상 git merge를 실행할 때마다 “지금 fast-forward인지,...</p>
+        
+        <div class="tags">
+          <span>branch</span><span>merge</span>
+        </div>
+        
+      </article>
+      
+      <article class="post-card">
+        <div class="date">2026년 08월 31일
+            
+      <span class="cat">개념</span>
+    
+        </div>
+        <h3><a href="/my-blog/%EA%B0%9C%EB%85%90/2026/08/31/branch-merge-conflict-solve.html">브랜치와 merge, 그리고 충돌(conflict) 해결하기</a></h3>
+        <p class="excerpt">지난번에 브랜치를 만들고 merge로 합치는 것까지 배웠다.
+그런데 두 브랜치에서 같은 부분을 서로 다르게 고쳤다면 어떻게 될까?
+이번 글에서는 그 상황, ...</p>
+        
+        <div class="tags">
+          <span>브랜치</span><span>merge</span><span>conflict</span>
+        </div>
+        
+      </article>
+      
+      <article class="post-card">
+        <div class="date">2026년 08월 28일
+            
+      <span class="cat">개념</span>
+    
+        </div>
+        <h3><a href="/my-blog/%EA%B0%9C%EB%85%90/2026/08/28/markdown.html">마크다운 문법 정리</a></h3>
+        <p class="excerpt">제목은 # 갯수로 단계를 만들 수 있다.
+
+# 갯수에 따라 글씨가 점점 작아진다.
+
+굵은 글씨 쓰거나 기울여 쓸 수 있다.
+
+순서가 없는 목록 만들기
+
+  ...</p>
+        
+        <div class="tags">
+          <span>마크다운</span>
+        </div>
+        
+      </article>
+      
+    </div>
+  </div>
+
+</div>
+        </div>
+
+        <div class="search-content">
+          <div class="inner">
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer id="footer" class="site-footer">
+  <div class="inner">
+    <div class="copyright">
+      
+        <p>&copy; 2026 zoohi's study.</p>
+      
+    </div>
+  </div>
+</footer>
+
+    
+
+<script async src="/my-blog/assets/javascripts/main.js"></script>
+
+
+
+
+  </body>
+
+</html>

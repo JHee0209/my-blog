@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<!--
+    Basically Basic Jekyll Theme 1.4.5
+    Copyright 2017-2018 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/jekyll-theme-basically-basic/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+    <title>이번 주에 배운 Git·GitHub 명령어 정리</title>
+    <meta name="description" content="이번 주에는 나만의 폴더를 버전 관리가 되는 저장소로 만들고, 바꾼 내용을 기록하고, GitHub에 올리고 받아오는 법까지 배웠다. 배운 순서대로 하나씩 정리해본다.">
+    <link rel="canonical" href="http://localhost:4000/my-blog/%EA%B0%9C%EB%85%90/2026/08/31/git-github-command-study.html">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/my-blog/assets/stylesheets/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,700">
+  
+
+  
+</head>
+
+
+  <body class="layout--post 이번-주에-배운-git-github-명령어-정리">
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+
+    <div class="sidebar-toggle-wrapper">
+      
+
+      <button class="toggle navicon-button larr" type="button">
+        <span class="toggle-inner">
+          <span class="sidebar-toggle-label visually-hidden">Menu</span>
+          <span class="navicon"></span>
+        </span>
+      </button>
+    </div>
+
+    <div id="sidebar" class="sidebar">
+      <div class="inner">
+        <nav id="primary-nav" class="site-nav" itemscope itemtype="http://schema.org/SiteNavigationElement" aria-label="Main navigation">
+  <ul id="menu-main-navigation" class="menu">
+    <!-- Home link -->
+    <li class="menu-item">
+      <a href="/my-blog/" itemprop="url">
+        <span itemprop="name">Home</span>
+      </a>
+    </li>
+
+    <!-- site.pages links -->
+    
+    
+
+    
+      
+      
+        <li class="menu-item">
+          <a href="/my-blog/concept/" itemprop="url">
+            <span itemprop="name">Concepts</span>
+          </a>
+        </li>
+      
+    
+      
+      
+        <li class="menu-item">
+          <a href="/my-blog/trouble/" itemprop="url">
+            <span itemprop="name">Problem Solving</span>
+          </a>
+        </li>
+      
+    
+  </ul>
+</nav>
+
+        <ul class="contact-list">
+  
+
+  
+    <li><a href="https://github.com/JHee0209">
+  <span class="icon icon--github"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C3.58 0 0 3.582 0 8c0 3.535 2.292 6.533 5.47 7.59.4.075.547-.172.547-.385 0-.19-.007-.693-.01-1.36-2.226.483-2.695-1.073-2.695-1.073-.364-.924-.89-1.17-.89-1.17-.725-.496.056-.486.056-.486.803.056 1.225.824 1.225.824.714 1.223 1.873.87 2.33.665.072-.517.278-.87.507-1.07-1.777-.2-3.644-.888-3.644-3.953 0-.873.31-1.587.823-2.147-.09-.202-.36-1.015.07-2.117 0 0 .67-.215 2.2.82.64-.178 1.32-.266 2-.27.68.004 1.36.092 2 .27 1.52-1.035 2.19-.82 2.19-.82.43 1.102.16 1.915.08 2.117.51.56.82 1.274.82 2.147 0 3.073-1.87 3.75-3.65 3.947.28.24.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.14.46.55.38C13.71 14.53 16 11.53 16 8c0-4.418-3.582-8-8-8"/></svg></span>
+  <span class="label">GitHub</span>
+</a>
+</li>
+  
+
+  
+
+  <li>
+    
+  </li>
+</ul>
+
+      </div>
+    </div>
+
+    <div class="canvas">
+      <div class="wrapper">
+        
+
+<header id="masthead">
+  <div class="inner">
+    <div class="title-area">
+      
+        <p class="site-title">
+          <a href="/my-blog/">
+            
+            <span>zoohi&#39;s study</span>
+          </a>
+        </p>
+      
+    </div>
+  </div>
+</header>
+
+        <div class="initial-content">
+          <header class="intro">
+  
+
+  <div class="inner">
+    <div class="intro-text">
+      <h1 id="page-title" class="intro-title">이번 주에 배운 Git·GitHub 명령어 정리
+</h1>
+      
+
+      
+        
+
+
+        <p class="entry-meta">
+          <span class="byline-item">by zoohi</span><span class="byline-item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="379 72 16 16"><g><g><path fill="none" d="M380.8,86.7h12.3v-8.8h-12.3V86.7z M389.5,78.8h1.7v1.4h-1.7V78.8z M389.5,81.3h1.7v1.4h-1.7V81.3z M389.5,83.8h1.7v1.4h-1.7V83.8z M386.1,78.8h1.7v1.4h-1.7V78.8z M386.1,81.3h1.7v1.4h-1.7V81.3z M386.1,83.8h1.7v1.4h-1.7V83.8z M382.8,78.8h1.7v1.4h-1.7V78.8z M382.8,81.3h1.7v1.4h-1.7V81.3z M382.8,83.8h1.7v1.4h-1.7V83.8z"/><polygon fill="none" points="384.7 75.1 383.4 75.1 383.4 74.3 380.8 74.3 380.8 76.6 393.2 76.6 393.2 74.3 390.6 74.3 390.6 75.1 389.3 75.1 389.3 74.3 384.7 74.3"/><rect x="382.8" y="78.8" width="1.7" height="1.4"/><rect x="386.1" y="78.8" width="1.7" height="1.4"/><rect x="389.5" y="78.8" width="1.7" height="1.4"/><rect x="382.8" y="81.3" width="1.7" height="1.4"/><rect x="386.1" y="81.3" width="1.7" height="1.4"/><rect x="389.5" y="81.3" width="1.7" height="1.4"/><rect x="382.8" y="83.8" width="1.7" height="1.4"/><rect x="386.1" y="83.8" width="1.7" height="1.4"/><rect x="389.5" y="83.8" width="1.7" height="1.4"/><path d="M383.4,72v1.1h-3.8V88h14.9V73.1h-3.8V72h-1.3v1.1h-4.7V72H383.4z M393.2,86.7h-12.3v-8.8h12.3L393.2,86.7L393.2,86.7z M389.3,74.3v0.8h1.3v-0.8h2.5v2.3h-12.3v-2.3h2.5v0.8h1.3v-0.8H389.3z"/></g></g></svg></span><time datetime="2026-08-31T00:00:00+09:00">August 31, 2026</time></span>
+        </p>
+      
+
+      
+
+      
+    </div>
+  </div>
+</header>
+
+
+<main id="main" class="page-content" aria-label="Content">
+  <div class="inner">
+    <article class="entry-wrap">
+      <div class="entry-content">
+        <p>이번 주에는 나만의 폴더를 <strong>버전 관리가 되는 저장소</strong>로 만들고,
+바꾼 내용을 기록하고, GitHub에 올리고 받아오는 법까지 배웠다.
+배운 순서대로 하나씩 정리해본다.</p>
+
+<h2 id="전체-그림부터-보기">전체 그림부터 보기</h2>
+
+<p>Git은 파일이 이동하는 “공간”이 여러 개 있다고 생각하면 이해가 쉽다.</p>
+
+<pre><code class="language-mermaid">flowchart LR
+    A[작업 폴더\n파일을 고치는 곳] -- 스테이징 --&gt; B[Staging Area\n커밋할 것을 모아두는 곳]
+    B -- 커밋 --&gt; C[Local Repository\n내 컴퓨터에 저장된 기록]
+    C -- push --&gt; D[GitHub\nRemote Repository]
+    D -- pull --&gt; C
+</code></pre>
+
+<p>이 그림 하나만 기억해도 오늘 배운 명령어가 어디서 쓰이는지 헷갈리지 않는다.</p>
+
+<h2 id="1-저장소-만들기">1. 저장소 만들기</h2>
+
+<p>저장소(Repository)는 “이 폴더의 변경 기록을 관리하겠다”고 Git에게 알려주는 것이다.
+새로 시작할 때와, 이미 있는 저장소를 가져올 때 쓰는 명령이 다르다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>명령어</th>
+      <th>언제 쓰나</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git init</code></td>
+      <td>지금 폴더를 새로운 저장소로 처음 만들고 싶을 때</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git clone [주소]</code></td>
+      <td>GitHub에 이미 있는 저장소를 내 컴퓨터로 통째로 가져오고 싶을 때</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="2-스테이징">2. 스테이징</h2>
+
+<p>파일을 고쳤다고 바로 기록(커밋)되는 것은 아니다.
+그중에서 <strong>이번 기록에 담을 것만 골라두는 단계</strong>가 스테이징이다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>명령어</th>
+      <th>언제 쓰나</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git add [파일명]</code></td>
+      <td>고친 파일 중 이번 커밋에 포함시킬 것을 고르고 싶을 때</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git add .</code></td>
+      <td>고친 파일을 전부 한 번에 담고 싶을 때</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="3-local-repository">3. Local Repository</h2>
+
+<p>Local Repository는 <strong>내 컴퓨터 안에만 있는 저장 기록 창고</strong>다.
+아직 GitHub에 올리기 전이라도, 커밋을 하면 이 창고 안에 기록이 남는다.</p>
+
+<ul>
+  <li>인터넷이 연결되어 있지 않아도 커밋하고 기록을 남길 수 있다.</li>
+  <li>push를 하기 전까지는 이 기록이 나만 볼 수 있는 상태다.</li>
+</ul>
+
+<h2 id="4-커밋">4. 커밋</h2>
+
+<p>스테이징에 담아둔 것을 <strong>한 덩어리의 기록</strong>으로 남기는 것이 커밋이다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>명령어</th>
+      <th>언제 쓰나</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git commit -m "메시지"</code></td>
+      <td>스테이징에 담은 내용을 하나의 기록으로 남기고 싶을 때</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>메시지를 남기는 이유는, 나중에 기록을 봤을 때 “이때 무엇을 왜 바꿨는지” 알아보기 위해서다.</p>
+
+<h2 id="5-브랜치">5. 브랜치</h2>
+
+<p>브랜치는 <strong>원래 기록 줄기에서 갈라져 나온 또 다른 줄기</strong>다.
+새로운 기능을 시도해보고 싶을 때, 원래 기록을 건드리지 않고 따로 작업할 수 있다.</p>
+
+<pre><code class="language-mermaid">gitGraph
+    commit id: "main 기록1"
+    commit id: "main 기록2"
+    branch new-feature
+    commit id: "새 기능 작업1"
+    commit id: "새 기능 작업2"
+    checkout main
+    merge new-feature
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th>명령어</th>
+      <th>언제 쓰나</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git branch [이름]</code></td>
+      <td>새로운 갈래(브랜치)를 만들고 싶을 때</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git checkout [이름]</code></td>
+      <td>만들어둔 브랜치로 옮겨가고 싶을 때</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git checkout -b [이름]</code></td>
+      <td>브랜치를 만들면서 바로 그 브랜치로 옮겨가고 싶을 때</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="6-push">6. push</h2>
+
+<p>push는 <strong>내 Local Repository의 기록을 GitHub로 올리는 것</strong>이다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>명령어</th>
+      <th>언제 쓰나</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git push</code></td>
+      <td>내 컴퓨터에만 있던 커밋 기록을 GitHub에도 반영하고 싶을 때</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="7-pull">7. pull</h2>
+
+<p>pull은 push의 반대다. <strong>GitHub에 있는 기록을 내 컴퓨터로 받아오는 것</strong>이다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>명령어</th>
+      <th>언제 쓰나</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git pull</code></td>
+      <td>다른 곳(다른 컴퓨터, 팀원)이 GitHub에 올린 최신 기록을 내 컴퓨터로 가져오고 싶을 때</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code class="language-mermaid">flowchart LR
+    Me[내 컴퓨터\nLocal Repository] -- push: 내 기록을 올린다 --&gt; GitHub[(GitHub)]
+    GitHub -- pull: 최신 기록을 받는다 --&gt; Me
+</code></pre>
+
+<h2 id="8-merge">8. merge</h2>
+
+<p>merge는 <strong>갈라졌던 브랜치를 다시 하나로 합치는 것</strong>이다.
+5번에서 만든 브랜치에서 작업을 끝냈다면, 원래 브랜치로 돌아와 merge로 합친다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>명령어</th>
+      <th>언제 쓰나</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git merge [브랜치이름]</code></td>
+      <td>다른 브랜치에서 작업한 내용을 지금 브랜치로 합치고 싶을 때</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="9-되돌리기">9. 되돌리기</h2>
+
+<p>기록을 잘못 남겼거나, 고친 내용을 없던 일로 하고 싶을 때 되돌리기를 쓴다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>명령어</th>
+      <th>언제 쓰나</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git reset [커밋]</code></td>
+      <td>잘못 남긴 커밋을 이전 상태로 되돌리고 싶을 때</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">git revert [커밋]</code></td>
+      <td>이전 커밋은 그대로 두고, 그 내용을 취소하는 새 커밋을 남기고 싶을 때</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>두 명령의 차이는, <code class="language-plaintext highlighter-rouge">reset</code>은 기록 자체를 지우고 되돌아가는 것이고
+<code class="language-plaintext highlighter-rouge">revert</code>는 기록은 남긴 채로 “취소했다”는 기록을 새로 추가하는 것이다.</p>
+
+<h2 id="이번-주-정리">이번 주 정리</h2>
+
+<pre><code class="language-mermaid">flowchart TD
+    A[git init / git clone\n저장소 만들기] --&gt; B[git add\n스테이징]
+    B --&gt; C[Local Repository]
+    C --&gt; D[git commit\n커밋]
+    D --&gt; E[git branch / git checkout -b\n브랜치]
+    E --&gt; F[git merge\n합치기]
+    F --&gt; G[git push\n올리기]
+    G --&gt; H[git pull\n받아오기]
+    D -.잘못됐을 때.-&gt; I[git reset / git revert\n되돌리기]
+</code></pre>
+
+<p>전체 흐름은 결국 <strong>“고치기 → 고른다 → 기록한다 → 나눠서 작업한다 → 합친다 → 올리고 받는다”</strong>로 이어진다.
+막히면 이 순서를 다시 떠올려보면 될 것 같다.</p>
+
+      </div>
+      
+    </article>
+  </div>
+</main>
+
+        </div>
+
+        <div class="search-content">
+          <div class="inner">
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer id="footer" class="site-footer">
+  <div class="inner">
+    <div class="copyright">
+      
+        <p>&copy; 2026 zoohi's study.</p>
+      
+    </div>
+  </div>
+</footer>
+
+    
+
+<script async src="/my-blog/assets/javascripts/main.js"></script>
+
+
+
+
+  </body>
+
+</html>

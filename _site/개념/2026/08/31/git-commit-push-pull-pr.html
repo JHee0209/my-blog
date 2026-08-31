@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<!--
+    Basically Basic Jekyll Theme 1.4.5
+    Copyright 2017-2018 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/jekyll-theme-basically-basic/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+    <title>혼자 하던 커밋을 팀 작업으로 — commit, push, pull, PR 정리</title>
+    <meta name="description" content="아래 예시는 실제 프로젝트가 아니라, 개념을 설명하기 위해 임의로 만든 예시 상황입니다.">
+    <link rel="canonical" href="http://localhost:4000/my-blog/%EA%B0%9C%EB%85%90/2026/08/31/git-commit-push-pull-pr.html">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/my-blog/assets/stylesheets/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,700">
+  
+
+  
+</head>
+
+
+  <body class="layout--post 혼자-하던-커밋을-팀-작업으로-commit-push-pull-pr-정리">
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+
+    <div class="sidebar-toggle-wrapper">
+      
+
+      <button class="toggle navicon-button larr" type="button">
+        <span class="toggle-inner">
+          <span class="sidebar-toggle-label visually-hidden">Menu</span>
+          <span class="navicon"></span>
+        </span>
+      </button>
+    </div>
+
+    <div id="sidebar" class="sidebar">
+      <div class="inner">
+        <nav id="primary-nav" class="site-nav" itemscope itemtype="http://schema.org/SiteNavigationElement" aria-label="Main navigation">
+  <ul id="menu-main-navigation" class="menu">
+    <!-- Home link -->
+    <li class="menu-item">
+      <a href="/my-blog/" itemprop="url">
+        <span itemprop="name">Home</span>
+      </a>
+    </li>
+
+    <!-- site.pages links -->
+    
+    
+
+    
+      
+      
+        <li class="menu-item">
+          <a href="/my-blog/concept/" itemprop="url">
+            <span itemprop="name">Concepts</span>
+          </a>
+        </li>
+      
+    
+      
+      
+        <li class="menu-item">
+          <a href="/my-blog/trouble/" itemprop="url">
+            <span itemprop="name">Problem Solving</span>
+          </a>
+        </li>
+      
+    
+  </ul>
+</nav>
+
+        <ul class="contact-list">
+  
+
+  
+    <li><a href="https://github.com/JHee0209">
+  <span class="icon icon--github"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C3.58 0 0 3.582 0 8c0 3.535 2.292 6.533 5.47 7.59.4.075.547-.172.547-.385 0-.19-.007-.693-.01-1.36-2.226.483-2.695-1.073-2.695-1.073-.364-.924-.89-1.17-.89-1.17-.725-.496.056-.486.056-.486.803.056 1.225.824 1.225.824.714 1.223 1.873.87 2.33.665.072-.517.278-.87.507-1.07-1.777-.2-3.644-.888-3.644-3.953 0-.873.31-1.587.823-2.147-.09-.202-.36-1.015.07-2.117 0 0 .67-.215 2.2.82.64-.178 1.32-.266 2-.27.68.004 1.36.092 2 .27 1.52-1.035 2.19-.82 2.19-.82.43 1.102.16 1.915.08 2.117.51.56.82 1.274.82 2.147 0 3.073-1.87 3.75-3.65 3.947.28.24.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.14.46.55.38C13.71 14.53 16 11.53 16 8c0-4.418-3.582-8-8-8"/></svg></span>
+  <span class="label">GitHub</span>
+</a>
+</li>
+  
+
+  
+
+  <li>
+    
+  </li>
+</ul>
+
+      </div>
+    </div>
+
+    <div class="canvas">
+      <div class="wrapper">
+        
+
+<header id="masthead">
+  <div class="inner">
+    <div class="title-area">
+      
+        <p class="site-title">
+          <a href="/my-blog/">
+            
+            <span>zoohi&#39;s study</span>
+          </a>
+        </p>
+      
+    </div>
+  </div>
+</header>
+
+        <div class="initial-content">
+          <header class="intro">
+  
+
+  <div class="inner">
+    <div class="intro-text">
+      <h1 id="page-title" class="intro-title">혼자 하던 커밋을 팀 작업으로 — commit, push, pull, PR 정리
+</h1>
+      
+
+      
+        
+
+
+        <p class="entry-meta">
+          <span class="byline-item">by zoohi</span><span class="byline-item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="379 72 16 16"><g><g><path fill="none" d="M380.8,86.7h12.3v-8.8h-12.3V86.7z M389.5,78.8h1.7v1.4h-1.7V78.8z M389.5,81.3h1.7v1.4h-1.7V81.3z M389.5,83.8h1.7v1.4h-1.7V83.8z M386.1,78.8h1.7v1.4h-1.7V78.8z M386.1,81.3h1.7v1.4h-1.7V81.3z M386.1,83.8h1.7v1.4h-1.7V83.8z M382.8,78.8h1.7v1.4h-1.7V78.8z M382.8,81.3h1.7v1.4h-1.7V81.3z M382.8,83.8h1.7v1.4h-1.7V83.8z"/><polygon fill="none" points="384.7 75.1 383.4 75.1 383.4 74.3 380.8 74.3 380.8 76.6 393.2 76.6 393.2 74.3 390.6 74.3 390.6 75.1 389.3 75.1 389.3 74.3 384.7 74.3"/><rect x="382.8" y="78.8" width="1.7" height="1.4"/><rect x="386.1" y="78.8" width="1.7" height="1.4"/><rect x="389.5" y="78.8" width="1.7" height="1.4"/><rect x="382.8" y="81.3" width="1.7" height="1.4"/><rect x="386.1" y="81.3" width="1.7" height="1.4"/><rect x="389.5" y="81.3" width="1.7" height="1.4"/><rect x="382.8" y="83.8" width="1.7" height="1.4"/><rect x="386.1" y="83.8" width="1.7" height="1.4"/><rect x="389.5" y="83.8" width="1.7" height="1.4"/><path d="M383.4,72v1.1h-3.8V88h14.9V73.1h-3.8V72h-1.3v1.1h-4.7V72H383.4z M393.2,86.7h-12.3v-8.8h12.3L393.2,86.7L393.2,86.7z M389.3,74.3v0.8h1.3v-0.8h2.5v2.3h-12.3v-2.3h2.5v0.8h1.3v-0.8H389.3z"/></g></g></svg></span><time datetime="2026-08-31T00:00:00+09:00">August 31, 2026</time></span>
+        </p>
+      
+
+      
+
+      
+    </div>
+  </div>
+</header>
+
+
+<main id="main" class="page-content" aria-label="Content">
+  <div class="inner">
+    <article class="entry-wrap">
+      <div class="entry-content">
+        <blockquote>
+  <p>아래 예시는 실제 프로젝트가 아니라, 개념을 설명하기 위해 임의로 만든 <strong>예시 상황</strong>입니다.</p>
+</blockquote>
+
+<h2 id="들어가며-situation">들어가며 (Situation)</h2>
+
+<p>혼자 블로그 저장소에 <code class="language-plaintext highlighter-rouge">git add</code> → <code class="language-plaintext highlighter-rouge">git commit</code> → <code class="language-plaintext highlighter-rouge">git push</code>만 반복하다가,
+“팀원이 생기면 이 순서만으로는 부족하다”는 걸 알게 됐다.
+예를 들어 두 명이 같은 저장소에서 각자 다른 기능을 작업한다고 가정해보자.</p>
+
+<ul>
+  <li>나는 <code class="language-plaintext highlighter-rouge">main</code> 브랜치에서 바로 작업하고 있었다.</li>
+  <li>팀원 A는 <code class="language-plaintext highlighter-rouge">feature/login</code> 브랜치에서 로그인 기능을 작업 중이다.</li>
+</ul>
+
+<p>이 상황에서 “언제 pull을 받아야 하는지”, “PR은 커밋·push와 뭐가 다른지”가 헷갈렸다.</p>
+
+<h2 id="문제-상황-task">문제 상황 (Task)</h2>
+
+<p>정리하고 싶었던 질문은 세 가지였다.</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">commit</code>과 <code class="language-plaintext highlighter-rouge">push</code>는 왜 단계가 나뉘어 있는가?</li>
+  <li><code class="language-plaintext highlighter-rouge">pull</code>을 안 하고 <code class="language-plaintext highlighter-rouge">push</code>하면 무슨 일이 생기는가?</li>
+  <li>GitHub에만 있는 <code class="language-plaintext highlighter-rouge">Pull Request(PR)</code>는 git 명령어(<code class="language-plaintext highlighter-rouge">commit</code>, <code class="language-plaintext highlighter-rouge">push</code>, <code class="language-plaintext highlighter-rouge">pull</code>)와 어떻게 다른가?</li>
+</ol>
+
+<h2 id="해결-과정-action">해결 과정 (Action)</h2>
+
+<h3 id="1-commit과-push는-별개의-단계다">1. commit과 push는 별개의 단계다</h3>
+
+<p><code class="language-plaintext highlighter-rouge">commit</code>은 <strong>내 컴퓨터 안(Local Repository)에만</strong> 기록을 남기는 것이고,
+<code class="language-plaintext highlighter-rouge">push</code>는 그 기록을 <strong>GitHub(Remote Repository)로 올리는 것</strong>이다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 예시 코드</span>
+git add index.md
+git commit <span class="nt">-m</span> <span class="s2">"소개 문단 수정"</span>   <span class="c"># 아직 내 컴퓨터에만 있는 기록</span>
+git push origin main             <span class="c"># 이제서야 GitHub에 반영됨</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>단계</th>
+      <th>어디에 기록이 남나</th>
+      <th>되돌리기 난이도</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">commit</code></td>
+      <td>내 컴퓨터(Local)</td>
+      <td>쉬움 (<code class="language-plaintext highlighter-rouge">git reset</code> 등으로 로컬에서만 조정 가능)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">push</code></td>
+      <td>GitHub(Remote)</td>
+      <td>어려움 (남들이 이미 받아갔을 수 있음)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>즉 <code class="language-plaintext highlighter-rouge">commit</code>을 여러 번 하다가 마지막에 한 번만 <code class="language-plaintext highlighter-rouge">push</code>해도 되고,
+아직 완성되지 않은 기록은 <code class="language-plaintext highlighter-rouge">push</code>하지 않고 로컬에만 둘 수도 있다.</p>
+
+<h3 id="2-pull-없이-push하면-충돌이-난다">2. pull 없이 push하면 충돌이 난다</h3>
+
+<p>팀원 A가 먼저 <code class="language-plaintext highlighter-rouge">feature/login</code>을 <code class="language-plaintext highlighter-rouge">main</code>에 merge하고 GitHub에 반영했는데,
+나는 그 사실을 모른 채 예전 <code class="language-plaintext highlighter-rouge">main</code> 상태에서 계속 작업하다 push하면 거부당한다.</p>
+
+<pre><code class="language-mermaid">sequenceDiagram
+    participant Me as 내 컴퓨터
+    participant GitHub as GitHub(main)
+    participant A as 팀원 A
+
+    A-&gt;&gt;GitHub: push (로그인 기능 반영)
+    Me-&gt;&gt;GitHub: push (예전 기록 기준)
+    GitHub--&gt;&gt;Me: 거부! 먼저 최신 기록을 받아가라
+    Me-&gt;&gt;GitHub: git pull
+    GitHub--&gt;&gt;Me: 팀원 A의 변경사항 받음
+    Me-&gt;&gt;GitHub: push (이제 정상 반영)
+</code></pre>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 예시 코드</span>
+git pull origin main   <span class="c"># 거부당했을 때, 최신 기록부터 받아온다</span>
+<span class="c"># 충돌(conflict)이 있으면 해결 후 다시 commit</span>
+git push origin main
+</code></pre></div></div>
+
+<p><strong>핵심</strong>: <code class="language-plaintext highlighter-rouge">push</code> 전에 <code class="language-plaintext highlighter-rouge">pull</code>을 먼저 하는 습관을 들이면, 뒤늦게 최신 기록과 부딪히는 상황을 줄일 수 있다.</p>
+
+<h3 id="3-pr은-합쳐도-되는지-검토받는-단계다">3. PR은 “합쳐도 되는지 검토받는 단계”다</h3>
+
+<p>여기서 헷갈렸던 부분이 풀렸다. <code class="language-plaintext highlighter-rouge">commit</code>·<code class="language-plaintext highlighter-rouge">push</code>·<code class="language-plaintext highlighter-rouge">pull</code>은 <strong>git 명령어</strong>이고,
+<code class="language-plaintext highlighter-rouge">Pull Request</code>는 <strong>GitHub이라는 서비스가 제공하는 기능</strong>이다.
+즉 git 자체에는 PR이라는 개념이 없다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>항목</th>
+      <th>commit / push / pull</th>
+      <th>Pull Request(PR)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>어디서 실행하나</td>
+      <td>터미널 (git 명령어)</td>
+      <td>GitHub 웹 화면</td>
+    </tr>
+    <tr>
+      <td>하는 일</td>
+      <td>기록을 남기고, 올리고, 받아온다</td>
+      <td>“이 브랜치를 main에 합쳐도 될지” 리뷰 요청</td>
+    </tr>
+    <tr>
+      <td>merge 시점</td>
+      <td>직접 <code class="language-plaintext highlighter-rouge">git merge</code>로 즉시 합쳐짐</td>
+      <td>리뷰·승인 후에 합쳐짐(버튼 클릭)</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code class="language-mermaid">flowchart LR
+    A[feature/login 브랜치에서 작업] --&gt; B[commit]
+    B --&gt; C[push origin feature/login]
+    C --&gt; D[GitHub에서 Pull Request 생성]
+    D --&gt; E{리뷰어 승인?}
+    E --&gt;|Yes| F[Merge 버튼 클릭 → main에 반영]
+    E --&gt;|No, 수정 요청| A
+</code></pre>
+
+<p>예시로, 팀원 A는 아래 순서로 작업했다고 가정할 수 있다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 예시 코드</span>
+git checkout <span class="nt">-b</span> feature/login
+<span class="c"># ... 코드 작성 ...</span>
+git add <span class="nb">.</span>
+git commit <span class="nt">-m</span> <span class="s2">"로그인 기능 추가"</span>
+git push origin feature/login
+</code></pre></div></div>
+
+<p>그 다음 GitHub 화면에서 <code class="language-plaintext highlighter-rouge">feature/login</code> → <code class="language-plaintext highlighter-rouge">main</code>으로 <strong>Pull Request</strong>를 만들고,
+리뷰어가 코드를 확인한 뒤 승인하면 그제서야 <code class="language-plaintext highlighter-rouge">main</code>에 merge된다.
+즉 PR은 “push까지 끝난 브랜치를 main에 바로 합치지 말고, 한 번 더 검토받자”는 절차다.</p>
+
+<h2 id="결과-result">결과 (Result)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>이전 이해</th>
+      <th>지금 이해</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>commit = push = 같은 것처럼 사용</td>
+      <td>commit(로컬 기록)과 push(원격 반영)는 분리된 단계</td>
+    </tr>
+    <tr>
+      <td>pull은 “필요할 때만” 하는 것</td>
+      <td>push 전에 pull부터 하는 게 기본 습관</td>
+    </tr>
+    <tr>
+      <td>PR도 그냥 git 명령어인 줄 알았음</td>
+      <td>PR은 GitHub의 리뷰·merge 절차이고, git 명령어에는 없는 개념</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>가장 크게 바뀐 습관은, 이제 <code class="language-plaintext highlighter-rouge">push</code> 하기 전에 반사적으로 <code class="language-plaintext highlighter-rouge">git pull</code>을 먼저 해보게 된 것이다.</p>
+
+<h2 id="더-학습하면-좋은-개념">더 학습하면 좋은 개념</h2>
+
+<ul>
+  <li><strong>git rebase</strong> — merge 말고 커밋 기록을 한 줄로 이어붙이는 방법. PR 전에 커밋을 정리할 때 자주 쓰인다.</li>
+  <li><strong>Merge conflict 해결</strong> — pull이나 merge 중 같은 줄을 서로 고쳤을 때 나는 충돌을 직접 손으로 고치는 법.</li>
+  <li><strong>Fork &amp; Pull Request</strong> — 내 저장소가 아닌 남의 오픈소스 저장소에 기여할 때는 clone이 아니라 fork를 먼저 한다.</li>
+  <li><strong>Code Review 관례</strong> — PR에 리뷰어를 지정하고, 코멘트를 주고받는 팀 협업 문화.</li>
+  <li><strong>CI(Continuous Integration)</strong> — PR을 올리면 자동으로 테스트가 돌아가게 만드는 구조. PR 승인 조건에 자주 포함된다.</li>
+</ul>
+
+<h2 id="참고-자료">참고 자료</h2>
+
+<ul>
+  <li><a href="https://git-scm.com/docs/git-push">Git 공식 문서 - git-push</a></li>
+  <li><a href="https://git-scm.com/docs/git-pull">Git 공식 문서 - git-pull</a></li>
+  <li><a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests">GitHub Docs - About pull requests</a></li>
+</ul>
+
+      </div>
+      
+    </article>
+  </div>
+</main>
+
+        </div>
+
+        <div class="search-content">
+          <div class="inner">
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer id="footer" class="site-footer">
+  <div class="inner">
+    <div class="copyright">
+      
+        <p>&copy; 2026 zoohi's study.</p>
+      
+    </div>
+  </div>
+</footer>
+
+    
+
+<script async src="/my-blog/assets/javascripts/main.js"></script>
+
+
+
+
+  </body>
+
+</html>

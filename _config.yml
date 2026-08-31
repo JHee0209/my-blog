@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 # ─────────────────────────────────────────────
 #  기본 정보
 # ─────────────────────────────────────────────
 title: zoohi's study
 subtitle: 부트캠프에서 배운 것과 해결한 문제를 기록합니다
+=======
+title: 학습 BLOG
+>>>>>>> parent of 4084445 (Merge pull request #4 from JHee0209/trying)
 description: 개발을 배우면서 정리하는 학습 기록
 
 url: "https://jhee0209.github.io"

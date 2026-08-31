@@ -1,12 +1,8 @@
-<<<<<<< HEAD
 # ─────────────────────────────────────────────
 #  기본 정보
 # ─────────────────────────────────────────────
 title: zoohi's study
 subtitle: 부트캠프에서 배운 것과 해결한 문제를 기록합니다
-=======
-title: 학습 BLOG
->>>>>>> parent of 4084445 (Merge pull request #4 from JHee0209/trying)
 description: 개발을 배우면서 정리하는 학습 기록
 
 url: "https://jhee0209.github.io"
@@ -15,68 +11,3 @@ baseurl: "/my-blog"
 author:
   name: zoohi
   github: JHee0209
-
-# ─────────────────────────────────────────────
-#  테마 설정 (직접 만든 테마라 여기만 바꾸면 됩니다)
-# ─────────────────────────────────────────────
-
-# skin: default  → 카카오 기술블로그 같은 깔끔한 느낌
-# skin: forest   → 동물의 숲 같은 따뜻하고 친근한 느낌
-skin: default
-
-# 누적 방문자 수. goatcounter.com 에서 만든 사이트 코드를 넣으세요.
-# 예) 주소가 zoohi-study.goatcounter.com 이면 → zoohi-study
-# 비워두면 방문자 수 영역이 아예 안 보입니다.
-goatcounter: ""
-
-# 댓글 (utterances). 공개 저장소 이름을 넣으면 켜집니다.
-comments:
-  repo: "" # 예) JHee0209/my-blog
-  issue_term: pathname
-  theme: github-light
-
-# 상단 메뉴
-nav:
-  - title: 개념
-    url: /concept/
-  - title: 트러블슈팅
-    url: /trouble/
-  - title: 태그
-    url: /tags/
-  - title: 전체 글
-    url: /archive/
-
-# ─────────────────────────────────────────────
-#  빌드 설정
-# ─────────────────────────────────────────────
-permalink: /posts/:title/
-timezone: Asia/Seoul
-
-defaults:
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: post
-      comments: true
-
-markdown: kramdown
-highlighter: rouge
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
-
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-sitemap
-
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - README.md
-  - SETUP.md
-  - CLAUDE.md
-  - vendor
-  - node_modules
-  - .jekyll-cache

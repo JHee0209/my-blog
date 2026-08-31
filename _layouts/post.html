@@ -25,13 +25,18 @@ layout: default
 
 .post-content h2 {
   font-size: 1.6rem; font-weight: 700; color: #222;
-  margin: 2.5rem 0 1rem;
+  margin: 3rem 0 1rem;
   border-left: 3px solid #4a3aff; padding-left: 1rem;
 }
 
 .post-content h3 {
   font-size: 1.2rem; font-weight: 600; color: #333;
-  margin: 2rem 0 0.8rem;
+  margin: 2.2rem 0 0.8rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.post-content h3::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: #4a3aff; flex-shrink: 0;
 }
 
 .post-content h4 {
@@ -41,10 +46,24 @@ layout: default
 
 .post-content p { margin: 0 0 1.3rem; }
 
-.post-content ul { margin: 1.3rem 0 1.3rem 1.8rem; list-style: disc; }
-.post-content ol { margin: 1.3rem 0 1.3rem 1.8rem; list-style: decimal; }
-.post-content li { margin-bottom: 0.5rem; }
-.post-content li > ul, .post-content li > ol { margin-top: 0.5rem; margin-bottom: 0; }
+/* 강조 — 형광펜 */
+.post-content strong {
+  font-weight: 700; color: #222;
+  background: linear-gradient(transparent 62%, #e8e5ff 62%);
+  padding: 0 0.1rem;
+}
+
+.post-content ul { margin: 1.3rem 0; padding-left: 0; list-style: none; }
+.post-content ul > li {
+  position: relative; padding-left: 1.3rem; margin-bottom: 0.6rem;
+}
+.post-content ul > li::before {
+  content: ""; position: absolute; left: 0.3rem; top: 0.75rem;
+  width: 5px; height: 5px; border-radius: 50%; background: #4a3aff;
+}
+.post-content ol { margin: 1.3rem 0 1.3rem 1.6rem; }
+.post-content ol > li { margin-bottom: 0.6rem; padding-left: 0.3rem; }
+.post-content li > ul, .post-content li > ol { margin: 0.6rem 0 0; }
 
 /* 인라인 코드 */
 .post-content :not(pre) > code {
@@ -55,14 +74,15 @@ layout: default
 
 /* ===== 코드 블록 ===== */
 .code-block {
-  position: relative; margin: 1.5rem 0;
-  border: 1px solid #e5e5e5; border-radius: 6px; overflow: hidden;
+  position: relative; margin: 1.8rem 0;
+  border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden;
 }
 .code-bar {
-  display: flex; align-items: center; justify-content: flex-end;
-  padding: 0.5rem 0.8rem;
-  background: #f0f0f0; border-bottom: 1px solid #e5e5e5;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.5rem 0.9rem;
+  background: #f7f7f7; border-bottom: 1px solid #e5e5e5;
 }
+.code-lang { font-size: 0.72rem; color: #aaa; font-weight: 600; letter-spacing: 0.04em; }
 .copy-btn {
   background: #fff; color: #666; border: 1px solid #ddd;
   padding: 0.25rem 0.7rem; border-radius: 4px;
@@ -72,49 +92,57 @@ layout: default
 .copy-btn:hover { background: #4a3aff; color: #fff; border-color: #4a3aff; }
 .copy-btn.done { background: #4a3aff; color: #fff; border-color: #4a3aff; }
 
-.code-block pre {
-  margin: 0; padding: 1.2rem; overflow-x: auto;
-  background: #f8f8f8;
-}
+.code-block pre { margin: 0; padding: 1.2rem; overflow-x: auto; background: #fafafa; }
 .code-block pre code {
   background: none; padding: 0; color: #333;
   font-family: 'Courier New', monospace;
-  font-size: 0.88rem; line-height: 1.7;
+  font-size: 0.88rem; line-height: 1.8;
 }
 
+/* ===== Mermaid 다이어그램 ===== */
+.mermaid {
+  margin: 2rem 0; padding: 1.8rem 1rem;
+  background: #fafaff; border: 1px solid #ececf8; border-radius: 8px;
+  text-align: center; overflow-x: auto;
+}
+.mermaid svg { max-width: 100%; height: auto; }
+
+/* ===== 인용문 ===== */
 .post-content blockquote {
-  border-left: 3px solid #e5e5e5; background: #fafafa;
-  margin: 1.5rem 0; padding: 0.8rem 1.2rem; border-radius: 4px;
-  color: #666;
+  border-left: 3px solid #4a3aff; background: #f8f8ff;
+  margin: 1.8rem 0; padding: 1rem 1.3rem; border-radius: 0 6px 6px 0;
+  color: #555;
 }
 .post-content blockquote p:last-child { margin-bottom: 0; }
 
 .post-content a {
   color: #4a3aff; text-decoration: none;
-  border-bottom: 1px solid #4a3aff; transition: color 0.2s;
+  border-bottom: 1px solid rgba(74,58,255,0.35); transition: border-color 0.2s;
 }
-.post-content a:hover { color: #3a2acc; }
+.post-content a:hover { border-bottom-color: #4a3aff; }
 
-.post-content img {
-  max-width: 100%; height: auto;
-  margin: 1.5rem 0; border-radius: 6px;
-}
+.post-content img { max-width: 100%; height: auto; margin: 1.8rem 0; border-radius: 6px; }
 
 .post-content table {
   width: 100%; border-collapse: collapse;
-  margin: 1.5rem 0; font-size: 0.95rem;
+  margin: 1.8rem 0; font-size: 0.93rem;
 }
 .post-content th, .post-content td {
-  padding: 0.8rem; border: 1px solid #ddd; text-align: left;
+  padding: 0.75rem 1rem; border-bottom: 1px solid #eee; text-align: left;
 }
-.post-content th { background: #f5f5f5; font-weight: 600; }
-.post-content tr:hover { background: #fafafa; }
+.post-content th { background: #fafafa; font-weight: 700; border-bottom: 2px solid #e5e5e5; }
+.post-content tbody tr:hover { background: #fcfcff; }
 
-.post-content hr { border: none; height: 1px; background: #e5e5e5; margin: 2rem 0; }
+/* 구분선 */
+.post-content hr {
+  border: none; height: 1px;
+  background: linear-gradient(to right, transparent, #ddd, transparent);
+  margin: 3rem 0;
+}
 
 /* ===== 태그 ===== */
 .post-tags {
-  margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e5e5e5;
+  margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #e5e5e5;
   display: flex; flex-wrap: wrap; gap: 0.6rem;
 }
 .post-tag {
@@ -129,6 +157,7 @@ layout: default
   .post-content h2 { font-size: 1.3rem; }
   .post-content h3 { font-size: 1.1rem; }
   .code-block pre { padding: 1rem; }
+  .mermaid { padding: 1.2rem 0.5rem; }
 }
 </style>
 
@@ -157,14 +186,57 @@ layout: default
   {% endif %}
 </div>
 
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+// mermaid 코드 블록을 <div class="mermaid">로 변환
+document.querySelectorAll('.post-content pre > code').forEach(function (code) {
+  var isMermaid =
+    code.classList.contains('language-mermaid') ||
+    code.classList.contains('mermaid');
+
+  if (!isMermaid) return;
+
+  var div = document.createElement('div');
+  div.className = 'mermaid';
+  div.textContent = code.textContent;
+  code.parentNode.replaceWith(div);
+});
+
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  themeVariables: {
+    primaryColor: '#f0eeff',
+    primaryTextColor: '#333',
+    primaryBorderColor: '#4a3aff',
+    lineColor: '#8b7fff',
+    fontSize: '14px',
+    fontFamily: 'inherit'
+  }
+});
+</script>
+
 <script>
+// 코드 복사 버튼 (mermaid 블록은 제외)
 document.querySelectorAll('.post-content pre').forEach(function (pre) {
+  if (pre.querySelector('.mermaid')) return;
+
+  var code = pre.querySelector('code');
+  var lang = '';
+  if (code) {
+    var m = code.className.match(/language-(\w+)/);
+    if (m) lang = m[1].toUpperCase();
+  }
+
   var wrap = document.createElement('div');
   wrap.className = 'code-block';
 
   var bar = document.createElement('div');
   bar.className = 'code-bar';
-  bar.innerHTML = '<button class="copy-btn" type="button">복사</button>';
+  bar.innerHTML =
+    '<span class="code-lang">' + lang + '</span>' +
+    '<button class="copy-btn" type="button">복사</button>';
 
   pre.parentNode.insertBefore(wrap, pre);
   wrap.appendChild(bar);

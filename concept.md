@@ -1,6 +1,6 @@
 ---
 layout: category
-title: 개념 정리
+title: Concepts
 permalink: /concept/
 taxonomy: 개념
 ---

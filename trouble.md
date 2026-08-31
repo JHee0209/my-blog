@@ -1,6 +1,6 @@
 ---
 layout: category
-title: 문제 해결
+title: Problem Solving
 permalink: /trouble/
 taxonomy: 문제해결
 ---

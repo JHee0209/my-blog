@@ -1,0 +1,28 @@
+---
+layout: default
+---
+
+<div class="page-head">
+  <div class="wrap wrap-narrow">
+    <h1>{{ page.title }}</h1>
+    <p class="count">지금까지 쓴 글 {{ site.posts.size }}개</p>
+  </div>
+</div>
+
+<div class="wrap wrap-narrow block">
+  {% assign years = site.posts | group_by_exp: "p", "p.date | date: '%Y'" %}
+  {% for year in years %}
+  <section class="year">
+    <h2 class="year-mark">{{ year.name }}</h2>
+    <ul class="year-list">
+      {% for post in year.items %}
+      <li>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%m.%d" }}</time>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        {%- if post.categories.first %}<span class="chip">{{ site.data.categories[post.categories.first] | default: post.categories.first }}</span>{% endif -%}
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+</div>

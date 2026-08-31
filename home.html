@@ -1,0 +1,51 @@
+---
+layout: default
+---
+
+<section class="hero">
+  <div class="wrap">
+    <h1 class="hero-title">{{ page.title | default: site.title }}</h1>
+    <div class="hero-sub">{{ content }}</div>
+    {% include heatmap.html %}
+  </div>
+</section>
+
+{% if site.tags.size > 0 %}
+<section class="block">
+  <div class="wrap">
+    <div class="block-head">
+      <h2>태그</h2>
+      <a class="ghost-btn" href="{{ '/tags/' | relative_url }}">전체 보기</a>
+    </div>
+    <div class="tag-list">
+      {% assign sorted_tags = site.tags | sort %}
+      {% for tag in sorted_tags limit: 14 %}
+      <a class="pill" href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}">
+        {{ tag[0] }}<b>{{ tag[1].size }}</b>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="block">
+  <div class="wrap">
+    <div class="block-head">
+      <h2>최근 글</h2>
+      {% if site.posts.size > 6 %}
+      <a class="ghost-btn" href="{{ '/archive/' | relative_url }}">전체 보기</a>
+      {% endif %}
+    </div>
+
+    {% if site.posts.size == 0 %}
+    <p class="empty">아직 글이 없습니다. <code>_posts</code> 폴더에 <code>2026-08-31-첫글.md</code> 형식으로 파일을 만들어 보세요.</p>
+    {% else %}
+    <div class="card-grid">
+      {% for post in site.posts limit: 6 %}
+        {% include post-card.html post=post %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>

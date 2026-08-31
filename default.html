@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ko" data-skin="{{ site.skin | default: 'default' }}">
+{% include head.html %}
+<body>
+  <a class="skip" href="#content">본문으로 건너뛰기</a>
+  {% include header.html %}
+  <main id="content">
+    {{ content }}
+  </main>
+  {% include footer.html %}
+  <script src="{{ '/assets/js/blog.js' | relative_url }}" defer></script>
+</body>
+</html>

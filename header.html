@@ -1,0 +1,16 @@
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+      <em class="sr-only">메뉴 열기</em>
+    </button>
+
+    <nav class="nav" id="site-nav">
+      {% for item in site.nav %}
+      <a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.title }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</header>

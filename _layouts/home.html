@@ -74,11 +74,10 @@ layout: default
 </div>
 
 <div class="home-wrap">
-  {% include calendar.html %}
+    {% include timeline.html limit=3 direction="horizontal" more=true %}
 
   <hr class="home-divider">
-
-  {% include timeline.html limit=3 direction="horizontal" more=true %}
+  {% include calendar.html %}
 </div>
 
 {% if site.blog_start %}

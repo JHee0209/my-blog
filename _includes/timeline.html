@@ -64,6 +64,17 @@
   line-height: 1.5;
   transition: color 0.18s;
 }
+
+.timeline.is-horizontal .tl-link {
+  align-items: flex-start;
+}
+.timeline.is-horizontal .tl-link > span:last-child {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .tl-link:hover,
 .tl-link:focus-visible { color: #4a3aff; outline: none; }
 .tl-link .tl-cat {

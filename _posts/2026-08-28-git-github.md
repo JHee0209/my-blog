@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "2026-08-28 Git 개념 정리"
+title: "08-28 Git 개념 정리"
 date: 2026-08-28
 categories: [개념]
 tags: [git]

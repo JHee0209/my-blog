@@ -3,12 +3,10 @@ description: 개발을 배우면서 정리하는 학습 기록
 remote_theme: mmistakes/jekyll-theme-basically-basic@1.4.5
 baseurl: "/my-blog"
 url: "https://jhee0209.github.io"
-bootcamp_start: 2026-08-24
 
-week_titles:
-  1: 개발 환경과 기초 문법
-  3: Git과 협업 흐름
-  
+bootcamp_start: 2026-08-24   # 주차 계산 기준 (그 주 월요일)
+blog_start: 2026-08-26       # 실제 시작일, 일수 계산용
+
 github_username: JHee0209
 author:
   name: zoohi

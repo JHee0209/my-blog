@@ -64,7 +64,7 @@ layout: default
   <h1>{{ page.title }}</h1>
   <p>{{ content }}</p>
 
-  {% if site.bootcamp_start %}
+  {% if site.blog_start %}
   <div class="hero-meta">
     <span><strong id="dayCount">–</strong>일째</span>
     <span class="sep">·</span>
@@ -81,12 +81,12 @@ layout: default
   {% include timeline.html limit=3 direction="horizontal" more=true %}
 </div>
 
-{% if site.bootcamp_start %}
+{% if site.blog_start %}
 <script>
 (function () {
   var el = document.getElementById('dayCount');
   if (!el) return;
-  var start = new Date("{{ site.bootcamp_start | date: '%Y-%m-%d' }}T00:00:00");
+  var start = new Date("{{ site.blog_start | date: '%Y-%m-%d' }}T00:00:00");
   var today = new Date();
   today.setHours(0, 0, 0, 0);
   var days = Math.floor((today - start) / 86400000) + 1;

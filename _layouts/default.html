@@ -74,7 +74,7 @@
       color: #6b6b7b;
       border: 1px solid #e6e6ef;
       border-radius: 999px;
-      padding: 0.42rem 0.5rem 0.42rem 0.85rem;
+      padding: 0.45rem 1rem;
       cursor: pointer;
       font-family: inherit;
       font-size: 0.85rem;
@@ -97,45 +97,9 @@
       height: 15px;
     }
 
-    .search-btn .btn-kbd {
-      font-family: inherit;
-      font-size: 0.68rem;
-      color: #a0a0b0;
-      background: #fff;
-      border: 1px solid #e6e6ef;
-      border-radius: 5px;
-      padding: 0.12rem 0.34rem;
-      transition: inherit;
-    }
-
-    .search-btn:hover .btn-kbd,
-    .search-btn:focus-visible .btn-kbd {
-      color: #4a3aff;
-      background: rgba(74, 58, 255, 0.07);
-      border-color: rgba(74, 58, 255, 0.2);
-    }
-
-    /* 드롭다운이 열린 상태 */
-    .search-btn.is-open {
-      background: #4a3aff;
-      border-color: #4a3aff;
-      color: #fff;
-      box-shadow: none;
-    }
-
-    .search-btn.is-open .btn-kbd {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.18);
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-
     .search-btn .icon-close { display: none; }
     .search-btn.is-open .icon-search { display: none; }
     .search-btn.is-open .icon-close { display: block; }
-
-    @media (max-width: 600px) {
-      .search-btn .btn-kbd { display: none; }
-    }
 
     /* ===== 드롭다운 검색 섹션 ===== */
     .search-dropdown {
@@ -330,7 +294,6 @@
           <line x1="18" y1="6" x2="6" y2="18"></line>
         </svg>
         <span id="searchBtnLabel">Search</span>
-        <span class="btn-kbd" id="searchBtnKbd">⌘K</span>
       </button>
     </div>
   </nav>
@@ -382,18 +345,13 @@
   var empty = document.getElementById('searchEmpty');
   var pills = Array.prototype.slice.call(document.querySelectorAll('.search-tag-pill'));
   var label = document.getElementById('searchBtnLabel');
-  var kbd = document.getElementById('searchBtnKbd');
   var searchUrl = "{{ '/search/' | relative_url }}";
-  var isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
-
-  kbd.textContent = isMac ? '⌘K' : 'Ctrl K';
 
   function open() {
     dropdown.classList.add('open');
     searchBtn.classList.add('is-open');
     searchBtn.setAttribute('aria-expanded', 'true');
     label.textContent = 'Close';
-    kbd.textContent = 'esc';
     input.focus();
   }
 
@@ -402,7 +360,6 @@
     searchBtn.classList.remove('is-open');
     searchBtn.setAttribute('aria-expanded', 'false');
     label.textContent = 'Search';
-    kbd.textContent = isMac ? '⌘K' : 'Ctrl K';
   }
 
   function submit() {
@@ -437,13 +394,6 @@
 
   document.addEventListener('click', function (e) {
     if (!e.target.closest('.nav-wrap')) close();
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-      e.preventDefault();
-      dropdown.classList.contains('open') ? close() : open();
-    }
   });
 })();
 </script>

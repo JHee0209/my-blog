@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "이번 주에 배운 Git·GitHub 명령어 정리"
+title: "2026-08-31 Git·GitHub 명령어 정리"
 date: 2026-08-31
 categories: [개념]
-tags: [git, github, 정리]
+tags: [git, github]
 ---
 
 이번 주에는 나만의 폴더를 **버전 관리가 되는 저장소**로 만들고,

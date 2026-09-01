@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "브랜치와 merge, 그리고 충돌(conflict) 해결하기"
+title: "브랜치와 merge, 그리고 충돌 해결"
 date: 2026-08-31
 categories: [개념]
-tags: [브랜치, merge, conflict]
+tags: [branch, merge, conflict]
 ---
 
 지난번에 브랜치를 만들고 merge로 합치는 것까지 배웠다.

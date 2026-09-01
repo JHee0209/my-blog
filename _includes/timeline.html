@@ -1,0 +1,172 @@
+<style>
+.tl-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.6rem;
+}
+.tl-head h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin: 0;
+  color: #111;
+}
+.tl-head .tl-sub {
+  font-size: 0.8rem;
+  color: #9a9aa8;
+}
+.tl-head .tl-more {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: #333;
+  background: #f2f2f2;
+  border-radius: 8px;
+  padding: 0.45rem 0.9rem;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.tl-head .tl-more:hover { background: #e5e5e5; }
+
+.tl-item {
+  position: relative;
+  padding-left: 1.8rem;
+  padding-bottom: 2rem;
+  border-left: 2px solid #ececf1;
+}
+.tl-item:last-child {
+  border-left-color: transparent;
+  padding-bottom: 0;
+}
+
+.tl-dot {
+  position: absolute;
+  left: -6px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #d5d5e0;
+}
+.tl-item.is-current .tl-dot {
+  left: -7px;
+  width: 12px;
+  height: 12px;
+  background: #4a3aff;
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(74, 58, 255, 0.18);
+}
+
+.tl-meta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+.tl-week {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #8a8a9a;
+  background: #f4f4f7;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+}
+.tl-item.is-current .tl-week {
+  color: #4a3aff;
+  background: #f0eeff;
+}
+.tl-date { font-size: 0.75rem; color: #c9c9d2; }
+.tl-item.is-current .tl-date { color: #b4b4c0; }
+
+.tl-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.tl-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #333;
+  text-decoration: none;
+  line-height: 1.5;
+  transition: color 0.18s;
+}
+.tl-link:hover,
+.tl-link:focus-visible { color: #4a3aff; outline: none; }
+.tl-link .tl-cat {
+  flex: none;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #4a3aff;
+  background: #f0eeff;
+  border-radius: 4px;
+  padding: 0.15rem 0.45rem;
+}
+
+@media (max-width: 600px) {
+  .tl-head { flex-wrap: wrap; gap: 0.5rem 1rem; }
+  .tl-head .tl-more { margin-left: 0; }
+}
+</style>
+
+{% if site.bootcamp_start and site.posts.size > 0 %}
+
+  {% assign start = site.bootcamp_start | date: "%s" | plus: 0 %}
+  {% assign rows = "" | split: "" %}
+  {% for post in site.posts %}
+    {% assign elapsed = post.date | date: "%s" | plus: 0 | minus: start %}
+    {% if elapsed < 0 %}{% assign elapsed = 0 %}{% endif %}
+    {% assign wk = elapsed | divided_by: 604800 | plus: 1 %}
+    {% assign key = wk | prepend: "000" | slice: -3, 3 %}
+    {% assign rows = rows | push: key %}
+  {% endfor %}
+
+  {% assign week_keys = rows | uniq | sort | reverse %}
+  {% assign limit = include.limit | default: week_keys.size | plus: 0 %}
+
+  <div class="tl-head">
+    <h2>{{ include.title | default: "학습 흐름" }}</h2>
+    <span class="tl-sub">{{ include.subtitle | default: "주차별로 무엇을 배웠는지 기록합니다." }}</span>
+    {% if include.more and week_keys.size > limit %}
+      <a href="{{ '/timeline/' | relative_url }}" class="tl-more">More →</a>
+    {% endif %}
+  </div>
+
+  <div class="timeline">
+    {% for key in week_keys limit: limit %}
+      {% assign wk_num = key | plus: 0 %}
+      <div class="tl-item{% if forloop.first %} is-current{% endif %}">
+        <span class="tl-dot"></span>
+
+        {% assign newest = nil %}
+        {% for post in site.posts %}
+          {% if rows[forloop.index0] == key and newest == nil %}
+            {% assign newest = post %}
+          {% endif %}
+        {% endfor %}
+
+        <div class="tl-meta">
+          <span class="tl-week">Week {{ wk_num }}</span>
+          <span class="tl-date">{{ newest.date | date: "%Y.%m.%d" }}</span>
+        </div>
+
+        <div class="tl-links">
+          {% for post in site.posts %}
+            {% if rows[forloop.index0] == key %}
+              <a class="tl-link" href="{{ post.url | relative_url }}">
+                {% if post.categories.size > 0 %}
+                <span class="tl-cat">{{ post.categories.first }}</span>
+                {% endif %}
+                <span>{{ post.title }}</span>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endif %}

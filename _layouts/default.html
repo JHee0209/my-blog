@@ -1,36 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ page.title }} - {{ site.title }}</title>
- 
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      color: #1a1a2e;
     }
-    /* ===== 커스텀 상단바 ===== */
-    .top-navbar {
+
+    /* ===== 상단바 래퍼 (드롭다운의 위치 기준) ===== */
+    .nav-wrap {
       position: sticky;
       top: 0;
+      z-index: 1000;
+    }
+
+    .top-navbar {
+      position: relative;
       background: #fff;
       border-bottom: 1px solid #e5e5e5;
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 1000;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
     .navbar-logo {
-        font-size: 1.1rem;
-        font-weight: 600 !important;
-        color: #222;
-        text-decoration: none;
-        white-space: nowrap;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif !important;
+      font-size: 1.1rem;
+      font-weight: 600 !important;
+      color: #222;
+      text-decoration: none;
+      white-space: nowrap;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif !important;
     }
 
     .navbar-right {
@@ -76,151 +83,221 @@
 
     /* ===== 드롭다운 검색 섹션 ===== */
     .search-dropdown {
-      position: fixed;
-      top: 60px;
+      position: absolute;
+      top: 100%;
       left: 0;
       right: 0;
-      background: linear-gradient(135deg, rgba(74, 58, 255) 0%, rgba(107, 90, 255) 100%);
-      padding: 3rem 2rem;
+      background: #fff;
+      border-bottom: 1px solid #ececf1;
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
-      z-index: 999;
       opacity: 0;
+      pointer-events: none;
+      transition: max-height 0.35s ease, opacity 0.25s ease;
     }
 
     .search-dropdown.open {
-      max-height: 500px;
+      max-height: 70vh;
       opacity: 1;
+      pointer-events: auto;
+      box-shadow: 0 14px 30px rgba(20, 20, 40, 0.08);
     }
 
     .search-container {
       max-width: 1200px;
       margin: 0 auto;
+      padding: 2rem 2rem 2.5rem;
     }
 
     .search-input-wrapper {
       display: flex;
       align-items: center;
-      background: #fff;
-      border-radius: 25px;
-      padding: 0.5rem 1.5rem;
+      gap: 0.6rem;
+      background: #f6f6f9;
+      border: 1px solid #e6e6ef;
+      border-radius: 14px;
+      padding: 0.55rem 1rem;
       margin-bottom: 2rem;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .search-input-wrapper:focus-within {
+      background: #fff;
+      border-color: #4a3aff;
+      box-shadow: 0 0 0 3px rgba(74, 58, 255, 0.12);
+    }
+
+    .search-input-wrapper .search-icon {
+      flex: none;
+      width: 18px;
+      height: 18px;
+      color: #9a9aa8;
     }
 
     .search-input-wrapper input {
       flex: 1;
+      min-width: 0;
       border: none;
       outline: none;
+      background: transparent;
       font-size: 1rem;
-      padding: 0.5rem;
+      font-family: inherit;
+      color: #222;
+      padding: 0.35rem 0;
+    }
+
+    .search-input-wrapper input::placeholder {
+      color: #9a9aa8;
     }
 
     .search-input-wrapper .close-btn {
+      flex: none;
+      display: flex;
+      align-items: center;
       background: none;
       border: none;
-      font-size: 1.2rem;
+      padding: 0.25rem;
       cursor: pointer;
-      color: #999;
+      color: #b4b4c0;
+      transition: color 0.2s;
+    }
+
+    .search-input-wrapper .close-btn:hover {
+      color: #4a3aff;
     }
 
     .search-header {
-      color: #fff;
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
+      color: #1a1a2e;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      margin-bottom: 1.1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .search-header .more-btn {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.8);
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 8px;
-      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #4a3aff;
+      background: rgba(74, 58, 255, 0.07);
+      border: none;
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: background 0.2s, color 0.2s;
     }
 
     .search-header .more-btn:hover {
-      background: rgba(255,255,255,0.2);
+      background: #4a3aff;
       color: #fff;
     }
 
     .search-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.8rem;
+      gap: 0.6rem;
     }
 
     .search-tag-pill {
-      padding: 0.5rem 1.2rem;
-      border: 1px solid rgba(255,255,255,0.3);
+      padding: 0.45rem 1rem;
+      border: 1px solid rgba(74, 58, 255, 0.18);
+      background: rgba(74, 58, 255, 0.05);
       border-radius: 999px;
-      color: #fff;
-      font-size: 0.9rem;
+      color: #4a3aff;
+      font-size: 0.875rem;
+      font-weight: 500;
       text-decoration: none;
-      transition: background 0.2s;
+      transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease,
+                  transform 0.18s ease, box-shadow 0.18s ease;
     }
 
-    .search-tag-pill:hover {
-      background: rgba(255,255,255,0.15);
+    .search-tag-pill:hover,
+    .search-tag-pill:focus-visible {
+      background: #4a3aff;
+      border-color: #4a3aff;
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(74, 58, 255, 0.25);
     }
 
     .search-tag-pill.hidden {
       display: none;
     }
 
+    .search-empty {
+      display: none;
+      font-size: 0.875rem;
+      color: #9a9aa8;
+    }
+
+    .search-empty.show {
+      display: block;
+    }
+
     @media (max-width: 600px) {
-      .navbar-right {
-        gap: 1rem;
-      }
-      .navbar-menu {
-        display: none;
-      }
+      .navbar-right { gap: 1rem; }
+      .navbar-menu { display: none; }
+      .top-navbar { padding: 1rem 1.25rem; }
+      .search-container { padding: 1.5rem 1.25rem 2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: 0.01ms !important; }
     }
   </style>
 </head>
 <body>
 
-<!-- 상단 네비바 -->
-<nav class="top-navbar">
-  <a href="{{ '/' | relative_url }}" class="navbar-logo">{{ site.title | default: 'zoohi\'s study' }}</a>
-  
-  <div class="navbar-right">
-    <ul class="navbar-menu">
-      <li><a href="{{ '/' | relative_url }}">Home</a></li>
-      <li><a href="{{ '/concept/' | relative_url }}">Concepts</a></li>
-      <li><a href="{{ '/trouble/' | relative_url }}">Troubleshooting</a></li>
-      <li><a href="{{ '/about/' | relative_url }}">About</a></li>
-    </ul>
-    <button class="search-btn" id="searchBtn">Search</button>
-  </div>
-</nav>
+<div class="nav-wrap">
+  <!-- 상단 네비바 -->
+  <nav class="top-navbar">
+    <a href="{{ '/' | relative_url }}" class="navbar-logo">{{ site.title | default: 'zoohi\'s study' }}</a>
 
-<!-- 드롭다운 검색 섹션 -->
-<div class="search-dropdown" id="searchDropdown">
-  <div class="search-container">
-    <div class="search-input-wrapper">
-      <span>🔍</span>
-      <input type="text" id="searchInput" placeholder="관심 있는 태그를 검색하세요.">
-      <button class="close-btn" id="closeBtn">✕</button>
+    <div class="navbar-right">
+      <ul class="navbar-menu">
+        <li><a href="{{ '/' | relative_url }}">Home</a></li>
+        <li><a href="{{ '/concept/' | relative_url }}">Concepts</a></li>
+        <li><a href="{{ '/trouble/' | relative_url }}">Troubleshooting</a></li>
+        <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+      </ul>
+      <button class="search-btn" id="searchBtn" aria-expanded="false" aria-controls="searchDropdown">Search</button>
     </div>
+  </nav>
 
-    <div class="search-header">
-      <span>Tags</span>
-      <a href="{{ '/tags/' | relative_url }}" class="more-btn">More →</a>
-    </div>
+  <!-- 드롭다운 검색 섹션 -->
+  <div class="search-dropdown" id="searchDropdown">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+        </svg>
+        <input type="text" id="searchInput" placeholder="관심 있는 태그를 검색하세요." aria-label="태그 검색">
+        <button class="close-btn" id="closeBtn" aria-label="검색 닫기">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" aria-hidden="true">
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+          </svg>
+        </button>
+      </div>
 
-    <div class="search-tags" id="searchTags">
-      {% assign sorted_tags = site.tags | sort %}
-      {% for tag in sorted_tags %}
-        <a href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}" class="search-tag-pill" data-tag="{{ tag[0] | downcase }}">{{ tag[0] }}</a>
-      {% endfor %}
+      <div class="search-header">
+        <span>Tags</span>
+        <a href="{{ '/tags/' | relative_url }}" class="more-btn">More →</a>
+      </div>
+
+      <div class="search-tags" id="searchTags">
+        {% assign sorted_tags = site.tags | sort %}
+        {% for tag in sorted_tags %}
+          <a href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}" class="search-tag-pill" data-tag="{{ tag[0] | downcase }}">{{ tag[0] }}</a>
+        {% endfor %}
+      </div>
+
+      <p class="search-empty" id="searchEmpty">일치하는 태그가 없습니다.</p>
     </div>
   </div>
 </div>
@@ -228,40 +305,60 @@
 {{ content }}
 
 <script>
-const searchBtn = document.getElementById('searchBtn');
-const closeBtn = document.getElementById('closeBtn');
-const searchDropdown = document.getElementById('searchDropdown');
-const searchInput = document.getElementById('searchInput');
+(function () {
+  var searchBtn = document.getElementById('searchBtn');
+  var closeBtn = document.getElementById('closeBtn');
+  var dropdown = document.getElementById('searchDropdown');
+  var input = document.getElementById('searchInput');
+  var empty = document.getElementById('searchEmpty');
+  var pills = Array.prototype.slice.call(document.querySelectorAll('.search-tag-pill'));
+  var searchUrl = "{{ '/search/' | relative_url }}";
 
-searchBtn.addEventListener('click', () => {
-  const query = searchInput.value.trim();
-  if (query) {
-    window.location.href = `{{ '/search/' | relative_url }}?q=${encodeURIComponent(query)}`;
-  } else {
-    searchDropdown.classList.toggle('open');
+  function open() {
+    dropdown.classList.add('open');
+    searchBtn.setAttribute('aria-expanded', 'true');
+    input.focus();
   }
-});
 
-closeBtn.addEventListener('click', () => {
-  searchDropdown.classList.remove('open');
-});
-
-// 엔터키 입력
-searchInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    const query = searchInput.value.trim();
-    if (query) {
-      window.location.href = `{{ '/search/' | relative_url }}?q=${encodeURIComponent(query)}`;
-    }
+  function close() {
+    dropdown.classList.remove('open');
+    searchBtn.setAttribute('aria-expanded', 'false');
   }
-});
 
-// 드롭다운 외부 클릭 시 닫기
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.top-navbar') && !e.target.closest('.search-dropdown')) {
-    searchDropdown.classList.remove('open');
+  function submit() {
+    var query = input.value.trim();
+    if (!query) return;
+    window.location.href = searchUrl + '?q=' + encodeURIComponent(query);
   }
-});
+
+  function filter() {
+    var q = input.value.trim().toLowerCase();
+    var shown = 0;
+    pills.forEach(function (pill) {
+      var match = !q || pill.dataset.tag.indexOf(q) !== -1;
+      pill.classList.toggle('hidden', !match);
+      if (match) shown++;
+    });
+    empty.classList.toggle('show', shown === 0);
+  }
+
+  searchBtn.addEventListener('click', function () {
+    dropdown.classList.contains('open') ? close() : open();
+  });
+
+  closeBtn.addEventListener('click', close);
+
+  input.addEventListener('input', filter);
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') submit();
+    if (e.key === 'Escape') { close(); searchBtn.focus(); }
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.nav-wrap')) close();
+  });
+})();
 </script>
 
 </body>

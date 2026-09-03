@@ -1,170 +1,23 @@
-<style>
-.cal-head {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  margin: 0 0 1.4rem;
-}
-.cal-head h2 {
-  font-size: 1.4rem;
-  font-weight: 800;
-  margin: 0;
-  color: #111;
-}
-.cal-head .cal-sub {
-  font-size: 0.8rem;
-  color: #9a9aa8;
-}
+<div class="card cal-card">
 
-.cal-body {
-  display: flex;
-  gap: 2.2rem;
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-
-.cal-box { flex: 0 0 300px; }
-
-.cal-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.7rem;
-}
-.cal-nav button {
-  all: unset;
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  border-radius: 6px;
-  color: #b4b4c0;
-  font-size: 1rem;
-  line-height: 1;
-  transition: background 0.15s, color 0.15s;
-}
-.cal-nav button:hover,
-.cal-nav button:focus-visible {
-  background: #f4f4f7;
-  color: #4a3aff;
-  outline: none;
-}
-.cal-month {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #1a1a2e;
-}
-
-.cal-weekdays,
-.cal-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 3px;
-}
-.cal-weekdays { margin-bottom: 4px; }
-.cal-weekdays span {
-  text-align: center;
-  font-size: 0.68rem;
-  color: #c9c9d2;
-  padding: 2px 0;
-}
-
-.cal-day {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 0.35rem 0 0.28rem;
-  border-radius: 7px;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.cal-day:hover { background: #f4f4f7; }
-.cal-day.is-selected { background: #4a3aff; }
-.cal-day.is-selected:hover { background: #4a3aff; }
-
-.cal-num {
-  font-size: 0.78rem;
-  line-height: 1;
-  color: #c9c9d2;
-}
-.cal-day.has-post .cal-num { color: #333; font-weight: 600; }
-.cal-day.is-selected .cal-num { color: #fff; font-weight: 600; }
-
-.cal-dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: transparent;
-}
-.cal-day.has-post .cal-dot { background: #4a3aff; }
-.cal-day.is-selected .cal-dot { background: transparent; }
-.cal-day.is-selected.has-post .cal-dot { background: #fff; }
-
-.cal-panel { flex: 1; min-width: 220px; }
-.cal-panel-date {
-  font-size: 0.78rem;
-  color: #9a9aa8;
-  margin-bottom: 0.8rem;
-}
-.cal-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-.cal-post {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  font-size: 0.92rem;
-  color: #333;
-  text-decoration: none;
-  line-height: 1.5;
-  transition: color 0.18s;
-}
-.cal-post:hover,
-.cal-post:focus-visible { color: #4a3aff; outline: none; }
-.cal-post .cal-cat {
-  flex: none;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #4a3aff;
-  background: #f0eeff;
-  border-radius: 4px;
-  padding: 0.15rem 0.45rem;
-}
-.cal-none {
-  font-size: 0.85rem;
-  color: #c9c9d2;
-}
-
-@media (max-width: 600px) {
-  .cal-body { gap: 1.6rem; }
-  .cal-box { flex: 1 1 100%; }
-}
-</style>
-
-<div class="cal-head">
-  <h2>{{ include.title | default: "기록" }}</h2>
-  <span class="cal-sub">{{ include.subtitle | default: "날짜를 누르면 그날 쓴 글이 나옵니다." }}</span>
-</div>
-
-<div class="cal-body">
-  <div class="cal-box">
-    <div class="cal-nav">
-      <button type="button" id="calPrev" aria-label="이전 달">&lsaquo;</button>
-      <span class="cal-month" id="calMonth"></span>
-      <button type="button" id="calNext" aria-label="다음 달">&rsaquo;</button>
-    </div>
-    <div class="cal-weekdays">
-      <span>일</span><span>월</span><span>화</span><span>수</span>
-      <span>목</span><span>금</span><span>토</span>
-    </div>
-    <div class="cal-grid" id="calGrid"></div>
+  <div class="cal-nav">
+    <button type="button" id="calPrev" aria-label="이전 달">&lsaquo;</button>
+    <span class="cal-month" id="calMonth"></span>
+    <button type="button" id="calNext" aria-label="다음 달">&rsaquo;</button>
   </div>
 
-  <div class="cal-panel">
+  <div class="cal-weekdays" aria-hidden="true">
+    <span>일</span><span>월</span><span>화</span><span>수</span>
+    <span>목</span><span>금</span><span>토</span>
+  </div>
+
+  <div class="cal-grid" id="calGrid"></div>
+
+  <div class="cal-day-panel" id="calPanel">
     <div class="cal-panel-date" id="calDate"></div>
-    <div class="cal-list" id="calList"></div>
+    <div class="cal-panel-list" id="calList"></div>
   </div>
+
 </div>
 
 <script>
@@ -174,11 +27,7 @@
     {% for g in grouped %}
     "{{ g.name }}": [
       {% for p in g.items %}
-      {
-        title: {{ p.title | jsonify }},
-        url: {{ p.url | relative_url | jsonify }},
-        cat: {{ p.categories.first | default: "" | jsonify }}
-      }{% unless forloop.last %},{% endunless %}
+      { title: {{ p.title | jsonify }}, url: {{ p.url | relative_url | jsonify }} }{% unless forloop.last %},{% endunless %}
       {% endfor %}
     ]{% unless forloop.last %},{% endunless %}
     {% endfor %}
@@ -188,6 +37,7 @@
   var monthLabel = document.getElementById('calMonth');
   var dateLabel = document.getElementById('calDate');
   var list = document.getElementById('calList');
+  if (!grid) return;
 
   var keys = Object.keys(BY_DATE).sort();
   var latest = keys.length ? keys[keys.length - 1] : null;
@@ -219,22 +69,14 @@
       var a = document.createElement('a');
       a.className = 'cal-post';
       a.href = p.url;
-      if (p.cat) {
-        var c = document.createElement('span');
-        c.className = 'cal-cat';
-        c.textContent = p.cat;
-        a.appendChild(c);
-      }
-      var t = document.createElement('span');
-      t.textContent = p.title;
-      a.appendChild(t);
+      a.textContent = p.title;
       list.appendChild(a);
     });
   }
 
   function renderGrid() {
     var y = view.getFullYear(), m = view.getMonth();
-    monthLabel.textContent = y + '년 ' + (m + 1) + '월';
+    monthLabel.textContent = y + '. ' + pad(m + 1);
     grid.innerHTML = '';
 
     var offset = new Date(y, m, 1).getDay();

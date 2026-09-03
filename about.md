@@ -100,6 +100,22 @@ permalink: /about/
   height: 14px;
 }
 
+.about-tags {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.about-tag {
+  font-size: 0.8rem;
+  color: #4a3aff;
+  border: 1px solid rgba(74, 58, 255, 0.18);
+  background: rgba(74, 58, 255, 0.05);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+}
+
 @media (max-width: 600px) {
   .about-wrap { padding: 3.5rem 1.25rem 5rem; }
   .about-name { font-size: 1.35rem; }
@@ -120,6 +136,18 @@ permalink: /about/
       배운 것과 막힌 것을 여기에 남깁니다.
     </p>
 
+    <div class="about-links-label">배운 것</div>
+
+    <div class="about-tags">
+      <span class="about-tag">HTML</span>
+      <span class="about-tag">CSS</span>
+      <span class="about-tag">JavaScript</span>
+      <span class="about-tag">SQL</span>
+      <span class="about-tag">Java</span>
+    </div>
+
+
+
     <div class="about-links-label">링크</div>
 
     <div class="about-links">
@@ -130,7 +158,7 @@ permalink: /about/
         JHee0209
       </a>
 
-      <a class="about-link" href="https://www.instagram.com/zoohi.020/" target="_blank" rel="noopener">
+      <!-- <a class="about-link" href="https://www.instagram.com/zoohi.020/" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <rect x="3" y="3" width="18" height="18" rx="5"></rect>
           <circle cx="12" cy="12" r="4"></circle>
@@ -145,7 +173,7 @@ permalink: /about/
           <path d="M9 16V8l6 8V8"></path>
         </svg>
         zoohihi
-      </a>
+      </a> -->
     </div>
 
   </div>

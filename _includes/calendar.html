@@ -2,6 +2,7 @@
 
   <div class="cal-nav">
     <button type="button" id="calPrev" aria-label="이전 달">&lsaquo;</button>
+    <button type="button" class="cal-today" id="calToday">오늘</button>
     <span class="cal-month" id="calMonth"></span>
     <button type="button" id="calNext" aria-label="다음 달">&rsaquo;</button>
   </div>
@@ -39,16 +40,15 @@
   var list = document.getElementById('calList');
   if (!grid) return;
 
-  var keys = Object.keys(BY_DATE).sort();
-  var latest = keys.length ? keys[keys.length - 1] : null;
-
-  var selected = latest;
-  var view = latest
-    ? new Date(+latest.slice(0, 4), +latest.slice(5, 7) - 1, 1)
-    : new Date();
-
   function pad(n) { return n < 10 ? '0' + n : '' + n; }
   function keyOf(y, m, d) { return y + '-' + pad(m + 1) + '-' + pad(d); }
+
+  // 항상 오늘 날짜에서 시작한다
+  var now = new Date();
+  var today = keyOf(now.getFullYear(), now.getMonth(), now.getDate());
+
+  var selected = today;
+  var view = new Date(now.getFullYear(), now.getMonth(), 1);
 
   function renderPanel() {
     list.innerHTML = '';
@@ -79,6 +79,9 @@
     monthLabel.textContent = y + '. ' + pad(m + 1);
     grid.innerHTML = '';
 
+    var onThisMonth = (y === now.getFullYear() && m === now.getMonth() && selected === today);
+    document.getElementById('calToday').style.visibility = onThisMonth ? 'hidden' : 'visible';
+
     var offset = new Date(y, m, 1).getDay();
     var total = new Date(y, m + 1, 0).getDate();
 
@@ -92,6 +95,7 @@
         var cell = document.createElement('div');
         cell.className = 'cal-day';
         if (BY_DATE[k]) cell.classList.add('has-post');
+        if (k === today) cell.classList.add('is-today');
         if (k === selected) cell.classList.add('is-selected');
 
         var num = document.createElement('span');
@@ -113,6 +117,13 @@
       })(d);
     }
   }
+
+  document.getElementById('calToday').addEventListener('click', function () {
+    selected = today;
+    view = new Date(now.getFullYear(), now.getMonth(), 1);
+    renderGrid();
+    renderPanel();
+  });
 
   document.getElementById('calPrev').addEventListener('click', function () {
     view = new Date(view.getFullYear(), view.getMonth() - 1, 1);

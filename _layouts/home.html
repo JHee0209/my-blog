@@ -490,10 +490,36 @@ layout: default
   color: #5b4ae0;
   outline: none;
 }
+.cal-nav {
+  position: relative;
+}
+
 .cal-month {
   color: #1a1a2e;
   font-size: 0.88rem;
   font-weight: 700;
+}
+
+.cal-today {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  margin-top: 0.15rem;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid #e4e0f4;
+  border-radius: 999px;
+  background: #fff;
+  color: #8d8999;
+  font-family: inherit;
+  font-size: 0.66rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.cal-today:hover {
+  color: #5b4ae0;
+  border-color: #c9c0ff;
 }
 
 .cal-weekdays,
@@ -523,6 +549,14 @@ layout: default
 .cal-day:hover { background: #f6f4fc; }
 .cal-day.is-selected,
 .cal-day.is-selected:hover { background: #6b5aff; }
+
+.cal-day.is-today:not(.is-selected) {
+  box-shadow: inset 0 0 0 1px #c9c0ff;
+}
+.cal-day.is-today:not(.is-selected) .cal-num {
+  color: #5b4ae0;
+  font-weight: 700;
+}
 
 .cal-num {
   color: #c9c5d4;
@@ -641,7 +675,7 @@ layout: default
 
         <div>
           <h1>{{ page.title | default: "기록으로 쌓는 개발 공부" }}</h1>
-          <p class="hm-hero-lead">{{ page.lead | default: "다시 찾아볼 수 있게 남기는 것." }}</p>
+          <p class="hm-hero-lead">{{ page.lead | default: "배운 것보다, 다시 찾아볼 수 있게 남기는 것." }}</p>
           <p class="hm-hero-desc">{{ content }}</p>
           <a class="hm-hero-btn" href="{{ '/archive/' | relative_url }}">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -700,7 +734,7 @@ layout: default
         <section class="card">
           <div class="sec-head">
             <span class="sec-dot"></span>
-            <h2>기록</h2>
+            <h2>최근 기록</h2>
             <a class="sec-more" href="{{ '/archive/' | relative_url }}">전체 보기 &rarr;</a>
           </div>
 

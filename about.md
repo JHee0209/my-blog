@@ -298,7 +298,7 @@ permalink: /about/
   height: 52px;
   bottom: -20px;
   left: -18px;
-  transform: rotate(6deg);
+  transform: rotate(-6deg);
   animation: abFloatB 6.5s ease-in-out infinite 0.6s;
 }
 

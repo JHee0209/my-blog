@@ -2,7 +2,6 @@
 
   <div class="cal-nav">
     <button type="button" id="calPrev" aria-label="이전 달">&lsaquo;</button>
-    <button type="button" class="cal-today" id="calToday">오늘</button>
     <span class="cal-month" id="calMonth"></span>
     <button type="button" id="calNext" aria-label="다음 달">&rsaquo;</button>
   </div>
@@ -79,9 +78,6 @@
     monthLabel.textContent = y + '. ' + pad(m + 1);
     grid.innerHTML = '';
 
-    var onThisMonth = (y === now.getFullYear() && m === now.getMonth() && selected === today);
-    document.getElementById('calToday').style.visibility = onThisMonth ? 'hidden' : 'visible';
-
     var offset = new Date(y, m, 1).getDay();
     var total = new Date(y, m + 1, 0).getDate();
 
@@ -117,13 +113,6 @@
       })(d);
     }
   }
-
-  document.getElementById('calToday').addEventListener('click', function () {
-    selected = today;
-    view = new Date(now.getFullYear(), now.getMonth(), 1);
-    renderGrid();
-    renderPanel();
-  });
 
   document.getElementById('calPrev').addEventListener('click', function () {
     view = new Date(view.getFullYear(), view.getMonth() - 1, 1);

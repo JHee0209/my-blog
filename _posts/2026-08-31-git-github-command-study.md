@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "08-31 Git·GitHub 명령어 정리"
+title: "Git·GitHub 명령어 정리"
 date: 2026-08-31
 categories: [개념]
 tags: [git, github]

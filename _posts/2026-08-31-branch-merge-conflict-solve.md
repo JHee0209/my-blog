@@ -2,7 +2,7 @@
 layout: post
 title: "브랜치와 merge, 그리고 충돌 해결"
 date: 2026-08-31
-categories: [개념]
+categories: [트러블슈팅]
 tags: [branch, merge, conflict]
 ---
 

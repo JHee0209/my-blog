@@ -64,6 +64,7 @@ layout: default
 /* 카테고리 배지 */
 .cat-pill {
   display: inline-block;
+  align-self: flex-start;
   padding: 0.22rem 0.6rem;
   border-radius: 999px;
   background: #f1eeff;
@@ -75,6 +76,40 @@ layout: default
 .cat-pill.is-trouble {
   background: #ffecea;
   color: #d93a2b;
+}
+
+.new-pill {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.35rem;
+  padding: 0.22rem 0.6rem 0.22rem 0.5rem;
+  border-radius: 999px;
+  background: #6b5aff;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.new-pill i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fff;
+  animation: newBlink 2s ease-in-out infinite;
+}
+
+@keyframes newBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.hm-feature-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
 }
 
 /* =========================================================
@@ -161,7 +196,7 @@ layout: default
 .hm-feature-code {
   position: relative;
   background: #1c1b28;
-  padding: 0.85rem 1rem 2.4rem;
+  padding: 0.85rem 1rem 1.2rem;
   overflow: hidden;
 }
 
@@ -187,18 +222,6 @@ layout: default
   line-height: 1.95;
   white-space: pre;
   overflow: hidden;
-}
-
-.hm-feature-tag {
-  position: absolute;
-  bottom: 0.85rem;
-  left: 1rem;
-  padding: 0.2rem 0.55rem;
-  border-radius: 6px;
-  background: #6b5aff;
-  color: #fff;
-  font-size: 0.66rem;
-  font-weight: 600;
 }
 
 .hm-feature-body {
@@ -240,8 +263,8 @@ layout: default
 
 .hm-body {
   display: grid;
-  grid-template-columns: 1.8fr 1fr;
-  gap: 1.2rem;
+  grid-template-columns: minmax(0, 1fr) 264px;
+  gap: 1.3rem;
   padding-bottom: 5rem;
 }
 
@@ -580,6 +603,7 @@ layout: default
 @media (max-width: 1000px) {
   .hm-body { grid-template-columns: 1fr; }
   .rp-grid { grid-template-columns: repeat(2, 1fr); }
+  .cal-card { max-width: 420px; }
 }
 
 @media (max-width: 820px) {
@@ -600,6 +624,7 @@ layout: default
 
 @media (prefers-reduced-motion: reduce) {
   .rp-card, .hm-feature, .hm-hero-btn, .side-tag { transition: none; }
+  .new-pill i { animation: none; }
 }
 </style>
 
@@ -616,7 +641,7 @@ layout: default
 
         <div>
           <h1>{{ page.title | default: "기록으로 쌓는 개발 공부" }}</h1>
-          <p class="hm-hero-lead">{{ page.lead | default: "배운 것보다, 다시 찾아볼 수 있게 남기는 것." }}</p>
+          <p class="hm-hero-lead">{{ page.lead | default: "다시 찾아볼 수 있게 남기는 것." }}</p>
           <p class="hm-hero-desc">{{ content }}</p>
           <a class="hm-hero-btn" href="{{ '/archive/' | relative_url }}">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -637,15 +662,17 @@ layout: default
           <div class="hm-feature-code">
             <div class="hm-code-bar" aria-hidden="true"><i></i><i></i><i></i></div>
             <pre>{{ latest.snippet }}</pre>
-            <span class="hm-feature-tag">최신 글</span>
           </div>
           {% endif %}
 
           <div class="hm-feature-body">
-            {% assign lcat = latest.categories.first %}
-            {% if lcat %}
-              <span class="cat-pill{% if lcat == '트러블슈팅' or lcat == 'Troubleshooting' %} is-trouble{% endif %}">{{ lcat }}</span>
-            {% endif %}
+            <div class="hm-feature-meta">
+              <span class="new-pill"><i></i>최신 글</span>
+              {% assign lcat = latest.categories.first %}
+              {% if lcat %}
+                <span class="cat-pill{% if lcat == '트러블슈팅' or lcat == 'Troubleshooting' %} is-trouble{% endif %}">{{ lcat }}</span>
+              {% endif %}
+            </div>
             <h3>{{ latest.title }}</h3>
             <p>{{ latest.content | strip_html | strip_newlines | truncate: 95 }}</p>
             <div class="hm-feature-foot">
@@ -673,12 +700,12 @@ layout: default
         <section class="card">
           <div class="sec-head">
             <span class="sec-dot"></span>
-            <h2>최근 기록</h2>
+            <h2>기록</h2>
             <a class="sec-more" href="{{ '/archive/' | relative_url }}">전체 보기 &rarr;</a>
           </div>
 
           <div class="rp-grid">
-            {% for post in site.posts limit: 6 %}
+            {% for post in site.posts offset: 1 limit: 6 %}
             <a class="rp-card" href="{{ post.url | relative_url }}">
               {% assign cat = post.categories.first %}
               {% if cat %}

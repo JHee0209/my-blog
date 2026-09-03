@@ -206,10 +206,14 @@ permalink: /about/
 
 /* ---- 좌우 카드 ---- */
 
-.ab-side { position: relative; }
+.ab-side {
+  position: relative;
+  z-index: 3;
+}
 
 .ab-code-card {
   position: relative;
+  z-index: 1;
   border-radius: 16px;
   background: #191826;
   box-shadow:
@@ -263,38 +267,42 @@ permalink: /about/
 
 .ab-chip {
   position: absolute;
+  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.82);
   border: 1px solid rgba(106, 90, 255, 0.14);
-  box-shadow: 0 12px 28px rgba(60, 50, 130, 0.10);
+  box-shadow: 0 12px 28px rgba(60, 50, 130, 0.12);
   backdrop-filter: blur(10px);
   color: #6352e8;
   font-family: ui-monospace, monospace;
   font-weight: 700;
 }
 
+/* 코드 배지: 코드 카드 앞쪽(왼쪽 위) */
 .ab-chip.code {
-  width: 52px;
-  height: 52px;
-  top: -26px;
-  right: 8%;
-  font-size: 0.85rem;
-  transform: rotate(-8deg);
+  width: 54px;
+  height: 54px;
+  top: -22px;
+  right: -20px;
+  font-size: 0.88rem;
+  transform: rotate(8deg);
   animation: abFloatB 5.5s ease-in-out infinite;
 }
 
-.ab-chip.cup {
-  width: 50px;
-  height: 50px;
-  bottom: -18px;
-  right: -10px;
+/* 노트북 배지: 체크리스트 카드 쪽 */
+.ab-chip.laptop {
+  width: 52px;
+  height: 52px;
+  bottom: -20px;
+  left: -18px;
+  transform: rotate(6deg);
   animation: abFloatB 6.5s ease-in-out infinite 0.6s;
 }
 
-.ab-chip.cup svg { width: 20px; height: 20px; }
+.ab-chip.laptop svg { width: 22px; height: 22px; }
 
 @keyframes abFloatA {
   0%, 100% { translate: 0 0; }
@@ -309,6 +317,8 @@ permalink: /about/
 /* 체크리스트 카드 */
 
 .ab-check-card {
+  position: relative;
+  z-index: 1;
   padding: 1.4rem 1.5rem;
   border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 20px;
@@ -624,14 +634,14 @@ permalink: /about/
   box-shadow: 0 0 0 4px rgba(107, 90, 255, 0.16);
 }
 
-.ab-step p {
+.ab-step .ab-step-title {
   margin: 0;
   color: #37343f;
   font-size: 0.8rem;
   font-weight: 600;
 }
 
-.ab-step span {
+.ab-step .ab-step-desc {
   display: block;
   margin-top: 0.22rem;
   color: #9b97a6;
@@ -647,7 +657,7 @@ permalink: /about/
   gap: 0.7rem;
 }
 
-.ab-list div {
+.ab-list > div {
   display: flex;
   align-items: flex-start;
   gap: 0.55rem;
@@ -680,7 +690,6 @@ permalink: /about/
   background: rgba(255, 255, 255, 0.72);
   box-shadow: 0 12px 34px rgba(60, 50, 130, 0.07);
   backdrop-filter: blur(12px);
-  color: #23212c;
   text-decoration: none;
   transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
 }
@@ -691,13 +700,14 @@ permalink: /about/
   box-shadow: 0 20px 44px rgba(80, 65, 180, 0.13);
 }
 
-.ab-github-left {
+.ab-gh-left {
   display: flex;
   align-items: center;
   gap: 0.85rem;
 }
 
-.ab-github-icon {
+.ab-gh-icon {
+  flex: none;
   width: 38px;
   height: 38px;
   border-radius: 12px;
@@ -708,29 +718,36 @@ permalink: /about/
   color: #fff;
 }
 
-.ab-github-icon svg { width: 19px; height: 19px; }
+.ab-gh-icon svg { width: 19px; height: 19px; }
 
-.ab-github p {
-  margin: 0;
-  font-size: 0.84rem;
-  font-weight: 700;
+.ab-gh-text {
+  display: flex;
+  flex-direction: column;
 }
 
-.ab-github span {
-  display: block;
+.ab-gh-name {
+  color: #23212c;
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.ab-gh-desc {
   margin-top: 0.2rem;
   color: #9d99a8;
   font-size: 0.7rem;
   font-weight: 400;
+  line-height: 1.3;
 }
 
-.ab-github .arw {
+.ab-gh-arrow {
+  flex: none;
   color: #6b5aff;
   font-size: 1.05rem;
   transition: transform 0.24s ease;
 }
 
-.ab-github:hover .arw { transform: translateX(4px); }
+.ab-github:hover .ab-gh-arrow { transform: translateX(4px); }
 
 /* =========================================================
    맨 아래 문장
@@ -758,7 +775,7 @@ permalink: /about/
 @media (max-width: 900px) {
   .ab-hero {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 2.5rem;
     min-height: auto;
   }
   .ab-center { order: -1; }
@@ -770,7 +787,8 @@ permalink: /about/
     transform: none;
     animation: none;
   }
-  .ab-chip.code { right: 4%; }
+  .ab-chip.code { right: 0; top: -20px; }
+  .ab-chip.laptop { left: 0; bottom: -18px; }
   .ab-traits,
   .ab-grid { grid-template-columns: 1fr; }
 }
@@ -781,7 +799,8 @@ permalink: /about/
   .ab-wave { font-size: 1.5rem; }
   .ab-intro { font-size: 0.9rem; }
   .ab-stack-wrap { border-radius: 20px; padding: 1.3rem 1rem 1.4rem; }
-  .ab-chip.cup { display: none; }
+  .ab-chip.code,
+  .ab-chip.laptop { width: 44px; height: 44px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -823,14 +842,6 @@ permalink: /about/
 <span class="wh">};</span></div>
         </div>
 
-        <span class="ab-chip cup" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-            <path d="M4 8h12v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8z"></path>
-            <path d="M16 9h2a2.5 2.5 0 0 1 0 5h-2"></path>
-            <path d="M5 21h11"></path>
-          </svg>
-        </span>
-
       </div>
 
       <!-- 가운데: 프로필 -->
@@ -858,6 +869,13 @@ permalink: /about/
 
       <!-- 오른쪽: 체크리스트 -->
       <div class="ab-side ab-rise d3">
+
+        <span class="ab-chip laptop" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="5" width="16" height="11" rx="2"></rect>
+            <path d="M2 19.5h20"></path>
+          </svg>
+        </span>
 
         <div class="ab-check-card">
 
@@ -905,7 +923,7 @@ permalink: /about/
             <circle cx="14.5" cy="8.5" r="1.6"></circle>
           </svg>
         </div>
-        <h3>지속적으로 배우는 개발자</h3>
+        <h3>지속적으로 배우는</h3>
         <p>새로운 기술을 탐구하고,<br>하나씩 내 것으로 만들어갑니다.</p>
       </div>
 
@@ -916,17 +934,17 @@ permalink: /about/
             <path d="M14.5 4.5l4 4L9 18H5v-4z"></path>
           </svg>
         </div>
-        <h3>기록하는 개발자</h3>
+        <h3>기록하는</h3>
         <p>배운 것을 정리하고 공유하며<br>함께 성장하고 싶습니다.</p>
       </div>
 
       <div class="ab-trait ab-rise d6">
         <div class="ab-trait-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
             <path d="M10 4h4v2.5a1.5 1.5 0 0 0 3 0V4h3v4h-2.5a1.5 1.5 0 0 0 0 3H20v4h-2.5a1.5 1.5 0 0 0 0 3H20v0h-4v-2.5a1.5 1.5 0 0 0-3 0V20H9v-4H6.5a1.5 1.5 0 0 1 0-3H9V9H6.5a1.5 1.5 0 0 1 0-3H9z"></path>
           </svg>
         </div>
-        <h3>문제를 해결하는 개발자</h3>
+        <h3>문제를 해결하는</h3>
         <p>작은 문제부터 차근차근<br>깊이 있게 이해하려고 노력합니다.</p>
       </div>
 
@@ -973,7 +991,6 @@ permalink: /about/
 
         <div class="ab-tags">
           <span class="ab-tag">Web Frontend</span>
-          <span class="ab-tag">Clean Code</span>
           <span class="ab-tag">UX/UI</span>
           <span class="ab-tag">Performance</span>
           <span class="ab-tag">Database</span>
@@ -998,18 +1015,18 @@ permalink: /about/
         <div class="ab-steps">
 
           <div class="ab-step now">
-            <p>부트캠프 수강</p>
-            <span>실력 있는 개발자로 한 걸음 더</span>
+            <span class="ab-step-title">부트캠프 수강</span>
+            <span class="ab-step-desc">실력 있는 개발자로 한 걸음 더</span>
           </div>
 
           <div class="ab-step">
-            <p>프로젝트 경험 쌓기</p>
-            <span>직접 만들고 부딪혀보기</span>
+            <span class="ab-step-title">프로젝트 경험 쌓기</span>
+            <span class="ab-step-desc">직접 만들고 부딪혀보기</span>
           </div>
 
           <div class="ab-step">
-            <p>기술 블로그 꾸준히 작성하기</p>
-            <span>배운 것을 정리하고 다시 이해하기</span>
+            <span class="ab-step-title">기술 블로그 꾸준히 작성하기</span>
+            <span class="ab-step-desc">배운 것을 정리하고 다시 이해하기</span>
           </div>
 
         </div>
@@ -1031,15 +1048,15 @@ permalink: /about/
         <div class="ab-list">
           <div>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+            문제에 대한 정의
+          </div>
+          <div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
             개념을 쉽게 정리한 글
           </div>
           <div>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
             문제 해결 과정 기록
-          </div>
-          <div>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
-            개발에 대한 고민과 인사이트
           </div>
         </div>
 
@@ -1052,19 +1069,19 @@ permalink: /about/
 
     <a class="ab-github ab-rise d7" href="https://github.com/JHee0209" target="_blank" rel="noopener">
 
-      <span class="ab-github-left">
-        <span class="ab-github-icon">
+      <span class="ab-gh-left">
+        <span class="ab-gh-icon">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/>
           </svg>
         </span>
-        <span>
-          <p>JHee0209</p>
-          <span>GitHub · Projects &amp; Code</span>
+        <span class="ab-gh-text">
+          <span class="ab-gh-name">JHee0209</span>
+          <span class="ab-gh-desc">GitHub · Projects &amp; Code</span>
         </span>
       </span>
 
-      <span class="arw">&rarr;</span>
+      <span class="ab-gh-arrow">&rarr;</span>
 
     </a>
 
@@ -1072,7 +1089,7 @@ permalink: /about/
     <!-- ============ 맨 아래 문장 ============ -->
 
     <div class="ab-quote ab-rise d7">
-      <p>&ldquo; 오늘의 작은 배움이, 내일의 큰 성장이 되기를. &rdquo;</p>
+      <p>&ldquo; 오늘의 작은 배움이, 내일의 큰 성장이 되기를. 💞&rdquo;</p>
     </div>
 
   </div>

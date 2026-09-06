@@ -22,6 +22,12 @@ layout: default
 .post-meta .category.is-trouble {
   background: #ffecea; color: #d93a2b;
 }
+.post-meta .category.is-concept {
+  background: #e8e5ff; color: #4a3aff;
+}
+.post-meta .category.is-error {
+  background: #d93a2b; color: #fff; font-weight: 700;
+}
 
 /* ===== 본문 ===== */
 .post-content { line-height: 1.9; font-size: 1rem; color: #333; }
@@ -308,7 +314,13 @@ layout: default
       <span>{{ page.date | date: "%Y년 %m월 %d일" }}</span>
       {% if page.categories.size > 0 %}
       {% assign cat = page.categories.first %}
-      <span class="category{% if cat == '트러블슈팅' or cat == 'Troubleshooting' %} is-trouble{% endif %}">{{ cat }}</span>
+      {% if cat == '트러블슈팅' %}
+      <span class="category is-trouble">{{ cat }}</span>
+      {% elsif cat == '개념' %}
+      <span class="category is-concept">{{ cat }}</span>
+      {% else %}
+      <span class="category is-error">카테고리 오류: {{ cat }}</span>
+      {% endif %}
       {% endif %}
     </div>
   </div>

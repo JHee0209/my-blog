@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "span에 width가 안 먹힌 이유 — block과 inline의 차이"
+title: "block과 inline의 차이"
 date: 2026-09-06 22:07:16 +0900
 categories: [개념]
 tags: [CSS, block, inline]

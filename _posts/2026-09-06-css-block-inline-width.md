@@ -77,7 +77,7 @@ div 두 개를 이렇게 써보면
 | 위아래 margin | 적용됨 | 적용 안 됨 |
 | 좌우 margin, padding | 적용됨 | 적용됨 |
 
-span에 크기를 꼭 줘야 한다면 `display: inline-block`으로 바꾸면 된다는 것까지는 찾아봤지만, 아직 직접 써보지는 않았다.
+span에 크기를 꼭 줘야 한다면 `display: inline-block`으로 바꾸면 된다는 것까지 알았다.
 
 ## 더 학습하면 좋은 개념
 

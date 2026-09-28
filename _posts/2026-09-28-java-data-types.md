@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "자료형은 왜 여러 개로 나뉘어 있을까"
-date: 2026-09-28 20:30:00 +0900
+date: 2026-09-28 17:00:01 +0900
 categories: [개념]
 tags: [Java, 변수, 자료형]
 snippet: |

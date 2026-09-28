@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "자바 코드는 왜 바로 실행되지 않을까"
-date: 2026-09-28 19:30:00 +0900
+date: 2026-09-28 17:00:00 +0900
 categories: [개념]
 tags: [Java, JDK, JVM]
 snippet: |

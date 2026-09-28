@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "byte에 127 더하기 1을 하면 왜 -128이 될까"
-date: 2026-09-28 22:30:00 +0900
+date: 2026-09-28 17:00:03 +0900
 categories: [개념]
 tags: [Java, overflow, byte]
 snippet: |

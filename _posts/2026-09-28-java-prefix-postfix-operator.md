@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "i++와 ++i, 단독으로 쓸 때는 왜 차이가 없을까"
-date: 2026-09-28 23:00:00 +0900
+date: 2026-09-28 17:00:02 +0900
 categories: [개념]
 tags: [Java, 연산자, 증감연산자]
 snippet: |

@@ -42,13 +42,9 @@ javac Application.java
 java Application
 ```
 
-첫 번째 줄(`javac`)은 `.java` 소스 코드를 읽어서 JVM에서 실행할 수 있는 `.class` 파일(바이트코드)로 컴파일한다. 자바 공식 문서는 이렇게 설명한다.
+첫 번째 줄(`javac`)은 `.java` 소스 코드를 읽어서 JVM에서 실행할 수 있는 `.class` 파일(바이트코드)로 컴파일한다. 자바 공식 문서에서도 javac는 소스 파일을 읽어서 JVM에서 실행되는 클래스 파일로 컴파일하는 명령어라고 설명한다.
 
-> The `javac` command reads source files ... and compiles them into class files that run on the Java Virtual Machine.
-
-두 번째 줄(`java`)은 JVM을 실행시켜서, 컴파일된 클래스를 불러오고 그 클래스의 `main()` 메서드를 호출한다.
-
-> The `java` command starts a Java application. It does this by starting the Java Virtual Machine (JVM), loading the specified class, and calling that class's `main()` method.
+두 번째 줄(`java`)은 JVM을 실행시켜서, 컴파일된 클래스를 불러오고 그 클래스의 `main()` 메서드를 호출한다. 자바 공식 문서에서도 java 명령어는 JVM을 시작시키고, 지정한 클래스를 불러와서 그 클래스의 main() 메서드를 호출하는 방식으로 자바 애플리케이션을 실행시킨다고 설명한다.
 
 ## 헷갈렸던 점
 

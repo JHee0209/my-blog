@@ -36,9 +36,7 @@ snippet: |
 
 Migration은 DB 구조의 변경을 SQL 파일로 하나씩 기록해두고, 정해진 순서대로 적용하면서 어디까지 적용했는지 DB 안에 추적하는 방식이다.
 
-Prisma 문서는 이렇게 설명한다.
-
-> Migrations help you transition your database schema from one state to another.
+Prisma 문서는 마이그레이션이 데이터베이스 스키마를 한 상태에서 다음 상태로 옮겨가도록 돕는 것이라고 설명한다.
 
 즉 Migration은 "완성된 최종 구조"를 적어둔 게 아니라, **한 상태에서 다음 상태로 넘어가는 변경분**을 적어둔 것이다.
 

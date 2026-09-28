@@ -24,9 +24,7 @@ flex는 [주축(main axis) 하나의 방향으로만 아이템을 정렬한다](
 
 grid는 컨테이너를 가로줄(row)과 세로줄(column)로 동시에 나눠서, 아이템을 그 격자 칸에 배치하는 레이아웃 방식이다.
 
-MDN은 이렇게 설명한다.
-
-> CSS grid layout introduces a two-dimensional grid system to CSS. Grids can be used to lay out major page areas or small user interface elements.
+MDN은 CSS grid가 CSS에 2차원 격자 시스템을 도입한 것이라고 설명한다. 이 격자로 페이지의 큰 영역을 짤 수도 있고, 작은 UI 요소를 배치할 수도 있다.
 
 flex와 grid의 가장 큰 차이도 여기 있다. flex는 한 방향(1차원)만 다루고, grid는 가로세로(2차원)를 동시에 다룬다.
 

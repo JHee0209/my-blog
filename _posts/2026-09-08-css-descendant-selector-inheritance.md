@@ -22,9 +22,7 @@ snippet: |
 
 자손 선택자는 두 선택자 사이에 띄어쓰기만 넣어서, 앞의 요소 안에 몇 단계를 거쳐 들어가 있든 상관없이 뒤의 요소를 전부 찾아 스타일을 적용하는 선택자다.
 
-MDN에는 이렇게 정의돼 있다.
-
-> The descendant combinator — typically represented by a single space (" ") character — combines two selectors such that elements matched by the second selector are selected if they have an ancestor (parent, parent's parent, parent's parent's parent, etc.) element matching the first selector.
+MDN은 자손 결합자(descendant combinator)를 이렇게 설명한다. 공백 하나로 이어붙인 두 선택자에서, 뒤 선택자와 일치하는 요소는 그 조상(부모, 부모의 부모, ...) 중에 앞 선택자와 일치하는 요소가 있으면 선택된다.
 
 풀어 쓰면, `div p`는 `div`의 자식이든, 자식의 자식이든, 몇 대를 내려가든 상관없이 `div` 안에 있는 모든 `p`를 찾는다는 뜻이다.
 
@@ -62,9 +60,7 @@ div p {
 
 결과: `p`에만 테두리가 생기고 `span`에는 안 생겼다. 이걸 보고서야 `color`와 `border`가 다르게 동작한 이유가 선택자가 아니라 **상속**(inheritance, 부모에게 적용된 스타일 값이 자식에게 자동으로 넘어가는 것) 때문이라는 걸 알았다.
 
-MDN의 설명은 이렇다.
-
-> CSS properties can be categorized in two types: inherited properties, which by default are set to the computed value of the parent element; non-inherited properties, which by default are set to initial value of the property.
+MDN은 CSS 속성을 상속 여부로 두 가지로 나눈다고 설명한다. 상속되는 속성은 기본값이 부모 요소의 계산된 값으로 정해지고, 상속되지 않는 속성은 기본값이 그 속성 자체의 초기값으로 정해진다.
 
 `color`는 상속되는 속성이라서 부모 `p`의 빨간색이 자식 `span`에게 그대로 넘어갔다. `border`는 상속되지 않는 속성이라서 `p`에서 멈췄다.
 
@@ -108,11 +104,7 @@ MDN의 설명은 이렇다.
 
 인접 형제 선택자(`+`)는 바로 다음에 오는 형제 하나만 고르고, 일반 형제 선택자(`~`)는 뒤에 오는 형제를 전부 고른다. 둘 다 같은 부모를 가진 요소 사이에서만 동작한다.
 
-MDN은 각각 이렇게 정의한다.
-
-> The next-sibling combinator (`+`) separates two selectors and matches the second element only if it immediately follows the first element, and both are children of the same parent element.
-
-> The subsequent-sibling combinator (`~`, a tilde) separates two selectors and matches all instances of the second element that follow the first element (not necessarily immediately) and share the same parent element.
+MDN은 각각 이렇게 설명한다. 인접 형제 결합자(`+`)는 두 선택자를 연결해서, 앞 선택자와 일치하는 요소 바로 다음에 오면서 같은 부모를 가진 경우에만 뒤 선택자와 일치하는 요소를 선택한다. 일반 형제 결합자(`~`)는 반드시 바로 다음이 아니어도, 앞 선택자와 일치하는 요소 뒤에 오면서 같은 부모를 가진 요소를 전부 선택한다.
 
 버스 정류장 줄로 비유하면, 인접 형제 선택자는 "내 바로 뒤에 줄 선 사람 한 명"만 부르는 것이고, 일반 형제 선택자는 "내 뒤에 줄 선 사람 전부"를 부르는 것이다. 다만 실제 줄서기와 달리, 이건 항상 같은 부모(같은 줄) 안에서만 적용되고 앞에서 뒤 방향으로만 찾는다는 점이 다르다.
 

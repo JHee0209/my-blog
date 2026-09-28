@@ -48,7 +48,7 @@ System.out.println(bnum);
 
 **1. byte는 8비트, 부호 있는 2의 보수 표현을 쓴다.**
 
-> The `byte` data type is an 8-bit signed two's complement integer. It has a minimum value of -128 and a maximum value of 127 (inclusive).
+공식 문서에서는 byte 자료형을 8비트 크기의, 부호 있는 2의 보수 방식 정수라고 설명한다. 최솟값은 -128, 최댓값은 127이다.
 
 8비트로는 256가지 값만 표현할 수 있다. byte는 이 중 절반을 양수(0~127)로, 나머지 절반을 음수(-128~-1)로 나눠 쓴다. 맨 앞자리 비트(부호 비트)가 0이면 양수, 1이면 음수로 읽는 방식이다.
 
@@ -62,9 +62,7 @@ System.out.println(bnum);
 
 **2. `++`는 계산을 int로 한 뒤, 그 결과를 byte로 좁혀서(narrowing) 다시 저장한다.**
 
-자바 언어 명세(JLS)는 `+=` 같은 복합 대입 연산자를 이렇게 정의한다.
-
-> A compound assignment expression of the form E1 op= E2 is equivalent to E1 = (T) ((E1) op (E2)), where T is the type of E1.
+자바 언어 명세(JLS)에 따르면, `+=` 같은 복합 대입 연산자 `E1 op= E2`는 `E1 = (T) ((E1) op (E2))`와 같은 것으로 정의된다. 여기서 `T`는 `E1`의 자료형이다. 즉 연산 결과를 원래 변수의 자료형으로 자동으로 좁혀서(형변환해서) 다시 대입한다는 뜻이다.
 
 `++`도 같은 원리로 동작한다. `bnum++`은 실제로는 `bnum = (byte)(bnum + 1)`과 같다. `bnum + 1`은 int로 계산되어 128이 되고, 이 128을 다시 byte로 좁혀서 저장하는 과정에서 위 표처럼 -128이 된다.
 
@@ -82,7 +80,7 @@ bnum = (byte)(bnum + 1); // 명시적으로 형변환하면 컴파일된다 (결
 
 byte는 8비트 중 맨 앞자리를 부호 비트로 쓰지만, 문자형인 char는 다르다.
 
-> The `char` data type is a single 16-bit Unicode character. It has a minimum value of 0 and a maximum value of 65,535 (inclusive).
+공식 문서에서는 char 자료형을 16비트 크기의 유니코드 문자 하나라고 설명한다. 최솟값은 0, 최댓값은 65,535다.
 
 char는 16비트를 전부 값(문자 코드)을 나타내는 데 쓴다. 부호 비트가 없어서 최솟값이 0이고, 음수는 아예 표현하지 못한다. byte처럼 맨 앞자리 비트를 부호로 읽는 게 아니라, 16비트 전체를 하나의 양수로만 읽는다.
 

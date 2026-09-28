@@ -21,7 +21,7 @@ snippet: |
 
 전위 연산자(`++i`)는 변수를 먼저 증가시키고 그 증가된 값을 결과로 쓰고, 후위 연산자(`i++`)는 원래 값을 결과로 쓴 다음에 변수를 증가시킨다.
 
-> The increment/decrement operators can be applied before (prefix) or after (postfix) the operand. ... The only difference is that the prefix version (`++result`) evaluates to the incremented value, whereas the postfix version (`result++`) evaluates to the original value.
+공식 문서에서는 증감 연산자를 피연산자 앞(전위)이나 뒤(후위)에 쓸 수 있고, 전위 형태는 증가된 값을 결과로 내놓는 반면 후위 형태는 원래 값을 결과로 내놓는다는 점이 유일한 차이라고 설명한다.
 
 비유: 후위 연산자는 번호표 뽑는 기계와 비슷하다. 먼저 지금 번호를 뽑아서 손에 쥐고(결과로 쓰고), 그다음에 기계 안의 다음 번호를 하나 올린다. 전위 연산자는 기계 안의 번호를 먼저 올리고, 그 올라간 번호를 바로 뽑아서 손에 쥔다. 다만 이 비유에는 한계가 있다. 번호표 기계는 사람이 순서대로 행동하지만, 실제 코드에서는 이 과정이 한 줄 안에서 한 번에 일어난다.
 
@@ -75,9 +75,7 @@ int c = ++b;   // b가 먼저 4가 되고, 그 4가 c에 담긴다.
 
 증감 연산자는 덧셈, 뺄셈보다 우선순위가 높다. 그래서 `i++ + ++i`라는 식은 `(i++) + (++i)`로 묶인다. `i++`와 `++i`가 각각 먼저 자기 자신의 계산을 끝내고, 그 결과 두 개를 마지막에 더하는 것이다.
 
-**평가 순서**는 "그 묶인 것들을 실제로 언제 계산하는지"를 정한다. 우선순위와는 별개의 규칙이다. 자바 언어 명세(JLS)는 이렇게 정의한다.
-
-> The Java programming language guarantees that the operands of operators appear to be evaluated in a specific evaluation order, namely, from left to right.
+**평가 순서**는 "그 묶인 것들을 실제로 언제 계산하는지"를 정한다. 우선순위와는 별개의 규칙이다. 자바 언어 명세(JLS)에 따르면, 자바는 연산자의 피연산자를 항상 왼쪽에서 오른쪽 순서로 평가하도록 보장한다.
 
 그래서 `(i++) + (++i)`에서는 왼쪽의 `i++`가 먼저 계산되고, 그다음에 오른쪽의 `++i`가 계산된다. 아래는 이해를 돕기 위한 예시 코드다.
 

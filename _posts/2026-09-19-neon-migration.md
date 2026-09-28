@@ -15,7 +15,7 @@ snippet: |
 
 GitHub의 `dev` 브랜치를 Vercel Preview에 배포해 개발 중인 기능을 확인하고 있었다. 그런데 어느 순간 Preview 사이트에 접속하자 홈 화면에서 기기 정보를 불러오지 못했다.
 
-API별로 확인해보니 일부만 실패하고 있었다. 
+API별로 확인해보니 일부만 실패하고 있었다.  
 
 ```text
 /api/queue      200
@@ -38,7 +38,7 @@ PostgreSQL error code: 42P01
 
 이걸 이해하려면 GitHub, Vercel, Neon을 서로 다른 역할로 나눠서 봐야 했다.
 
-```text
+```text   
 GitHub = 코드 관리
 Vercel = 코드 실행/배포
 Neon   = PostgreSQL 데이터베이스

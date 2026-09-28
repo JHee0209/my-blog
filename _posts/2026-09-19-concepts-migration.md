@@ -132,7 +132,7 @@ Production DB    → main에 반영해서 배포할 때 적용
 
 중요한 건 순서다. 최신 코드는 새 컬럼을 사용하는데 DB에 그 컬럼이 없으면 그 순간 에러가 난다. 그래서 **DB를 먼저 최신으로 만들고 코드를 배포하는 쪽**이 대체로 안전하다. (컬럼을 삭제하는 경우는 반대로, 코드에서 먼저 안 쓰게 만든 다음 지워야 한다.)
 
-실제로 이 순서가 어긋나서 Preview 환경만 500이 났던 기록은 [따로 정리해뒀다]({{ site.baseurl }}{% post_url 2026-09-19-vercel-preview-neon-migration-mismatch %}).
+실제로 이 순서가 어긋나서 Preview 환경만 500이 났던 기록은 [따로 정리해뒀다]({{ site.baseurl }}{% post_url 2026-09-19-neon-migration %}).
 
 ## 헷갈렸던 점
 

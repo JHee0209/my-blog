@@ -41,7 +41,7 @@ System.out.println(i);     // 5
 
 ## 헷갈렸던 점
 
-단독으로 쓸 때와 다른 곳에 값을 담을 때 왜 차이가 생기는지가 헷갈렸다.
+**1. 단독으로 쓸 때와 다른 곳에 값을 담을 때 왜 차이가 생기는지**가 헷갈렸다.
 
 **단독으로 쓸 때(`i++;`, `++i;`만 한 줄에 있을 때)**는 이 연산이 만들어낸 "결과 값"을 아무도 쓰지 않는다. 그래서 i가 1 증가한다는 사실만 남고, 전위든 후위든 똑같아 보인다.
 
@@ -62,13 +62,49 @@ int c = ++b;   // b가 먼저 4가 되고, 그 4가 c에 담긴다.
 
 변수(i, b) 자신은 두 경우 다 결국 4가 된다는 점은 같다. 다른 건 그 순간에 "대입되는 값"이 원래 값이냐, 증가된 값이냐 뿐이다.
 
+**2. 증감 연산자가 다른 연산자와 한 식에 섞이면 어떻게 계산되는지**도 헷갈렸다. 이건 우선순위(precedence)와 평가 순서(evaluation order), 두 가지를 나눠서 봐야 이해가 됐다.
+
+**우선순위**는 "어떤 연산자가 피연산자를 먼저 가져가서 묶는지"를 정한다. 자바 공식 문서의 우선순위 표를 일부만 가져오면 이렇다.
+
+| 우선순위 | 종류 | 연산자 |
+|----------|------|--------|
+| 높음 | 후위(postfix) | `expr++`, `expr--` |
+| ↓ | 전위/단항(unary) | `++expr`, `--expr`, `+expr`, `-expr` |
+| ↓ | 곱셈/나눗셈 | `*`, `/`, `%` |
+| 낮음 | 덧셈/뺄셈 | `+`, `-` |
+
+증감 연산자는 덧셈, 뺄셈보다 우선순위가 높다. 그래서 `i++ + ++i`라는 식은 `(i++) + (++i)`로 묶인다. `i++`와 `++i`가 각각 먼저 자기 자신의 계산을 끝내고, 그 결과 두 개를 마지막에 더하는 것이다.
+
+**평가 순서**는 "그 묶인 것들을 실제로 언제 계산하는지"를 정한다. 우선순위와는 별개의 규칙이다. 자바 언어 명세(JLS)는 이렇게 정의한다.
+
+> The Java programming language guarantees that the operands of operators appear to be evaluated in a specific evaluation order, namely, from left to right.
+
+그래서 `(i++) + (++i)`에서는 왼쪽의 `i++`가 먼저 계산되고, 그다음에 오른쪽의 `++i`가 계산된다. 아래는 이해를 돕기 위한 예시 코드다.
+
+```java
+int i = 1;
+int result = i++ + ++i;
+System.out.println(result);
+System.out.println(i);
+```
+
+| 순서 | 계산 | i의 값 변화 | 이 계산이 남긴 값 |
+|------|------|-------------|-------------------|
+| 1 | `i++` 평가 (원래 값을 먼저 쓰고 증가) | 1 → 2 | 1 |
+| 2 | `++i` 평가 (먼저 증가하고 그 값을 씀) | 2 → 3 | 3 |
+| 3 | `1 + 3` 계산 | 3 (변화 없음) | 4 |
+
+그래서 `result`는 4, 최종 `i`는 3이 된다. 우선순위 덕분에 `i++`와 `++i`가 각각 하나의 단위로 묶이고, 평가 순서 덕분에 왼쪽 것이 먼저 실행된다는 것까지 알아야 이 결과가 이해된다.
+
 ## 더 학습하면 좋은 개념
 
-- **연산자 우선순위** — `++`, `--`가 다른 연산자와 한 식에 섞였을 때 어떤 순서로 계산되는지 알아야 한다.
 - **복합 대입 연산자(`+=`, `-=` 등)** — [byte 오버플로우 글]({{ site.baseurl }}{% post_url 2026-09-28-java-byte-overflow %})에서 나온 것처럼, 이 연산자들도 내부적으로 형변환이 얽혀 있어서 함께 봐야 한다.
 - **부작용(side effect)이 있는 식** — 증가 연산자처럼 실행하면서 변수 값 자체를 바꿔버리는 식이 한 문장에 여러 번 나오면 어떤 문제가 생기는지 알아볼 필요가 있다.
 - **반복문(for문)** — `for` 문에서 `i++`가 왜 그렇게 자주 쓰이는지, 반복문을 배우면서 이어서 확인해야 한다.
+- **단축 평가(short-circuit evaluation)** — `&&`, `||`도 왼쪽부터 평가하지만, 조건에 따라 오른쪽은 아예 평가하지 않는 경우가 있다. 이번에 배운 평가 순서를 더 넓게 이해하는 데 도움이 된다.
 
 ## 참고 자료
 
 - [Assignment, Arithmetic, and Unary Operators (The Java Tutorials)](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/op1.html)
+- [Operator Precedence (The Java Tutorials)](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html)
+- [Java Language Specification, §15.7 Evaluation Order](https://docs.oracle.com/javase/specs/jls/se21/html/jls-15.html#jls-15.7)

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Git·GitHub 명령어 정리"
+title: "Git 기본 명령어, 어디에 쓰는 걸까"
 date: 2026-08-31
 categories: [개념]
 tags: [git, github]

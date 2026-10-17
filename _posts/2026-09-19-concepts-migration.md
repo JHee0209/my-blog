@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Migration은 왜 필요할까 — DB 구조를 코드처럼 관리하기"
+title: "Migration이란? DB 구조를 코드처럼 관리하기"
 date: 2026-09-19 22:30:00 +0900
 categories: [개념]
 tags: [database, migration, PostgreSQL, SQL]

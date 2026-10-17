@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "grid는 왜 필요할까 — flex와 언제 다르게 쓸지 정리"
+title: "grid는 왜 필요할까? flex와 비교하기"
 date: 2026-09-08 23:53:42 +0900
 categories: [개념]
 tags: [CSS, grid, layout]

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Vercel Preview에서만 테이블이 없다고 할 때 — 코드와 DB 스키마의 버전 불일치"
+title: "Vercel Preview에서만 테이블이 없다고 나올 때"
 date: 2026-09-19 21:40:00 +0900
 categories: [트러블슈팅]
 tags: [migration, database]

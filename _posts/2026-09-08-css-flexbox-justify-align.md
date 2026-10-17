@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "flex 정렬과 줄바꿈 — justify-content, align-items, flex-wrap"
+title: "flex에서 정렬하고 줄바꿈하는 방법"
 date: 2026-09-08 22:23:22 +0900
 categories: [개념]
 tags: [CSS, flex, wrap]

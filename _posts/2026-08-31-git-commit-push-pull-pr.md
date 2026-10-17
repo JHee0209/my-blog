@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "commit, push, pull, PR 흐름 정리"
+title: "commit, push, pull, PR은 뭐가 다를까"
 date: 2026-08-31
 categories: [개념]
 tags: [commit, PR]

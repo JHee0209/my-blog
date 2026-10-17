@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Git 개념 정리"
+title: "git add, commit, push는 왜 나뉘어 있을까"
 date: 2026-08-28
 categories: [개념]
 tags: [git]

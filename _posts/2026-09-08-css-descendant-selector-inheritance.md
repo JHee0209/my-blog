@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "자손·형제 선택자와 상속 정리"
+title: "자손·형제 선택자와 상속, 어디까지 적용될까"
 date: 2026-09-08 23:26:59 +0900
 categories: [개념]
 tags: [CSS, selector, inheritance]

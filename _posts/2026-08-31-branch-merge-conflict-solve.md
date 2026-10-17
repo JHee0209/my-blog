@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "브랜치와 merge, 그리고 충돌 해결"
+title: "merge 충돌이 났을 때 해결하는 방법"
 date: 2026-08-31
 categories: [트러블슈팅]
 tags: [branch, merge, conflict]

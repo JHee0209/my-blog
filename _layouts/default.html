@@ -11,9 +11,9 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-    font-family: "Pretendard Variable", Pretendard, -apple-system,
-      BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-  }
+      font-family: "Pretendard Variable", Pretendard, -apple-system,
+        BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    }
 
     /* ===== 상단바 래퍼 (드롭다운의 위치 기준) ===== */
     .nav-wrap {
@@ -119,7 +119,7 @@
     }
 
     .search-dropdown.open {
-      max-height: 70vh;
+      max-height: 80vh;
       opacity: 1;
       pointer-events: auto;
       box-shadow: 0 14px 30px rgba(20, 20, 40, 0.08);
@@ -199,15 +199,17 @@
       align-items: center;
     }
 
+    /* More 버튼 스타일 */
     .search-header .more-btn {
       font-size: 0.8rem;
-      font-weight: 500;
+      font-weight: 600;
       color: #4a3aff;
-      background: rgba(74, 58, 255, 0.07);
+      background: rgba(74, 58, 255, 0.08);
       border: none;
       border-radius: 999px;
       padding: 0.35rem 0.85rem;
-      text-decoration: none;
+      cursor: pointer;
+      font-family: inherit;
       transition: background 0.2s, color 0.2s;
     }
 
@@ -216,10 +218,19 @@
       color: #fff;
     }
 
+    /* 태그 목록 박스 - 기본 2줄 제한 및 슬라이드 확장 */
     .search-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 0.6rem;
+      max-height: 84px; /* 기본 2줄 높이 */
+      overflow: hidden;
+      transition: max-height 0.4s ease-in-out; /* 슬라이드 애니메이션 */
+    }
+
+    /* More 클릭 시 높이 제한 해제 (아래로 확장) */
+    .search-tags.is-expanded {
+      max-height: 800px;
     }
 
     .search-tag-pill {
@@ -252,6 +263,7 @@
       display: none;
       font-size: 0.875rem;
       color: #9a9aa8;
+      margin-top: 1rem;
     }
 
     .search-empty.show {
@@ -321,12 +333,15 @@
 
       <div class="search-header">
         <span>Tags</span>
-        <a href="{{ '/tags/' | relative_url }}" class="more-btn">More →</a>
+        <!-- More 버튼 (클릭 시 밑으로 확장 토글) -->
+        <button type="button" class="more-btn" id="toggleMoreTagsBtn">More →</button>
       </div>
 
+      <!-- 태그 박스 -->
       <div class="search-tags" id="searchTags">
         {% assign sorted_tags = site.tags | sort %}
         {% for tag in sorted_tags %}
+          <!-- 클릭 시 /tags/#태그명 페이지로 이동 -->
           <a href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}" class="search-tag-pill" data-tag="{{ tag[0] | downcase }}">{{ tag[0] }}</a>
         {% endfor %}
       </div>
@@ -349,6 +364,23 @@
   var label = document.getElementById('searchBtnLabel');
   var searchUrl = "{{ '/search/' | relative_url }}";
 
+  var toggleMoreTagsBtn = document.getElementById('toggleMoreTagsBtn');
+  var searchTagsBox = document.getElementById('searchTags');
+
+  /* More → 버튼 클릭 시 태그 영역 확장 토글 */
+  if (toggleMoreTagsBtn && searchTagsBox) {
+    toggleMoreTagsBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (searchTagsBox.classList.contains('is-expanded')) {
+        searchTagsBox.classList.remove('is-expanded');
+        toggleMoreTagsBtn.textContent = 'More →';
+      } else {
+        searchTagsBox.classList.add('is-expanded');
+        toggleMoreTagsBtn.textContent = 'Fold ↑';
+      }
+    });
+  }
+
   function open() {
     dropdown.classList.add('open');
     searchBtn.classList.add('is-open');
@@ -362,6 +394,9 @@
     searchBtn.classList.remove('is-open');
     searchBtn.setAttribute('aria-expanded', 'false');
     label.textContent = 'Search';
+    // 닫힐 때 펼쳐진 태그 상자도 다시 2줄 상태로 원복
+    if (searchTagsBox) searchTagsBox.classList.remove('is-expanded');
+    if (toggleMoreTagsBtn) toggleMoreTagsBtn.textContent = 'More →';
   }
 
   function submit() {

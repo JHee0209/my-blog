@@ -30,7 +30,6 @@ permalink: /trouble/
   color: #6d6979;
 }
 
-/* 태그 필터 */
 .tag-filter-wrap {
   display: flex;
   gap: 0.5rem;
@@ -72,12 +71,15 @@ permalink: /trouble/
   color: #d93a2b;
 }
 
-/* 2열 그리드 배치 */
 .posts-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
-  min-height: 400px;
+  min-height: 300px;
+}
+
+.post-card-item {
+  display: block;
 }
 
 .post-card {
@@ -88,6 +90,7 @@ permalink: /trouble/
   border-radius: 14px;
   padding: 1.6rem;
   text-decoration: none;
+  height: 100%;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
@@ -152,7 +155,6 @@ permalink: /trouble/
   font-weight: 600;
 }
 
-/* 페이지네이션 버튼 */
 .pagination-container {
   display: flex;
   gap: 0.4rem;
@@ -208,15 +210,19 @@ permalink: /trouble/
     <p>개발 과정에서 직면한 오류 및 문제 해결 기록입니다.</p>
   </div>
 
-  {% assign category_posts = site.posts | where_exp: "item", "item.categories contains 'Troubleshooting' or item.categories contains '트러블슈팅'" %}
-
+  <!-- 안전한 Liquid 카테고리 추출 및 태그 수집 -->
+  {% assign category_posts = "" | split: "" %}
   {% assign category_tags = "" | split: "" %}
-  {% for post in category_posts %}
-    {% for tag in post.tags %}
-      {% unless category_tags contains tag %}
-        {% assign category_tags = category_tags | push: tag %}
-      {% endunless %}
-    {% endfor %}
+
+  {% for post in site.posts %}
+    {% if post.categories contains 'Troubleshooting' or post.categories contains '트러블슈팅' %}
+      {% assign category_posts = category_posts | push: post %}
+      {% for tag in post.tags %}
+        {% unless category_tags contains tag %}
+          {% assign category_tags = category_tags | push: tag %}
+        {% endunless %}
+      {% endfor %}
+    {% endif %}
   {% endfor %}
 
   {% if category_tags.size > 0 %}
@@ -264,7 +270,7 @@ permalink: /trouble/
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const postsPerPage = 6; // 한 페이지당 표시할 글 개수
+  const postsPerPage = 6;
   let currentPage = 1;
   let currentTag = "all";
 

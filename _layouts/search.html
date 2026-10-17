@@ -2,187 +2,182 @@
 layout: default
 ---
 
-<style>
-.search-wrap { max-width: 1100px; margin: 4rem auto; padding: 0 1.5rem; }
-
-.search-head { text-align: center; margin-bottom: 3rem; }
-.search-head h1 { font-size: 2rem; font-weight: 700; margin: 0 0 1.5rem; }
-
-.search-field {
-  display: flex; align-items: center; gap: 0.6rem;
-  background: #f6f6f9; border: 1px solid #e6e6ef; border-radius: 999px;
-  padding: 0.9rem 1.5rem; max-width: 520px; margin: 0 auto;
-  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
-}
-.search-field:focus-within {
-  background: #fff;
-  border-color: #4a3aff;
-  box-shadow: 0 0 0 3px rgba(74,58,255,0.12);
-}
-.search-field input {
-  flex: 1; min-width: 0; border: none; outline: none; background: transparent;
-  font-size: 1rem; font-family: inherit; color: #222;
-}
-.search-field input::placeholder { color: #9a9aa8; }
-
-.search-field .icon {
-  flex: none; width: 20px; height: 20px; color: #9a9aa8;
-}
-
-.count { text-align: center; color: #aaa; font-size: 0.9rem; margin-bottom: 2.5rem; }
-.count strong { color: #4a3aff; }
-
-.results {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.card {
-  padding: 1.5rem; border: 1px solid #eee; border-radius: 10px;
-  text-decoration: none; color: #333; transition: all 0.2s;
-  display: flex; flex-direction: column;
-}
-.card:hover {
-  box-shadow: 0 6px 18px rgba(0,0,0,0.07);
-  transform: translateY(-3px); border-color: #4a3aff;
-}
-.card .meta { font-size: 0.78rem; color: #aaa; margin-bottom: 0.6rem; }
-.card .cat {
-  background: #f0eeff; color: #4a3aff; padding: 0.15rem 0.5rem;
-  border-radius: 4px; font-weight: 600; margin-left: 0.4rem;
-}
-.card h3 { font-size: 1.05rem; font-weight: 600; margin: 0 0 0.6rem; line-height: 1.45; }
-.card .excerpt { font-size: 0.85rem; color: #777; line-height: 1.6; flex-grow: 1; }
-.card .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1rem; }
-.card .tags span {
-  font-size: 0.7rem; background: #f5f5f5; color: #888;
-  padding: 0.2rem 0.55rem; border-radius: 999px;
-}
-
-.empty { text-align: center; padding: 4rem 1rem; color: #bbb; }
-.empty .empty-icon {
-  display: block; width: 56px; height: 56px;
-  margin: 0 auto 1rem; color: #d5d5e0;
-}
-.empty p { margin: 0; font-size: 0.95rem; color: #9a9aa8; }
-
-@media (max-width: 600px) {
-  .results { grid-template-columns: 1fr; }
-}
-</style>
-
-<div class="search-wrap">
-  <div class="search-head">
-    <h1>Search</h1>
-    <div class="search-field">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" aria-hidden="true">
-        <circle cx="11" cy="11" r="7"></circle>
-        <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
-      </svg>
-      <input type="text" id="q" placeholder="제목이나 태그로 검색" autocomplete="off" aria-label="글 검색">
+<div class="search-container">
+  <div class="search-header">
+    <h1>검색</h1>
+    <div class="search-input-wrapper">
+      <input type="text" id="searchInput" placeholder="검색어를 입력하세요..." autocomplete="off">
     </div>
   </div>
 
-  <div class="count" id="count"></div>
-  <div class="results" id="results"></div>
-  <div class="empty" id="empty" style="display:none">
-    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
-         stroke-linecap="round" aria-hidden="true">
-      <circle cx="11" cy="11" r="7"></circle>
-      <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
-    </svg>
-    <p>일치하는 글이 없습니다.</p>
+  <!-- 수정된 태그 나열 영역 (상단 8개 제한 및 More 버튼) -->
+  <div class="search-tags-section">
+    <div class="tags-header">
+      <span class="tags-title">태그 목록</span>
+      <a href="{{ '/tags/' | relative_url }}" class="more-link">More +</a>
+    </div>
+    <div class="tags-wrapper">
+      {% assign popular_tags = site.tags | sort %}
+      {% for tag in popular_tags limit: 8 %}
+        <a href="{{ '/tags/#' | append: tag[0] | relative_url }}" class="search-tag-item">
+          #{{ tag[0] }}
+        </a>
+      {% endfor %}
+    </div>
   </div>
+
+  <!-- 검색 결과 목록 -->
+  <div class="search-results" id="searchResults"></div>
 </div>
 
 <script>
-var POSTS = [
-{% for post in site.posts %}
-  {
-    title: {{ post.title | jsonify }},
-    url: {{ post.url | relative_url | jsonify }},
-    date: {{ post.date | date: "%Y.%m.%d" | jsonify }},
-    cat: {{ post.categories.first | default: "" | jsonify }},
-    excerpt: {{ post.content | strip_html | strip_newlines | truncate: 90 | jsonify }},
-    tags: {{ post.tags | jsonify }}
-  }{% unless forloop.last %},{% endunless %}
-{% endfor %}
-];
+document.addEventListener("DOMContentLoaded", function() {
+  const searchInput = document.getElementById("searchInput");
+  const searchResults = document.getElementById("searchResults");
 
-var input = document.getElementById('q');
-var results = document.getElementById('results');
-var empty = document.getElementById('empty');
-var count = document.getElementById('count');
+  const posts = [
+    {% for post in site.posts %}
+      {
+        "title": {{ post.title | jsonify }},
+        "url": {{ post.url | relative_url | jsonify }},
+        "date": {{ post.date | date: "%Y-%m-%d" | jsonify }},
+        "excerpt": {{ post.excerpt | strip_html | truncate: 120 | jsonify }},
+        "tags": {{ post.tags | join: ", " | jsonify }}
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
 
-function esc(s) {
-  return String(s).replace(/[&<>"]/g, function (c) {
-    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
-  });
-}
+  searchInput.addEventListener("input", function() {
+    const query = this.value.trim().toLowerCase();
+    searchResults.innerHTML = "";
 
-function render(list, query) {
-  results.innerHTML = '';
+    if (query.length === 0) return;
 
-  if (!query) {
-    count.textContent = '';
-    empty.style.display = 'none';
-    return;
-  }
+    const filtered = posts.filter(post => 
+      post.title.toLowerCase().includes(query) ||
+      post.excerpt.toLowerCase().includes(query) ||
+      post.tags.toLowerCase().includes(query)
+    );
 
-  count.innerHTML = '<strong>' + list.length + '</strong>개의 글';
-
-  if (list.length === 0) {
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
-
-  list.forEach(function (p) {
-    var a = document.createElement('a');
-    a.href = p.url;
-    a.className = 'card';
-
-    var catHtml = p.cat ? '<span class="cat">' + esc(p.cat) + '</span>' : '';
-    var tagHtml = '';
-    if (p.tags && p.tags.length) {
-      tagHtml = '<div class="tags">' + p.tags.map(function (t) {
-        return '<span>' + esc(t) + '</span>';
-      }).join('') + '</div>';
+    if (filtered.length === 0) {
+      searchResults.innerHTML = `<p class="no-results">"${query}"에 대한 검색 결과가 없습니다.</p>`;
+      return;
     }
 
-    a.innerHTML =
-      '<div class="meta">' + esc(p.date) + catHtml + '</div>' +
-      '<h3>' + esc(p.title) + '</h3>' +
-      '<div class="excerpt">' + esc(p.excerpt) + '</div>' +
-      tagHtml;
-
-    results.appendChild(a);
+    filtered.forEach(post => {
+      const item = document.createElement("div");
+      item.className = "search-result-item";
+      item.innerHTML = `
+        <span class="result-date">${post.date}</span>
+        <h3 class="result-title"><a href="${post.url}">${post.title}</a></h3>
+        <p class="result-excerpt">${post.excerpt}</p>
+      `;
+      searchResults.appendChild(item);
+    });
   });
-}
-
-function search(query) {
-  var q = (query || '').trim().toLowerCase();
-  if (!q) { render([], ''); return; }
-
-  var hits = POSTS.filter(function (p) {
-    var inTitle = p.title.toLowerCase().indexOf(q) !== -1;
-    var inTags = (p.tags || []).join(' ').toLowerCase().indexOf(q) !== -1;
-    var inBody = p.excerpt.toLowerCase().indexOf(q) !== -1;
-    return inTitle || inTags || inBody;
-  });
-
-  render(hits, q);
-}
-
-// URL의 ?q= 값으로 초기 검색
-var params = new URLSearchParams(window.location.search);
-var initial = params.get('q') || params.get('tag') || '';
-if (initial) {
-  input.value = initial;
-  search(initial);
-}
-
-input.addEventListener('input', function (e) { search(e.target.value); });
-input.focus();
+});
 </script>
+
+<style>
+.search-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+.search-header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+.search-input-wrapper {
+  margin-bottom: 1.5rem;
+}
+#searchInput {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box;
+}
+#searchInput:focus {
+  border-color: #2563eb;
+}
+
+/* 태그 나열 부분 수정 스타일 */
+.search-tags-section {
+  margin-bottom: 2rem;
+}
+.tags-header {
+  display: flex;
+  justify-content: space-between;
+  align-align: center;
+  margin-bottom: 0.75rem;
+}
+.tags-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4b5563;
+}
+.more-link {
+  font-size: 0.85rem;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+.more-link:hover {
+  text-decoration: underline;
+}
+.tags-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.search-tag-item {
+  font-size: 0.82rem;
+  background: var(--bg-tag, #f3f4f6);
+  color: var(--text-tag, #374151);
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.search-tag-item:hover {
+  background: #e5e7eb;
+}
+
+/* 기존 검색 결과 스타일 */
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.search-result-item {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
+}
+.result-date {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+.result-title {
+  margin: 0.25rem 0;
+  font-size: 1.15rem;
+}
+.result-title a {
+  color: var(--text-color, #111827);
+  text-decoration: none;
+}
+.result-title a:hover {
+  color: #2563eb;
+}
+.result-excerpt {
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin: 0;
+}
+.no-results {
+  color: #6b7280;
+  text-align: center;
+  padding: 2rem 0;
+}
+</style>

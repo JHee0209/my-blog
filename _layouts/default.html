@@ -199,8 +199,8 @@
       align-items: center;
     }
 
-    /* More 버튼 스타일 */
-    .search-header .more-btn {
+    /* 드롭다운 전용 More 버튼 (button으로 변경하여 페이지 이동 방지) */
+    .dropdown-more-btn {
       font-size: 0.8rem;
       font-weight: 600;
       color: #4a3aff;
@@ -213,22 +213,22 @@
       transition: background 0.2s, color 0.2s;
     }
 
-    .search-header .more-btn:hover {
+    .dropdown-more-btn:hover {
       background: #4a3aff;
       color: #fff;
     }
 
-    /* 태그 목록 박스 - 기본 2줄 제한 및 슬라이드 확장 */
+    /* 태그 박스 기본 2줄 높이 제한 */
     .search-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 0.6rem;
-      max-height: 84px; /* 기본 2줄 높이 */
+      max-height: 84px; /* 2줄 높이 */
       overflow: hidden;
-      transition: max-height 0.4s ease-in-out; /* 슬라이드 애니메이션 */
+      transition: max-height 0.4s ease-in-out;
     }
 
-    /* More 클릭 시 높이 제한 해제 (아래로 확장) */
+    /* More 클릭 시 높이 해제 */
     .search-tags.is-expanded {
       max-height: 800px;
     }
@@ -333,15 +333,14 @@
 
       <div class="search-header">
         <span>Tags</span>
-        <!-- More 버튼 (클릭 시 밑으로 확장 토글) -->
-        <button type="button" class="more-btn" id="toggleMoreTagsBtn">More →</button>
+        <!-- 버튼 타입으로 명확히 지정 -->
+        <button type="button" class="dropdown-more-btn" id="dropdownMoreTagsBtn">More →</button>
       </div>
 
       <!-- 태그 박스 -->
       <div class="search-tags" id="searchTags">
         {% assign sorted_tags = site.tags | sort %}
         {% for tag in sorted_tags %}
-          <!-- 클릭 시 /tags/#태그명 페이지로 이동 -->
           <a href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}" class="search-tag-pill" data-tag="{{ tag[0] | downcase }}">{{ tag[0] }}</a>
         {% endfor %}
       </div>
@@ -364,19 +363,20 @@
   var label = document.getElementById('searchBtnLabel');
   var searchUrl = "{{ '/search/' | relative_url }}";
 
-  var toggleMoreTagsBtn = document.getElementById('toggleMoreTagsBtn');
+  var dropdownMoreBtn = document.getElementById('dropdownMoreTagsBtn');
   var searchTagsBox = document.getElementById('searchTags');
 
-  /* More → 버튼 클릭 시 태그 영역 확장 토글 */
-  if (toggleMoreTagsBtn && searchTagsBox) {
-    toggleMoreTagsBtn.addEventListener('click', function (e) {
+  /* More → 버튼 클릭 시 슬라이드 토글 (페이지 이동 차단) */
+  if (dropdownMoreBtn && searchTagsBox) {
+    dropdownMoreBtn.addEventListener('click', function (e) {
       e.preventDefault();
+      e.stopPropagation(); // 이벤트 전파 차단
       if (searchTagsBox.classList.contains('is-expanded')) {
         searchTagsBox.classList.remove('is-expanded');
-        toggleMoreTagsBtn.textContent = 'More →';
+        dropdownMoreBtn.textContent = 'More →';
       } else {
         searchTagsBox.classList.add('is-expanded');
-        toggleMoreTagsBtn.textContent = 'Fold ↑';
+        dropdownMoreBtn.textContent = 'Fold ↑';
       }
     });
   }
@@ -394,9 +394,8 @@
     searchBtn.classList.remove('is-open');
     searchBtn.setAttribute('aria-expanded', 'false');
     label.textContent = 'Search';
-    // 닫힐 때 펼쳐진 태그 상자도 다시 2줄 상태로 원복
     if (searchTagsBox) searchTagsBox.classList.remove('is-expanded');
-    if (toggleMoreTagsBtn) toggleMoreTagsBtn.textContent = 'More →';
+    if (dropdownMoreBtn) dropdownMoreBtn.textContent = 'More →';
   }
 
   function submit() {

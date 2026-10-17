@@ -1,131 +1,87 @@
----
-layout: default
-title: 전체 흐름 보기
-permalink: /timeline/
----
+{% if site.bootcamp_start and site.posts.size > 0 %}
 
-<div class="flow-timeline">
-  <div class="flow-header">
-    <h2>🗺️ 전체 학습 & 문제 해결 흐름</h2>
-    <p>블로그에 작성된 모든 게시글의 시간순 로드맵입니다.</p>
-  </div>
+  {% assign start = site.bootcamp_start | date: "%s" | plus: 0 %}
+  {% assign rows = "" | split: "" %}
+  {% for post in site.posts %}
+    {% assign elapsed = post.date | date: "%s" | plus: 0 | minus: start %}
+    {% if elapsed < 0 %}{% assign elapsed = 0 %}{% endif %}
+    {% assign wk = elapsed | divided_by: 604800 | plus: 1 %}
+    {% assign key = wk | prepend: "000" | slice: -3, 3 %}
+    {% assign rows = rows | push: key %}
+  {% endfor %}
 
-  <div class="timeline-container">
-    {% assign sorted_posts = site.posts | reverse %}
-    {% for post in sorted_posts %}
-      <div class="timeline-item">
-        <div class="timeline-badge {% if post.categories contains 'Troubleshooting' %}trouble{% else %}concept{% endif %}">
-          {% if post.categories contains 'Troubleshooting' %}🛠️{% else %}📚{% endif %}
-        </div>
-        <div class="timeline-content">
-          <span class="timeline-date">{{ post.date | date: "%Y-%m-%d" }}</span>
-          <h3 class="timeline-title">
-            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-          </h3>
-          <p class="timeline-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
-          {% if post.tags.size > 0 %}
-            <div class="timeline-tags">
-              {% for tag in post.tags %}
-                <span class="tag">#{{ tag }}</span>
-              {% endfor %}
-            </div>
+  {% assign week_keys = rows | uniq | sort | reverse %}
+  {% assign weeks_shown = include.weeks | default: 2 | plus: 0 %}
+  {% assign per_week = include.per_week | default: 3 | plus: 0 %}
+
+  <div class="card">
+
+    <div class="sec-head">
+      <span class="sec-dot"></span>
+      <h2>{{ include.title | default: "이번 주 학습 흐름" }}</h2>
+      {% if week_keys.size > weeks_shown %}
+        <a href="{{ '/timeline/' | relative_url }}" class="sec-more">전체 흐름 &rarr;</a>
+      {% endif %}
+    </div>
+
+    <div class="tl-weeks">
+      {% for key in week_keys limit: weeks_shown %}
+        {% assign wk_num = key | plus: 0 %}
+        {% assign is_now = forloop.first %}
+
+        {% assign wk_posts = "" | split: "" %}
+        {% for post in site.posts %}
+          {% if rows[forloop.index0] == key %}
+            {% assign wk_posts = wk_posts | push: forloop.index0 %}
           {% endif %}
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-</div>
+        {% endfor %}
 
-<style>
-.flow-timeline {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-.flow-header {
-  margin-bottom: 2.5rem;
-  text-align: center;
-}
-.flow-header h2 {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-}
-.flow-header p {
-  color: #6b7280;
-}
-.timeline-container {
-  position: relative;
-  padding-left: 2.5rem;
-  border-left: 2px solid #e5e7eb;
-}
-.timeline-item {
-  position: relative;
-  margin-bottom: 2rem;
-}
-.timeline-badge {
-  position: absolute;
-  left: -3.35rem;
-  top: 0;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid #3b82f6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-.timeline-badge.trouble {
-  border-color: #ef4444;
-}
-.timeline-content {
-  background: #ffffff;
-  padding: 1.25rem;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.timeline-content:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-.timeline-date {
-  font-size: 0.85rem;
-  color: #6b7280;
-  font-weight: 600;
-}
-.timeline-title {
-  margin: 0.4rem 0;
-  font-size: 1.15rem;
-  word-break: keep-all;
-}
-.timeline-title a {
-  color: #111827;
-  text-decoration: none;
-}
-.timeline-title a:hover {
-  color: #2563eb;
-}
-.timeline-excerpt {
-  color: #4b5563;
-  font-size: 0.95rem;
-  margin: 0.5rem 0;
-  line-height: 1.5;
-}
-.timeline-tags {
-  margin-top: 0.75rem;
-  display: flex;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-}
-.timeline-tags .tag {
-  font-size: 0.75rem;
-  color: #2563eb;
-  background: #eff6ff;
-  padding: 3px 8px;
-  border-radius: 6px;
-}
-</style>
+        {% assign newest_i = wk_posts.first | plus: 0 %}
+        {% assign oldest_i = wk_posts.last | plus: 0 %}
+        {% assign newest = site.posts[newest_i] %}
+        {% assign oldest = site.posts[oldest_i] %}
+
+        <div class="tl-week{% if is_now %} is-now{% endif %}">
+
+          <div class="tl-week-head">
+            <span class="tl-week-no">Week {{ wk_num }}</span>
+            <span class="tl-week-range">
+              {%- if wk_posts.size > 1 -%}
+                {{ oldest.date | date: "%m.%d" }} - {{ newest.date | date: "%m.%d" }}
+              {%- else -%}
+                {{ newest.date | date: "%m.%d" }}
+              {%- endif -%}
+            </span>
+          </div>
+
+          <div class="tl-rail" aria-hidden="true">
+            {% assign dots = wk_posts.size %}
+            {% if dots > per_week %}{% assign dots = per_week %}{% endif %}
+            {% for i in (1..dots) %}
+              <span class="tl-rail-dot" style="left: {% if dots == 1 %}0{% else %}{{ forloop.index0 | times: 100 | divided_by: dots | plus: 0 }}{% endif %}%"></span>
+            {% endfor %}
+          </div>
+
+          <div class="tl-items">
+            {% for idx in wk_posts limit: per_week %}
+              {% assign i = idx | plus: 0 %}
+              {% assign p = site.posts[i] %}
+              <a class="tl-item" href="{{ p.url | relative_url }}">
+                <span class="tl-item-date">{{ p.date | date: "%m.%d" }}</span>
+                <span class="tl-item-title">{{ p.title }}</span>
+              </a>
+            {% endfor %}
+          </div>
+
+          {% if wk_posts.size > per_week %}
+            {% assign rest = wk_posts.size | minus: per_week %}
+            <div class="tl-more">+ {{ rest }}편 더</div>
+          {% endif %}
+
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+{% endif %}

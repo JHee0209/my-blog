@@ -5,13 +5,13 @@ layout: default
 <style>
 .search-wrap { max-width: 1100px; margin: 4rem auto; padding: 0 1.5rem; }
 
-.search-head { text-align: center; margin-bottom: 2rem; }
+.search-head { text-align: center; margin-bottom: 3rem; }
 .search-head h1 { font-size: 2rem; font-weight: 700; margin: 0 0 1.5rem; }
 
 .search-field {
   display: flex; align-items: center; gap: 0.6rem;
   background: #f6f6f9; border: 1px solid #e6e6ef; border-radius: 999px;
-  padding: 0.9rem 1.5rem; max-width: 520px; margin: 0 auto 1.5rem;
+  padding: 0.9rem 1.5rem; max-width: 520px; margin: 0 auto;
   transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 .search-field:focus-within {
@@ -24,76 +24,11 @@ layout: default
   font-size: 1rem; font-family: inherit; color: #222;
 }
 .search-field input::placeholder { color: #9a9aa8; }
-.search-field .icon { flex: none; width: 20px; height: 20px; color: #9a9aa8; }
 
-/* =========================================================
-   추천 태그 영역 (2줄 제한 + More 접기/펼치기)
-   ========================================================= */
-.tag-recommend-wrap {
-  max-width: 520px;
-  margin: 0 auto 2.5rem;
-  text-align: left;
+.search-field .icon {
+  flex: none; width: 20px; height: 20px; color: #9a9aa8;
 }
 
-.tag-recommend-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.6rem;
-}
-
-.tag-recommend-title {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #7b7788;
-}
-
-.more-btn {
-  background: none;
-  border: none;
-  color: #4a3aff;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-}
-.more-btn:hover { text-decoration: underline; }
-
-/* 2줄 높이 제한 */
-.tag-list-box {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  max-height: 72px; /* 기본 2줄 높이 */
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-}
-
-/* More 클릭 시 전체 펼침 */
-.tag-list-box.is-expanded {
-  max-height: 1000px;
-}
-
-.rec-tag {
-  display: inline-block;
-  padding: 0.3rem 0.75rem;
-  border-radius: 999px;
-  background: #f0eeff;
-  color: #4a3aff;
-  font-size: 0.78rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.18s, color 0.18s, transform 0.18s;
-}
-.rec-tag:hover {
-  background: #4a3aff;
-  color: #fff;
-  transform: translateY(-2px);
-}
-
-/* =========================================================
-   검색 결과 카운트 & 카드
-   ========================================================= */
 .count { text-align: center; color: #aaa; font-size: 0.9rem; margin-bottom: 2.5rem; }
 .count strong { color: #4a3aff; }
 
@@ -139,8 +74,6 @@ layout: default
 <div class="search-wrap">
   <div class="search-head">
     <h1>Search</h1>
-    
-    <!-- 검색창 -->
     <div class="search-field">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
            stroke-linecap="round" aria-hidden="true">
@@ -149,23 +82,6 @@ layout: default
       </svg>
       <input type="text" id="q" placeholder="제목이나 태그로 검색" autocomplete="off" aria-label="글 검색">
     </div>
-
-    <!-- 추천 태그 리스트 -->
-    {% assign all_tags = site.tags | sort %}
-    {% if all_tags.size > 0 %}
-    <div class="tag-recommend-wrap">
-      <div class="tag-recommend-head">
-        <span class="tag-recommend-title">🏷️ 태그 목록</span>
-        <button type="button" id="toggleTagsBtn" class="more-btn">More +</button>
-      </div>
-      <div class="tag-list-box" id="tagListBox">
-        {% for tag in all_tags %}
-          <!-- 태그 클릭 시 /tags/#태그명 페이지로 이동 -->
-          <a href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}" class="rec-tag">#{{ tag[0] }}</a>
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
   </div>
 
   <div class="count" id="count"></div>
@@ -198,21 +114,6 @@ var input = document.getElementById('q');
 var results = document.getElementById('results');
 var empty = document.getElementById('empty');
 var count = document.getElementById('count');
-var tagListBox = document.getElementById('tagListBox');
-var toggleTagsBtn = document.getElementById('toggleTagsBtn');
-
-/* More 버튼 토글 스크립트 */
-if (toggleTagsBtn && tagListBox) {
-  toggleTagsBtn.addEventListener('click', function () {
-    if (tagListBox.classList.contains('is-expanded')) {
-      tagListBox.classList.remove('is-expanded');
-      toggleTagsBtn.textContent = 'More +';
-    } else {
-      tagListBox.classList.add('is-expanded');
-      toggleTagsBtn.textContent = 'Fold -';
-    }
-  });
-}
 
 function esc(s) {
   return String(s).replace(/[&<>"]/g, function (c) {

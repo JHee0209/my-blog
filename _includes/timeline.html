@@ -1,6 +1,10 @@
-{% if site.bootcamp_start and site.posts.size > 0 %}
+{% assign posts_count = site.posts.size %}
+{% if posts_count > 0 %}
 
-  {% assign start = site.bootcamp_start | date: "%s" | plus: 0 %}
+  {% assign default_start = site.posts.last.date | date: "%Y-%m-%d" %}
+  {% assign start_date = site.bootcamp_start | default: default_start %}
+  {% assign start = start_date | date: "%s" | plus: 0 %}
+
   {% assign rows = "" | split: "" %}
   {% for post in site.posts %}
     {% assign elapsed = post.date | date: "%s" | plus: 0 | minus: start %}

@@ -1,87 +1,160 @@
-{% if site.bootcamp_start and site.posts.size > 0 %}
+<style>
+/* 카드 및 헤더 기본 구조 */
+.card {
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
 
-  {% assign start = site.bootcamp_start | date: "%s" | plus: 0 %}
-  {% assign rows = "" | split: "" %}
-  {% for post in site.posts %}
-    {% assign elapsed = post.date | date: "%s" | plus: 0 | minus: start %}
-    {% if elapsed < 0 %}{% assign elapsed = 0 %}{% endif %}
-    {% assign wk = elapsed | divided_by: 604800 | plus: 1 %}
-    {% assign key = wk | prepend: "000" | slice: -3, 3 %}
-    {% assign rows = rows | push: key %}
-  {% endfor %}
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
 
-  {% assign week_keys = rows | uniq | sort | reverse %}
-  {% assign weeks_shown = include.weeks | default: 2 | plus: 0 %}
-  {% assign per_week = include.per_week | default: 3 | plus: 0 %}
+.sec-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #2563eb;
+}
 
-  <div class="card">
+.sec-head h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  flex: 1;
+}
 
-    <div class="sec-head">
-      <span class="sec-dot"></span>
-      <h2>{{ include.title | default: "이번 주 학습 흐름" }}</h2>
-      {% if week_keys.size > weeks_shown %}
-        <a href="{{ '/timeline/' | relative_url }}" class="sec-more">전체 흐름 &rarr;</a>
-      {% endif %}
-    </div>
+.sec-more {
+  font-size: 0.875rem;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
 
-    <div class="tl-weeks">
-      {% for key in week_keys limit: weeks_shown %}
-        {% assign wk_num = key | plus: 0 %}
-        {% assign is_now = forloop.first %}
+.sec-more:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
 
-        {% assign wk_posts = "" | split: "" %}
-        {% for post in site.posts %}
-          {% if rows[forloop.index0] == key %}
-            {% assign wk_posts = wk_posts | push: forloop.index0 %}
-          {% endif %}
-        {% endfor %}
+/* 주차별 컨테이너 */
+.tl-weeks {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
 
-        {% assign newest_i = wk_posts.first | plus: 0 %}
-        {% assign oldest_i = wk_posts.last | plus: 0 %}
-        {% assign newest = site.posts[newest_i] %}
-        {% assign oldest = site.posts[oldest_i] %}
+.tl-week {
+  position: relative;
+  padding-left: 1rem;
+  border-left: 2px solid #f3f4f6;
+}
 
-        <div class="tl-week{% if is_now %} is-now{% endif %}">
+.tl-week.is-now {
+  border-left-color: #2563eb;
+}
 
-          <div class="tl-week-head">
-            <span class="tl-week-no">Week {{ wk_num }}</span>
-            <span class="tl-week-range">
-              {%- if wk_posts.size > 1 -%}
-                {{ oldest.date | date: "%m.%d" }} - {{ newest.date | date: "%m.%d" }}
-              {%- else -%}
-                {{ newest.date | date: "%m.%d" }}
-              {%- endif -%}
-            </span>
-          </div>
+.tl-week-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
 
-          <div class="tl-rail" aria-hidden="true">
-            {% assign dots = wk_posts.size %}
-            {% if dots > per_week %}{% assign dots = per_week %}{% endif %}
-            {% for i in (1..dots) %}
-              <span class="tl-rail-dot" style="left: {% if dots == 1 %}0{% else %}{{ forloop.index0 | times: 100 | divided_by: dots | plus: 0 }}{% endif %}%"></span>
-            {% endfor %}
-          </div>
+.tl-week-no {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
 
-          <div class="tl-items">
-            {% for idx in wk_posts limit: per_week %}
-              {% assign i = idx | plus: 0 %}
-              {% assign p = site.posts[i] %}
-              <a class="tl-item" href="{{ p.url | relative_url }}">
-                <span class="tl-item-date">{{ p.date | date: "%m.%d" }}</span>
-                <span class="tl-item-title">{{ p.title }}</span>
-              </a>
-            {% endfor %}
-          </div>
+.tl-week.is-now .tl-week-no {
+  color: #2563eb;
+}
 
-          {% if wk_posts.size > per_week %}
-            {% assign rest = wk_posts.size | minus: per_week %}
-            <div class="tl-more">+ {{ rest }}편 더</div>
-          {% endif %}
+.tl-week-range {
+  font-size: 0.8rem;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
 
-        </div>
-      {% endfor %}
-    </div>
+/* 가로 레일 (Rail) 디자인 */
+.tl-rail {
+  position: relative;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  margin: 0.75rem 0 1rem 0;
+  width: 100%;
+}
 
-  </div>
+.tl-rail-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2563eb;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 1px #2563eb;
+}
 
-{% endif %}
+/* 게시글 아이템 리스트 */
+.tl-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tl-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  background: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+.tl-item:hover {
+  background: #eff6ff;
+  transform: translateX(4px);
+}
+
+.tl-item-date {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2563eb;
+  white-space: nowrap;
+}
+
+.tl-item-title {
+  font-size: 0.9rem;
+  color: #374151;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tl-item:hover .tl-item-title {
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.tl-more {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #6b7280;
+  text-align: right;
+  font-weight: 500;
+}
+</style>

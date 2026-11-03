@@ -19,7 +19,7 @@ DB에서 값이 비어 있는 보너스 칸을 `getFloat`로 읽었더니 `0.0`�
 
 수업 하브루타 과제를 하던 중이었다. EmployeeDB의 직원 표(`TBL_EMPLOYEE`)를 조회해서, 결과를 자바 객체에 옮겨 담는 과제였다.
 
-직원 한 명의 정보는 `EmployeeDTO`라는 상자 하나에 담는다. 상자에는 이름, 급여, 보너스 같은 칸이 14개 있다. 상자가 무엇인지는 [역할 비교 글]({{ site.baseurl }}{% post_url 2026-10-17-java-jdbc-template-dto-properties %})에 정리했다.
+직원 한 명의 정보는 `EmployeeDTO`라는 상자 하나에 담는다. 상자에는 이름, 급여, 보너스 같은 칸이 14개 있다. 상자가 무엇인지는 [JDBC 글]({{ site.baseurl }}{% post_url 2026-10-15-java-jdbc-basics %})에 정리했다.
 
 보너스는 모든 직원이 받는 게 아니다. 받지 않는 직원은 DB에서 보너스 칸이 비어 있다. 이렇게 비어 있는 값을 `NULL`이라고 부른다. 자바에서 "비어 있음"은 `null`(소문자)이라고 쓴다.
 
@@ -143,7 +143,7 @@ emp.setEmpBonus(rset.getObject("BONUS"));   // 컴파일 에러: Object를 Float
 
 보너스가 없는 직원이 `null`로 담기게 됐다. 직원 한 줄을 출력하면 아래처럼 나온다. 개인 정보가 들어 있는 칸은 `...`으로 줄였다.
 
-```
+```text
 EmployeeDTO{..., empSalary=1550000, empBonus=null, managerId='null', ...}
 ```
 

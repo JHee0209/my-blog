@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "SELECT부터 트랜잭션까지, MySQL로 데이터 다루기"
-date: 2026-11-03 21:00:00 +0900
+date: 2026-10-12 20:00:00 +0900
 categories: [개념]
 tags: [SQL, MySQL, Database]
 snippet: |
@@ -16,6 +16,8 @@ snippet: |
 ---
 
 이 글은 MySQL에서 데이터를 꺼내 보고(SELECT), 골라내고(WHERE), 줄 세우고(ORDER BY), 묶고(UNION·VIEW), 빠르게 찾고(INDEX), 안전하게 바꾸는(트랜잭션) 방법을 한 번에 정리한 글이다.
+
+2026년 10월 12일 수업에서 진행한 내용을 정리했다.
 
 ## 이게 없으면 뭐가 불편할까
 
@@ -790,7 +792,7 @@ MySQL 공식 문서에서도 인덱스는 INSERT, UPDATE, DELETE의 비용을 �
 - **JOIN의 종류(INNER, LEFT)** — 뷰를 만들 때 `LEFT JOIN`을 그냥 따라 썼다. 테이블 두 개를 붙이는 방법에 따라 결과에 남는 행이 달라지기 때문에, 뷰가 어떤 숫자를 보여 주는지 정확히 알려면 꼭 필요하다.
 - **GROUP BY와 집계 함수(COUNT, SUM)** — "과정별 학생 수"처럼 묶어서 세는 쿼리의 기본이다. 뷰 예시의 절반이 이 문법이었다.
 - **트랜잭션의 ACID** — "전부 성공 아니면 전부 취소"는 트랜잭션이 지키는 네 가지 성질 중 하나일 뿐이다. 나머지를 알면 여러 사람이 동시에 이체할 때 무슨 일이 생기는지 이해할 수 있다.
-- **JDBC에서 트랜잭션 다루기(`setAutoCommit`, `commit`, `rollback`)** — 이 글에서는 사람이 직접 ROLLBACK을 실행했다. 자바 프로그램에서는 영향받은 행 수를 확인하고 코드로 되돌려야 한다. [JDBC 글]({{ site.baseurl }}{% post_url 2026-10-17-java-jdbc-basics %})에서 이어진다.
+- **JDBC에서 트랜잭션 다루기(`setAutoCommit`, `commit`, `rollback`)** — 이 글에서는 사람이 직접 ROLLBACK을 실행했다. 자바 프로그램에서는 영향받은 행 수를 확인하고 코드로 되돌려야 한다. [JDBC 글]({{ site.baseurl }}{% post_url 2026-10-15-java-jdbc-basics %})에서 이어진다.
 - **B-tree 인덱스** — MySQL 인덱스는 대부분 B-tree라는 구조로 저장된다. 인덱스가 왜 빠른지, 왜 추가·삭제 때 비용이 드는지를 구조로 이해할 수 있다.
 
 ## 참고 자료

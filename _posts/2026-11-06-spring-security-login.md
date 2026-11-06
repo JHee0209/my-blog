@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Spring Security 로그인으로 배운 인증·인가·세션"
-date: 2026-11-06 20:00:00 +0900
+date: 2026-11-06 17:00:00 +0900
 categories: [개념]
 tags: [Spring, Security, BCrypt, Session, Token]
 snippet: |
